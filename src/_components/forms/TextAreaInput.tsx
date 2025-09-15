@@ -26,7 +26,7 @@ export default function TextAreaInput(
             name={name}
             onChange={onChange}
             placeholder={placeholder} 
-            className='w-full h-[10rem] px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' 
+            className='w-full h-[8rem] px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' 
         ></textarea>
     </div>
   )

@@ -4,10 +4,15 @@ import { FaAngleRight } from 'react-icons/fa6'
 
 
 
-export default function BreadCrumbs({dbData} : {dbData: any[]}) {
+interface BreadCrumbsInterface{
+    dbData: any[]
+}
+
+
+export default function BreadCrumbs({ dbData } : BreadCrumbsInterface) {
   return (
     <section>
-        <ul className='mx-auto w-[92%] flex items-center justify-start gap-3 text-sm py-1'>
+        <ul className='mx-auto w-[92%] flex items-center justify-start gap-3 text-sm py-1 border-b border-gray-300'>
             {dbData.map((i, key) => (
                 key < dbData.length-1 ?
                 <Link key={key} href={i.href}>

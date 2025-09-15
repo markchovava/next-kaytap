@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 
 
 export const metadata: Metadata = {
-  title: `${AppInfoData.name} - Our Services`,
+  title: `${AppInfoData.name} - Product`,
   description: AppInfoData.description,
 };
 
