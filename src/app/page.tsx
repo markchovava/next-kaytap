@@ -24,7 +24,11 @@ export default function Home() {
     <div className="h-[4rem]" />
     <section className="w-full">
         <div className="mx-auto w-[92%]">
-            <TitlePrimary title="Shop by Categories" btnTitle="See More" href="#" />
+          <TitlePrimary 
+              title="Shop by Categories" 
+              btnTitle="See More" 
+              href="/shop/category" 
+          />
           <div className="h-[1.5rem]" />
           <CarouselPrimary dbData={CategoryData} />
           <div className="h-[5rem]" />

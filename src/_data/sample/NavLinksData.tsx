@@ -14,7 +14,7 @@ export const NavLinksData = [
     {id: 2, title: "About Us", href: "/about", withDropdown: true, isOpen: false, items: AboutNavData },
     {id: 3, title: "Our Services", href: "/service", withDropdown: false, isOpen: false, items: [] },
     /* {id: 4, title: "Our Projects", href: "#", withDropdown: false, isOpen: false, items: [] }, */
-    {id: 5, title: "Our Shop", href: "#", withDropdown: false, isOpen: false, items: [] },
+    {id: 5, title: "Our Shop", href: "/shop", withDropdown: false, isOpen: false, items: [] },
     {id: 6, title: "Contact Us", href: "/contact", withDropdown: false, isOpen: false, items: [] },
 ]
 

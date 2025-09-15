@@ -13,7 +13,7 @@ export default function BannerPrimary({title, subtitle, img=""}: BannerPrimaryIn
   
     return (
     <>
-    <section className='w-full h-[20rem] flex items-center justify-start overflow-hidden'>
+    <section className='w-full h-[26rem] flex lg:flex-row flex-col-reverse items-center justify-start overflow-hidden'>
         <div className='w-[100%] h-[100%] pl-[6%]'>
             <section className='h-full w-full flex flex-col items-start justify-center'>
                 <p className='tracking-wide uppercase text-xl text-blue-700'>
