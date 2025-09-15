@@ -17,10 +17,10 @@ export default function TitlePrimary({
 }: TitlePrimaryInterface
 ) {
   return (
-    <div className=''>
-        <div className="flex items-center justify-between">
-            <Heading2 title={title} css="text-gray-800" />
-            {btnTitle ?
+    <div className='px-2'>
+        <div className="flex items-center justify-between ">
+            <Heading2 title={title} css="text-gray-800 " />
+            {btnTitle && href ?
             <Link href={href}>
               <ButtonSecondary title={btnTitle} />
             </Link>

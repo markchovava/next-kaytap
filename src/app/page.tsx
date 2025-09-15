@@ -9,6 +9,8 @@ import { ProductsData } from "@/_data/sample/ProductsData";
 import CarouselSecondary from "@/_components/carousels/CarouselSecondary";
 import SectionPrimary from "@/_components/sections/SectionPrimary";
 import SectionSecondary from "@/_components/sections/SectionSecondary";
+import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
+import SpacerSecondary from "@/_components/spacers/SpacerSecondary";
 
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export default function Home() {
    <>
     <SliderMain />
 
-    <div className="h-[4rem]" />
+    <SpacerSecondary />
     <section className="w-full">
         <div className="mx-auto w-[92%]">
           <TitlePrimary 
@@ -45,11 +47,11 @@ export default function Home() {
     </section>
 
 
-    <div className="h-[4rem]" />
+    <SpacerSecondary />
     <SectionPrimary />
 
 
-    <div className="h-[4rem]" />
+    <SpacerSecondary />
     <section className="w-full">
         <div className="mx-auto w-[92%]">
             <TitlePrimary title="New Arrivals" btnTitle="See More" href="#" />
@@ -59,7 +61,7 @@ export default function Home() {
     </section>
 
 
-    <div className="h-[4rem]" />
+    <SpacerSecondary />
     <section className="w-full">
       <div className="mx-auto w-[92%]">
           <TitlePrimary title="Best Sellers" btnTitle="See More" href="#" />
@@ -68,7 +70,7 @@ export default function Home() {
       </div>
     </section>
 
-    <div className="h-[4rem]" />
+    <SpacerSecondary />
     <SectionSecondary />
    </>
   );

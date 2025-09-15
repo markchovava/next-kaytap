@@ -1,6 +1,7 @@
 "use client"
 
 interface TextInputInterface {
+    type?: string,
     label?: string
     name: string,
     value: string,
@@ -8,13 +9,13 @@ interface TextInputInterface {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function TextInput({label, name, value, placeholder, onChange}: TextInputInterface) {
+export default function TextInput({type="text", label, name, value, placeholder, onChange}: TextInputInterface) {
 
   return (
     <div className='w-full'>
         <p className='mb-1 font-light'>{label}:</p>
         <input 
-            type="text"
+            type={type}
             value={value} 
             name={name}
             onChange={onChange}

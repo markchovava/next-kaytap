@@ -1,4 +1,5 @@
 import { FaArrowRight } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa6";
 
 
 interface ButtonPrimaryInterface{
@@ -22,7 +23,7 @@ export function ButtonPrimary({
         className='group-hover:-translate-x-1 translate-x-2 ease-in-out duration-400 transition-all'>
           {title}
         </span>
-        <FaArrowRight 
+        <FaAngleRight
         className={`${iconCss} group-hover:translate-x-1 text-transparent group-hover:text-white ease-in-out duration-300 transition-all`} />
     </button>
     </>
