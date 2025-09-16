@@ -21,7 +21,7 @@ interface InputDataInterface {
 }
 
 
-export default function ContactForm() {
+export default function ContactForm({css="bg-white text-gray-800"}: {css?: string}) {
     const [data, setData] = useState<InputDataInterface>(InputData)
     
     const handleInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,7 +29,7 @@ export default function ContactForm() {
     }
 
     return (
-        <form className='bg-white drop-shadow rounded-xl p-4'>
+        <form className={`${css} drop-shadow rounded-xl p-4`}>
             <TitlePrimary title='Our Contact Form' />
             <SpacerTertiary />
             <TextInput 

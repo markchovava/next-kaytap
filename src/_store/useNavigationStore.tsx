@@ -34,8 +34,7 @@ export const useNavigationStore = create<NavigationStoreInterface>((set, get) =>
 
     setSelectedNavigation: (id) => {
         set({
-            navLinks: get().navLinks.map((i) => {
-                console.log('navLinks::', get().navLinks)
+            navLinks: get().navLinks.map( (i) => {
                 if(i.id === id){
                     i.isOpen = !i.isOpen
                 } else {

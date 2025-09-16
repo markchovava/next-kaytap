@@ -1,12 +1,12 @@
 import React from 'react'
-import HeaderMainArea from './header/HeaderMainArea'
-import HeaderTopArea from './header/HeaderTopArea'
+import HeaderPrimary from './header/HeaderPrimary'
 
 export default function Header() {
   return (
     <>
-    <HeaderTopArea />
-    <HeaderMainArea />
+    <HeaderPrimary />
+    {/* <HeaderTopArea />
+    <HeaderMainArea /> */}
     </>
   )
 }

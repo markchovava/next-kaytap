@@ -8,18 +8,20 @@ interface TitlePrimaryInterface{
     title?: string, 
     btnTitle?: string,
     href?: string,
+    titleCss?: string,
 }
 
 export default function TitlePrimary({
     title, 
     btnTitle, 
     href= "",
+    titleCss="text-gray-800"
 }: TitlePrimaryInterface
 ) {
   return (
     <div className='px-2'>
         <div className="flex items-center justify-between ">
-            <Heading2 title={title} css="text-gray-800 " />
+            <Heading2 title={title} css={titleCss} />
             {btnTitle && href ?
             <Link href={href}>
               <ButtonSecondary title={btnTitle} />
