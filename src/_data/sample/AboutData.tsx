@@ -7,13 +7,19 @@ import { FaFacebook } from "react-icons/fa6";
 
 
 export const AboutData = {
-    about: `Kaytap Construction Company is a dynamic and innovative civil engineering and construction company 
+    about: {
+        title: "Who we are?",
+        subtitle: "About the Company",
+        details: `Kaytap Construction Company is a dynamic and innovative civil engineering and construction company 
           headquartered in Harare Zimbabwe. Since its establishment, Kaytap has earned a strong reputation for delivering 
           complex infrastructure projects with precision, integrity, and a commitment to excellence. The organization was 
           incorporated on 7th of February 2018 in terms of the Companies Act (Chapter 24:03) under registration number 
           1458/2018. The company's registered offices are at 15 Shepperton Road Graniteside, Harare, Zimbabwe.`,
+        
+        },
     coreBusiness: {
         title: "Core Business",
+        subtitle: "About the Company",
         details: `A team of professionals in civil and water engineering and building construction majored into infrastructure 
             development of projects which include construction of roads, dams, construction of detached and semidetached
             units, town houses and high-rise buildings. The company focuses on small, medium and large projects and this 
@@ -24,7 +30,7 @@ export const AboutData = {
     },
     vision: {
         title: "Our Vision",
-        icon: <MdRemoveRedEye className="text-[7rem] text-blue-700" />,
+        icon: <MdRemoveRedEye className="text-[7rem] text-blue-900" />,
         items: [
             {id:1, details:"To deliver quality civil works that meet international standards."},
             {id: 2, details: "To build strategic partnerships with leading industry players"},
@@ -34,7 +40,7 @@ export const AboutData = {
     },
     mission: {
         title: "Our Mission",
-        icon: <BiTargetLock className="text-[7rem] text-green-700" />,
+        icon: <BiTargetLock className="text-[7rem] text-blue-900" />,
         items: [
             {id:1, details: `To become a premier engineering and construction firm that transforms 
                 communities through world-class infrastructure.`
@@ -49,7 +55,7 @@ export const AboutData = {
     },
     values: {
         title: "Our Values",
-        icon: <MdNotificationImportant className="text-[7rem] text-gray-700" />,
+        icon: <MdNotificationImportant className="text-[7rem] text-blue-900" />,
         items: [
             {id: 1, details: `Guided by Safety Measures`},
             {id: 2, details: `Innovation`},
@@ -63,33 +69,41 @@ export const AboutData = {
     team: {
         title: "Our Team",
         items: [
-            {id:1, name: "User A", position: "Manager", img: "", 
+            {id: 1, name: "User A", position: "Manager", img: "", 
                 links: [
                     {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id:2, name: "User B", position: "Manager", img: "",
+            {id: 2, name: "User B", position: "Manager", img: "",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id:3, name: "User C", position: "Manager", img: "",
+            {id: 3, name: "User C", position: "Manager", img: "",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id:4, name: "User D", position: "Manager", img: "",
+            {id: 4, name: "User D", position: "Manager", img: "",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
-                ]},
+                ]
+            },
+            {id: 5, name: "User D", position: "Manager", img: "",
+                links: [
+                     {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
+                    {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
+                    {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
+                ]
+            },
         ]
     }
 }

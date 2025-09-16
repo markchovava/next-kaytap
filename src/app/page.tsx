@@ -20,6 +20,7 @@ import { ServiceData } from "@/_data/sample/ServiceData";
 import Heading6 from "@/_components/headings/Heading6";
 import CarouselProject from "@/_components/carousels/CarouselProject";
 import SectionContact from "@/_components/sections/SectionContact";
+import Heading1 from "@/_components/headings/Heading1";
 
 
 export const metadata: Metadata = {
@@ -39,16 +40,14 @@ export default function Home() {
           <div className="lg:col-span-2 bg-gray-500 aspect-[4/5] ">
           </div>
           <div className="h-[100%] lg:col-span-3 flex flex-col items-start justify-center">
-            <h5 className="font-medium tracking-widest leading-tight text-gray-600 mb-3">
-              About Company</h5>
-            <h1 className="font-bold text-[2.5rem] leading-tight mb-4">Who we are?</h1>
+            <Heading6 title={AboutData.about.subtitle} css="mb-3 text-gray-600" />
+            <Heading1 title={AboutData.about.title} css="mb-4" />
             <p className="font-light text-lg text-gray-800 mb-5">
-              {AboutData.about}</p>
+              {AboutData.about.details}</p>
             <Link href="/about">
             <ButtonPrimary title="More About Us" css="py-4 px-10 text-white"/>
             </Link>
           </div>
-
         </div>
       </section>
     </FadeSlideIn>
@@ -58,7 +57,8 @@ export default function Home() {
       <section>
         <div className="mx-auto w-[92%] grid lg:grid-cols-5 grid-cols-1 gap-8">
           <div className="h-[100%] lg:col-span-3 flex flex-col items-start justify-center">
-            <Heading6 title="About Company" css="mb-3 text-gray-600" />
+            <Heading6 title={AboutData.coreBusiness.subtitle} css="mb-3 text-gray-600" />
+            <Heading1 title={AboutData.coreBusiness.title} css="mb-4" />
             <h1 className="font-bold text-[2.5rem] leading-tight mb-4">Our Core Business</h1>
             <p className="font-light text-lg text-gray-800 mb-5">
               {AboutData.coreBusiness.details}

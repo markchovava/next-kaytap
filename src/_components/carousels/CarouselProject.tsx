@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Heading4 from '../headings/Heading4';
+import CardProject from '../cards/CardProject';
 
 
 
@@ -70,15 +71,8 @@ export default function CarouselProject() {
       >
         {/* slides */}
         { [...Array(6)].map((i, key) => (
-          <SwiperSlide key={key} className='pt-2 px-2 pb-[6rem]'>
-            <section className='relative h-[15rem] group text-white'>
-                <div className='bg-gray-400 z-10 w-[100%] h-[15rem] aspect-[5/4] absolute border-y-[8px] border-transparent group-hover:border-blue-700'></div>
-                <div className={`left-[10%] top-[70%] z-20 w-[80%] cursor-pointer bg-blue-600 group-hover:bg-blue-700 ease-initial duration-200 transition-all absolute h-[10rem]`}>
-                    <div className='w-full h-full flex items-center justify-center'>
-                        <Heading4 title="Project One" />
-                    </div>
-                </div>
-            </section>
+          <SwiperSlide key={key} className='p-2'>
+           <CardProject />
           </SwiperSlide>
         ))}
       </Swiper>

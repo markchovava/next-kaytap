@@ -1,6 +1,7 @@
 import React from 'react'
 import Heading1 from '../headings/Heading1'
 import Image from 'next/image'
+import Heading6 from '../headings/Heading6'
 
 
 interface BannerPrimaryInterface{
@@ -13,19 +14,10 @@ export default function BannerPrimary({title, subtitle, img=""}: BannerPrimaryIn
   
     return (
     <>
-    <section className='w-full h-[26rem] flex lg:flex-row flex-col-reverse items-center justify-start overflow-hidden'>
-        <div className='w-[100%] h-[100%] pl-[6%]'>
-            <section className='h-full w-full flex flex-col items-start justify-center'>
-                <p className='tracking-wide uppercase text-xl text-blue-700'>
-                {subtitle}
-                </p>
-                <Heading1 title={title} css='uppercase' />
-            </section>
-        </div>
-        <div className='w-[100%] h-[100%] bg-gradient-to-br from-green-600 to-blue-900'>
-            {img ? 
-                <Image src={img} alt="" width={500} height={400} className='object-cover w-full h-full' />
-            : ""}
+    <section className='w-full h-[20rem] bg-blue-950 text-gray-100'>
+        <div className='w-[92%%] h-[100%] gap-3 flex flex-col items-center justify-center text-center'> 
+            <Heading6 title={subtitle} css='text-gray-200 uppercase' />
+            <Heading1 title={title} css='uppercase' />
         </div>
     </section>
     </>

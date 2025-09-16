@@ -89,7 +89,7 @@ export default function ShopPage() {
           <SpacerSecondary />
 
           <section className='w-full flex items-center justify-center'>
-            <ButtonTertiary title='Load More' css='py-2 px-8' />
+            <ButtonTertiary title='Load More' css='py-3 px-9' />
           </section>
 
           <SpacerSecondary />

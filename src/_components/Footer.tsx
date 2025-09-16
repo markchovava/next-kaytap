@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import React from 'react'
-import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaWhatsapp, FaXTwitter } from 'react-icons/fa6'
 import Logo from './Logo'
 import AppInfoData from "../_data/sample/AppInfoData.json"
 import { AboutNavData, FooterLinksData, FooterNavData, SocialLinksData } from '@/_data/sample/NavLinksData'
@@ -13,11 +12,10 @@ export default function Footer() {
     <section className='w-[100%] bg-gradient-to-br from-blue-900 to-slate-950 text-gray-200 font-light pt-[5rem] '>
         <div className='pb-[2rem] lg:w-[94%] w-[90%] mx-auto grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 lg;gap-6 gap-8 '>
             <section className='w-[100%]'>
-                <Link href='/'>
-                    <div className='bg-white rounded-xl p-3 lg:mx-0 mx-auto lg:w-[70%] w-[40%] overflow-hidden'>
-                       <Logo />
-                    </div>
-                </Link>
+               
+              <div className='bg-white rounded-xl p-3 lg:mx-0 mx-auto lg:w-[70%] w-[40%] overflow-hidden'>
+                  <Logo />
+              </div>
             </section>
             <section className='w-[100%]'>
               <ul>

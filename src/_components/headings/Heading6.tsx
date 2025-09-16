@@ -2,8 +2,8 @@
 
 
 interface Heading6Interface{
-    title: string,
-    css: string
+    title?: string,
+    css?: string
 }
 
 export default function Heading6({

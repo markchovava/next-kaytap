@@ -49,12 +49,9 @@ export default function HeaderPrimary() {
 
     <section className='bg-white drop-shadow relative z-40'>
       <div className="mx-auto w-[92%] flex items-center justify-between py-2 gap-4">
-        <Link href="/">
-          <div className='w-[140px] bg-white p-2 rounded-xl'>
-            <Logo />
-          </div>
-        </Link>
-
+        <div className='w-[140px] bg-white p-2 rounded-xl'>
+          <Logo />
+        </div>
         
         <ul className='w-[60%] flex items-center justify-start gap-5 font-semibold'>
           { navLinks.map((i, key) => (

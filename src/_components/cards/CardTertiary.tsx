@@ -11,11 +11,11 @@ export default function CardTertiary({dbData}: {dbData: CardTertiaryInterface}) 
     const {icon, title, items} = dbData
   return (
     <div className="border-r border-r-gray-300">
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-3">
         {icon}
         </div>
         <div className="">
-        <Heading5 title={title} css="mb-2 text-center" />
+        <Heading5 title={title} css="mb-3 text-center" />
         <ul className="list-inside list-disc leading-tight font-light">
             {items.map((i, key) => (
                 <li key={key}>{i.details}</li>

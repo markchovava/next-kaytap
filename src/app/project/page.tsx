@@ -1,30 +1,36 @@
 import BannerPrimary from '@/_components/banners/BannerPrimary'
 import React from 'react'
-import SevicePage from './_components/SevicePage'
-import { Metadata } from 'next';
 import AppInfoData from "../../_data/sample/AppInfoData.json";
+import { Metadata } from 'next';
 import BreadCrumbs from '@/_components/BreadCrumbs';
+import ProjectPage from './_components/ProjectPage';
+import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 
 
 export const metadata: Metadata = {
-  title: `${AppInfoData.name} - Our Services`,
+  title: `${AppInfoData.name} - Our Projects`,
   description: AppInfoData.description,
 };
 
-
 const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
-    {id: 2, name: "Our Services", href:"/service"},
+    {id: 2, name: "Our Projects", href:"/project"},
 ]
 
 
-export default function page() {
+
+export default function Page() {
   return (
     <>
-    <BannerPrimary title='What we do?' subtitle='Our Services' />
+    <BannerPrimary title='Our Previous Works' subtitle='Our Projects' />
     <BreadCrumbs dbData={BreadCrumbsData} />
 
-    <SevicePage />
+
+    <SpacerPrimary />
+
+    <ProjectPage />
+
+    <SpacerPrimary />
 
     </>
   )
