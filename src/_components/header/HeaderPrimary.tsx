@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import AppInfoData from "../../_data/sample/AppInfoData.json"
 import ItemSecondary from '../items/ItemSecondary'
 import ItemTertiary from '../items/ItemTertiary'
@@ -11,11 +11,13 @@ import { FaAngleDown } from 'react-icons/fa6'
 import { FaRegUserCircle } from 'react-icons/fa'
 import { BsCart } from 'react-icons/bs'
 import { IoIosSearch } from 'react-icons/io'
+import { ButtonPrimary } from '../buttons/ButtonPrimary'
 
 
 
 export default function HeaderPrimary() {
   const { navLinks, setCurrentNavLink, currentNavLink } = useNavigationStore()
+  const [isActive, setIsActive] = useState({cart: false, search:false})
 
 
   return (
@@ -108,16 +110,40 @@ export default function HeaderPrimary() {
                   <span className='font-medium text-sm'>Sign In</span>
               </button>
           </li>
-          <li className='relative'>
-              <button className='cursor-pointer rounded-xl p-2 flex items-center justify-center gap-2'>
+          <li className='relative'
+            onMouseEnter={() => setIsActive({...isActive, cart: true })} 
+            onMouseLeave={() => setIsActive({...isActive, cart: false })}>
+              <button className='group cursor-pointer rounded-xl p-2 flex items-center justify-center gap-2'>
                   <div className='flex items-start justify-center relative'>
-                      <BsCart className='text-3xl text-gray-700' />
+                      <BsCart className='text-3xl text-gray-700 group-hover:text-blue-800' />
                       <span className='-ml-[10px] -mt-[5px] text-white bg-red-600 flex items-center justify-center px-1 pt-0.5 pb-1 text-xs w-[15px] h-[15px] rounded-full z-20'>
                           0
                       </span>
                   </div>
-                  <span className='font-medium text-sm'>Cart</span>
+                  <span className='font-medium text-sm group-hover:text-blue-800 duration-200 ease-initial transition-all'>
+                    Cart
+                  </span>
               </button>
+              <ul className={`transition-all ease-initial duration-200 absolute z-50 w-[180%] right-0 bg-white py-2 drop-shadow text-xs overflow-hidden rounded-b-lg
+                ${ isActive.cart ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto border-t border-gray-200' 
+                  : 'opacity-0 -translate-y-2 scale-95 pointer-events-none'}
+                `}>
+                {[...Array(4)].map((i, key) => (
+                  <li key={key} className='flex justify-between items-center gap-2 px-2 py-1'>
+                    <div className='leading-tight'>
+                      <Link href="/product/1">
+                      <p className='hover:underline hover:text-blue-800 ease-initial transition-all'>Product Name</p></Link>
+                      <p className='text-xs '>Quantity: 1</p>
+                    </div>
+                    <div className='font-medium text-sm'>$2.00</div>
+                  </li>
+                ))}
+                <Link href="/cart">
+                  <li className='px-2 flex items-center justify-center'>
+                    <ButtonPrimary title='View Cart' css='w-[90%] py-2 text-white'/>
+                  </li>
+                </Link>
+              </ul>
           </li>
         </ul>
         

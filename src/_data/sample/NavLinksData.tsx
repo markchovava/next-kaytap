@@ -4,8 +4,8 @@ import { CategoryData } from "./CategoryData"
 
 export const AboutNavData = [
     {id: 1, title: "Who we are?", href: "/about" },
-    {id: 2, title: "Why Us?", href: "#" },
-    {id: 3, title: "Our Team", href: "#" },
+    {id: 2, title: "Why Us?", href: "/about" },
+    {id: 3, title: "Our Team", href: "/about" },
 ]
 
 
