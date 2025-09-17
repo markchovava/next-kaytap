@@ -25,9 +25,9 @@ export default function HeaderPrimary() {
     <section className='bg-blue-950 text-gray-200'>
         <div className='w-[92%] mx-auto flex lg:flex-row flex-col items-center justify-between gap-4'>
             <ul className='flex lg:flex-row flex-col items-center justify-start lg:gap-4 gap-2 py-2'>
-              <ItemSecondary css='text-gray-800' iconType='phone' details={AppInfoData.phone.details} />
-              <ItemSecondary css='text-gray-800' iconType='email' details={AppInfoData.email.details} />
-              <ItemSecondary css='text-gray-800' iconType='address' details={AppInfoData.address.details} />
+              <ItemSecondary css='text-gray-200' iconType='phone' details={AppInfoData.phone.details} />
+              <ItemSecondary css='text-gray-200' iconType='email' details={AppInfoData.email.details} />
+              <ItemSecondary css='text-gray-200' iconType='address' details={AppInfoData.address.details} />
             </ul>
             <div className='flex items-center justify-end gap-3'>
               <Link href="#">
@@ -104,11 +104,13 @@ export default function HeaderPrimary() {
             </button>
           </li>
           <li className='relative'>
+            <Link href="/login">
               <button className='cursor-pointer  rounded-xl p-2 flex items-center justify-center gap-2'>
                   <span className=''>
                       <FaRegUserCircle className='text-3xl text-gray-700' /></span>
                   <span className='font-medium text-sm'>Sign In</span>
               </button>
+            </Link>
           </li>
           <li className='relative'
             onMouseEnter={() => setIsActive({...isActive, cart: true })} 
