@@ -19,7 +19,7 @@ interface SwiperRefType {
 }
 
 
-export default function CarouselProject() {
+export default function CarouselProject({dbData} : {dbData: any[]}) {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const swiperRef = useRef<SwiperRefType | null>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -70,9 +70,9 @@ export default function CarouselProject() {
         className="mb-6"
       >
         {/* slides */}
-        { [...Array(6)].map((i, key) => (
+        { dbData.map((i, key) => (
           <SwiperSlide key={key} className='p-2'>
-           <CardProject />
+           <CardProject dbData={i} />
           </SwiperSlide>
         ))}
       </Swiper>

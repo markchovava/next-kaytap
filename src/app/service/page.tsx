@@ -21,7 +21,12 @@ const BreadCrumbsData = [
 export default function page() {
   return (
     <>
-    <BannerPrimary title='What we do?' subtitle='Our Services' />
+    <BannerPrimary 
+      title='What we do?' 
+      subtitle='Our Services'
+      img="/assets/img/banner/06.jpg" 
+    />
+    
     <BreadCrumbs dbData={BreadCrumbsData} />
 
     <SevicePage />

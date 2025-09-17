@@ -1,5 +1,5 @@
 export default function SpacerPrimary() {
   return (
-    <div className='h-[5rem]' />
+    <div className='h-[6rem]' />
   )
 }

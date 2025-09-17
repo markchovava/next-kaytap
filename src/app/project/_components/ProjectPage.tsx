@@ -4,6 +4,7 @@ import FadeSlideIn from '@/_components/FadeSlideIn'
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary'
 import SpacerTertiary from '@/_components/spacers/SpacerTertiary'
 import TitlePrimary from '@/_components/titles/TitlePrimary'
+import { ProjectsData } from '@/_data/sample/ProjectsData'
 import React from 'react'
 
 export default function ProjectPage() {
@@ -16,8 +17,8 @@ export default function ProjectPage() {
           
           <SpacerTertiary />
           <div className='w-full grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-8'>
-              {[...Array(12)].map((i, key) => (
-                  <CardProject />
+              {ProjectsData.map((i, key) => (
+                  <CardProject key={key} dbData={i} />
               ))}
           </div>
 

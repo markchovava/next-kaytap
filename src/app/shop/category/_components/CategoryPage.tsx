@@ -17,11 +17,7 @@ export default function CategoryPage() {
             <SpacerQuaternary />
             <section className="grid grid-cols-6 gap-10">
                 {CategoryData.map((i, key) => (
-                    <CardPrimary 
-                        key={key} 
-                        title={i.title} 
-                        img={i.href} 
-                    />
+                    <CardPrimary key={key} dbData={i} />
                 ))}
             </section>
         </div>

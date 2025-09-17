@@ -21,7 +21,10 @@ export default function page() {
   return (
     <>
 
-    <BannerPrimary title='Who we are?' subtitle='About Us' />
+    <BannerPrimary 
+      title='Who we are?' 
+      subtitle='About Us' 
+      img="/assets/img/banner/03.jpg" />
     <BreadCrumbs dbData={BreadCrumbsData} />
 
     <AboutPage />

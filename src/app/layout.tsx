@@ -3,6 +3,7 @@ import "./globals.css";
 import AppInfoData from "../_data/sample/AppInfoData.json";
 import Header from "@/_components/Header";
 import Footer from "@/_components/Footer";
+import ChatBox from "@/_components/ChatBox";
 
 
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <ChatBox />
       </body>
     </html>
   );

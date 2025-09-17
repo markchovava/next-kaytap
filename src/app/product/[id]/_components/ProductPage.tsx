@@ -1,3 +1,4 @@
+"use client"
 import { ButtonPrimary } from '@/_components/buttons/ButtonPrimary'
 import Heading1 from '@/_components/headings/Heading1'
 import Heading2 from '@/_components/headings/Heading2'
@@ -5,7 +6,7 @@ import Heading3 from '@/_components/headings/Heading3'
 import Heading5 from '@/_components/headings/Heading5'
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary'
 import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary'
-import React from 'react'
+import React, { useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 import ProductDetailsTab from './ProductDetailsTab'
@@ -13,29 +14,40 @@ import TitlePrimary from '@/_components/titles/TitlePrimary'
 import SpacerSecondary from '@/_components/spacers/SpacerSecondary'
 import CarouselSecondary from '@/_components/carousels/CarouselSecondary'
 import { ProductsData } from '@/_data/sample/ProductsData'
+import ImagePrimary from '@/_components/images/ImagePrimary'
 
 
 
 
 export default function ProductPage({ id }: {id: any }) {
+    const uid = Number(id)
+    const [data, setData] = useState(ProductsData.find((i) => (i.id === uid)))
+
+    console.log("DATA", data)
+
+
   return (
     <>
     <section>
         <div className='w-[92%] mx-auto grid lg:grid-cols-7 grid-cols-1 gap-8'>
             <div className='lg:col-span-3'>
-                <div className='w-[100%] aspect-[5/4] bg-gray-400 rounded-xl overflow-hidden mb-4'></div>
+                <div className='w-[100%] aspect-[5/4] bg-gray-400 rounded-xl overflow-hidden drop-shadow mb-4'>
+                    <ImagePrimary img="/assets/img/no_photo.jpg" />
+                </div>
                 <div className='grid grid-cols-5 gap-3'>
                     {[...Array(3)].map((i, key) => (
-                        <div key={key} className='rounded-lg aspect-[5/4] bg-gray-400 overflow-hidden'></div>
+                        <div key={key} className='rounded-lg aspect-[5/4] bg-gray-400 overflow-hidden drop-shadow'>
+                            <ImagePrimary img="/assets/img/no_photo.jpg" />
+                        </div>
                     ))}
                 </div>
             </div>
             <div className='lg:col-span-4 flex flex-col items-start justify-center'>
-                <Heading2 title={`Product Name`} />
-                <Heading1 title={`$23.45`} css='text-blue-700' />
+                <Heading2 title={data?.name} />
+                <Heading1 title={`$${data?.price}`} css='text-blue-700' />
                 <SpacerQuaternary />
                 <div className='mb-4'>
-                    <p className='font-light text-sm'>Product Name:</p>
+                    <p className='font-light text-sm'>Product Description:</p>
                     <p className='font-light text-lg'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad ducimus, veritatis et facere 
                         enim quasi laboriosam sed reiciendis ipsam officiis.
@@ -50,7 +62,7 @@ export default function ProductPage({ id }: {id: any }) {
                 </div>
                 <div className='mb-4'>
                     <p className='font-light text-sm'>Quantity Left:</p>
-                    <Heading3 title="23" />
+                    <Heading3 title={data?.quantity} />
                 </div>
                 <div className='mb-4 flex items-center justify-start h-[3rem] gap-4'>
                     <section className='flex items-center justify-start h-[100%] rounded-full border border-gray-300'>

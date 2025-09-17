@@ -11,6 +11,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import CardSecondary from '../cards/CardSecondary';
 import Heading5 from '../headings/Heading5';
+import Image from 'next/image';
 
 
 
@@ -73,7 +74,14 @@ export default function CarouselService({ dbData }: { dbData: any[] }) {
         { dbData.map((i, key) => (
           <SwiperSlide key={key} className='p-2'>
             <div key={key} className='rounded-xl overflow-hidden bg-white drop-shadow'>
-                <div className='aspect-[5/4] bg-gray-500'></div>
+                <div className='aspect-[5/4] bg-gray-500'>
+                  <Image 
+                      alt="Image" 
+                      src={i.img} 
+                      width={500} 
+                      height={400} 
+                      className="object-cover w-full h-full" />
+      </div>
                 <Heading5 title={i.name} css='text-center px-4 pt-4 pb-6' />
             </div>
           </SwiperSlide>

@@ -8,7 +8,7 @@ export const ProductsData: ProductInterface[] = [
     status: "OUT OF STOCK",
     quantity: 0,
     price: 35.50,
-    img: "https://example.com/images/cement-waterproofing-compound.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 2,
@@ -16,15 +16,15 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 264,
     price: 8.79,
-    img: "https://example.com/images/deformed-bar-12mm.jpg",
-  },
+    img: "/assets/img/no_photo.jpg",
+  }, 
   {
     id: 3,
     name: "Brickforce 230mm X 20m 1.8mm",
     status: "IN STOCK",
     quantity: 985,
     price: 1.93,
-    img: "https://example.com/images/brickforce-230mm.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 4,
@@ -32,7 +32,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 150,
     price: 12.50,
-    img: "https://example.com/images/pvc-pipe-50mm.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 5,
@@ -40,7 +40,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 50,
     price: 9.18,
-    img: "https://example.com/images/simba-shovel.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 6,
@@ -48,7 +48,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 94,
     price: 5.41,
-    img: "https://example.com/images/silicone-sealant.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 7,
@@ -56,7 +56,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 13,
     price: 11.09,
-    img: "https://example.com/images/angle-iron-25mm.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 8,
@@ -64,7 +64,7 @@ export const ProductsData: ProductInterface[] = [
     status: "OUT OF STOCK",
     quantity: 0,
     price: 25.00,
-    img: "https://example.com/images/roofing-sheets.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 9,
@@ -72,7 +72,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 300,
     price: 1.10,
-    img: "https://example.com/images/concrete-blocks.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 10,
@@ -80,7 +80,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 25,
     price: 6.46,
-    img: "https://example.com/images/builders-trowel.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 11,
@@ -88,7 +88,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 80,
     price: 4.80,
-    img: "https://example.com/images/electrical-conduit.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 12,
@@ -96,7 +96,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 28,
     price: 7.45,
-    img: "https://example.com/images/ball-valve.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 13,
@@ -104,7 +104,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 13,
     price: 1.41,
-    img: "https://example.com/images/paint-brush-50mm.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 14,
@@ -112,7 +112,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 32,
     price: 6.37,
-    img: "https://example.com/images/pvc-gutter.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 15,
@@ -120,7 +120,7 @@ export const ProductsData: ProductInterface[] = [
     status: "OUT OF STOCK",
     quantity: 0,
     price: 8.99,
-    img: "https://example.com/images/ceramic-tiles.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 16,
@@ -128,7 +128,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 45,
     price: 5.50,
-    img: "https://example.com/images/socket-outlet.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 17,
@@ -136,7 +136,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 328,
     price: 19.92,
-    img: "https://example.com/images/copper-tube-15mm.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 18,
@@ -144,7 +144,7 @@ export const ProductsData: ProductInterface[] = [
     status: "OUT OF STOCK",
     quantity: 0,
     price: 15.00,
-    img: "https://example.com/images/fencing-wire.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 19,
@@ -152,7 +152,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 192,
     price: 0.25,
-    img: "https://example.com/images/air-vent.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 20,
@@ -160,7 +160,7 @@ export const ProductsData: ProductInterface[] = [
     status: "IN STOCK",
     quantity: 109,
     price: 19.80,
-    img: "https://example.com/images/rhinoset-25kg.jpg",
+    img: "/assets/img/no_photo.jpg",
   },
 ];
 

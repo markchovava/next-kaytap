@@ -22,7 +22,12 @@ const BreadCrumbsData = [
 export default function Page() {
   return (
     <>
-    <BannerPrimary title='Our Previous Works' subtitle='Our Projects' />
+    <BannerPrimary
+      title='Our Previous Works' 
+      subtitle='Our Projects' 
+      img="/assets/img/banner/05.jpg"
+    />
+    
     <BreadCrumbs dbData={BreadCrumbsData} />
 
 

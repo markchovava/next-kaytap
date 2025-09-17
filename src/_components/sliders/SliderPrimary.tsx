@@ -12,33 +12,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import Image from 'next/image';
 import { ButtonPrimary } from '../buttons/ButtonPrimary';
+import { SlideData } from '@/_data/sample/SlidesData';
+import Link from 'next/link';
 
-const SlideData = [
-  {
-    id: 1,
-    title: "Discover Amazing Places",
-    description: "Explore breathtaking destinations around the world with our curated travel experiences.",
-    img: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=600&fit=crop&crop=center"
-  },
-  {
-    id: 2,
-    title: "Adventure Awaits",
-    description: "Embark on thrilling adventures that will create memories to last a lifetime.",
-    img: "https://images.unsplash.com/photo-1551632811-561732d1e306?w=1400&h=600&fit=crop&crop=center"
-  },
-  {
-    id: 3,
-    title: "Luxury & Comfort",
-    description: "Experience the finest accommodations and services designed for your ultimate comfort.",
-    img: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1400&h=600&fit=crop&crop=center"
-  },
-  {
-    id: 4,
-    title: "Cultural Immersion",
-    description: "Dive deep into local cultures and traditions that will enrich your understanding of the world.",
-    img: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?w=1400&h=600&fit=crop&crop=center"
-  }
-];
+
 
 
 // Text animation variants with proper typing
@@ -130,7 +107,6 @@ export default function SliderPrimary() {
         { SlideData.map((slide, key) => (
           <SwiperSlide key={key} className="relative w-full h-full">
             
-          
             <div className="absolute z-10 w-full h-full bg-black to-transparent"> 
             <Image 
               src={slide.img} 
@@ -139,7 +115,7 @@ export default function SliderPrimary() {
               className='w-full h-full object-cover' 
               alt='Image' />
             </div>
-            <div className="absolute z-15 w-full h-full bg-gradient-to-br from-black to-transparent opacity-50" /> 
+            <div className="absolute z-15 w-full h-full bg-gradient-to-br from-black to-transparent opacity-40" /> 
             
             {/* Text Content */}
             <AnimatePresence mode="wait">
@@ -170,7 +146,9 @@ export default function SliderPrimary() {
                     initial="hidden"
                     animate="visible"
                     exit="exit">
-                      <ButtonPrimary title="View More" />
+                      <Link href={slide.href}>
+                      <ButtonPrimary title="View More" css='text-lg py-3 px-8' />
+                      </Link>
                   </motion.div>
                 </div>
               )}

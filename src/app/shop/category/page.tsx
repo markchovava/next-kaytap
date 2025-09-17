@@ -16,10 +16,10 @@ export default function page() {
     <BannerPrimary 
         title='Shop Categories' 
         subtitle='Our Shop' 
+        img="/assets/img/banner/06.jpg"
     />
 
     <BreadCrumbs dbData={BreadCrumbsData} />
-
 
 
     <CategoryPage />

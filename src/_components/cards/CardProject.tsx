@@ -5,15 +5,27 @@ import Heading4 from '../headings/Heading4'
 
 interface CardProjectInterface{
     img?: string,
-    title?: string
+    id?: number,
+    address?: string,
+    contractor?: string,
+    client?: string,
+    name?: string,
 }
 
 
 export default function CardProject(
-    {dbData= {img: "", title: "The title goes here"}}
-    : {dbData?: CardProjectInterface}
+    {dbData= {
+        img: "", 
+        name: "The Name goes here",
+        id: 0,
+        address: "",
+        contractor: "",
+        client: "",
+
+    }
+} : {dbData?: CardProjectInterface}
 ) {
-    const {img, title} = dbData
+    const {img, name, id, address, contractor, client, } = dbData
 
     return (
         <div className="pb-[6rem]">
@@ -21,14 +33,19 @@ export default function CardProject(
                 <div className='overflow-hidden rounded-lg bg-gray-400 z-10 w-[100%] h-[15rem] aspect-[5/4] absolute border-y-[8px] border-transparent group-hover:border-blue-900'>
                 { img ?
                         <div className='relative w-full h-full'>
-                            <Image alt='Image' src={img} height={500} width={400} />
+                            <Image 
+                                alt='Image' 
+                                src={img} 
+                                height={500} 
+                                width={400} 
+                                className='w-full h-full object-cover' />
                         </div>
                     : "" } 
                 </div>
                 <div className={`overflow-hidden rounded-lg left-[10%] top-[70%] z-20 w-[80%] cursor-pointer bg-blue-800 group-hover:bg-blue-900 ease-initial duration-200 transition-all absolute h-[10rem]`}>
-                    <div className='w-full h-full flex items-center justify-center'>
-                        { title ? 
-                            <Heading4 title={title} />
+                    <div className='w-full h-full flex items-center justify-center text-center p-2'>
+                        { name ? 
+                            <Heading4 title={name} />
                         : "" }
                     </div>
                 </div>

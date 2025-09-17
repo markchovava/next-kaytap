@@ -71,7 +71,7 @@ export default function CarouselPrimary({ dbData }: { dbData: any[] }) {
         {/* slides */}
         { dbData.map((i, key) => (
           <SwiperSlide key={key} className='p-2'>
-            <CardPrimary title={i.title} img="" />
+            <CardPrimary dbData={i} />
           </SwiperSlide>
         ))}
       </Swiper>

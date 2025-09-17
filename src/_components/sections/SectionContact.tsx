@@ -9,6 +9,7 @@ import SpacerQuaternary from "../spacers/SpacerQuaternary"
 import TextAreaInput from "../forms/TextAreaInput"
 import { ButtonPrimary } from "../buttons/ButtonPrimary"
 import { useState } from "react"
+import Image from "next/image"
 
 
 const InputData = {
@@ -38,37 +39,44 @@ export default function SectionContact() {
         <div className="mx-auto w-[92%] grid grid-cols-7 gap-6">
             <div className="col-span-4">
                 <form className={` drop-shadow rounded-xl p-4`}>
-                            <TitlePrimary title='Our Contact Form' titleCss="text-gray-200" />
-                            <SpacerTertiary />
-                            <TextInput 
-                                label='Name' 
-                                name='name' 
-                                value={data.name} 
-                                placeholder='Enter your name'
-                                onChange={handleInput} 
-                            />
-                            <SpacerQuaternary />
-                            <TextInput 
-                                label='Email' 
-                                name='email' 
-                                value={data.email} 
-                                placeholder='Enter your email'
-                                onChange={handleInput} 
-                            />
-                            <SpacerQuaternary />
-                            <TextAreaInput 
-                                label='Message' 
-                                name='message' 
-                                value={data.message} 
-                                placeholder='Enter your message'
-                                onChange={handleInput} 
-                            />
-                            <SpacerQuaternary />
-                            <ButtonPrimary title="Submit" css=" text-white py-3 px-12" />
-                            <SpacerQuaternary />
-                        </form>
+                    <TitlePrimary title='Our Contact Form' titleCss="text-gray-200" />
+                    <SpacerTertiary />
+                    <TextInput 
+                        label='Name' 
+                        name='name' 
+                        value={data.name} 
+                        placeholder='Enter your name'
+                        onChange={handleInput} 
+                    />
+                    <SpacerQuaternary />
+                    <TextInput 
+                        label='Email' 
+                        name='email' 
+                        value={data.email} 
+                        placeholder='Enter your email'
+                        onChange={handleInput} 
+                    />
+                    <SpacerQuaternary />
+                    <TextAreaInput 
+                        label='Message' 
+                        name='message' 
+                        value={data.message} 
+                        placeholder='Enter your message'
+                        onChange={handleInput} 
+                    />
+                    <SpacerQuaternary />
+                    <ButtonPrimary title="Submit" css=" text-white py-3 px-12" />
+                    <SpacerQuaternary />
+                </form>
             </div>
-            <div className="col-span-3 bg-gray-400 "></div>
+            <div className="col-span-3 bg-gray-400 relative">
+                 <Image 
+                    alt='Image' 
+                    src="/assets/img/4by5/10.jpg" 
+                    height={400} 
+                    width={500} 
+                    className='w-full h-full object-cover' />
+            </div>
         </div>
          <SpacerPrimary />
     </section>

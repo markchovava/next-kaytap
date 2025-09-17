@@ -14,10 +14,16 @@ export default function BannerPrimary({title, subtitle, img=""}: BannerPrimaryIn
   
     return (
     <>
-    <section className='w-full h-[20rem] bg-blue-950 text-gray-100'>
-        <div className='w-[92%%] h-[100%] gap-3 flex flex-col items-center justify-center text-center'> 
-            <Heading6 title={subtitle} css='text-gray-200 uppercase' />
-            <Heading1 title={title} css='uppercase' />
+    <section
+        style={{backgroundImage: `url(${img})`}}
+        className='w-full bg-center bg-fixed bg-cover h-[20rem] relative bg-blue-950 text-gray-100'>
+        <div className='w-full h-full absolute z-10 top-0 left-0 bg-gradient-to-br from-black to-transparent opacity-70'></div>
+        <div className="absolute z-20 top-0 left-0 w-full h-full">
+            <div className='w-[92%%] h-[100%] gap-3 flex flex-col items-center justify-center text-center'> 
+                <Heading6 title={subtitle} css='text-gray-200 uppercase' />
+                <Heading1 title={title} css='uppercase' />
+            </div>
+
         </div>
     </section>
     </>
