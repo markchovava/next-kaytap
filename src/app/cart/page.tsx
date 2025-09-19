@@ -1,8 +1,8 @@
 import BreadCrumbs from "@/_components/BreadCrumbs"
 import SpacerSecondary from "@/_components/spacers/SpacerSecondary"
+import CartPage from "./_components/CartPage";
 import AppInfoData from "../../_data/sample/AppInfoData.json";
 import { Metadata } from "next";
-import CartPage from "./_components/CartPage";
 
 
 export const metadata: Metadata = {

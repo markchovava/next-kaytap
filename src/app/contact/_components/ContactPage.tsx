@@ -5,8 +5,6 @@ import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 import ItemPrimary from '@/_components/lists/ItemPrimary';
 import TitlePrimary from '@/_components/titles/TitlePrimary';
 import SpacerTertiary from '@/_components/spacers/SpacerTertiary';
-import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary';
-import TextInput from '@/_components/forms/TextInput';
 import ContactForm from './ContactForm';
 import Link from 'next/link';
 

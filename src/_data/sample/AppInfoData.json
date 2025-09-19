@@ -4,10 +4,10 @@
     "version": "1.0.0",
     "author": "Mark Chovava",
     "logo":  "/assets/img/logo.png",
-    "developer": "FL Designers - Mark",
+    "developer": "FL Designers",
     "phone": {
         "iconType": "phone", 
-        "details": "0782210021"
+        "details": "+263 772 123456"
     },
     "email": {
         "iconType": "email", 
@@ -16,5 +16,29 @@
     "address": {
         "iconType": "address", 
         "details": "The Address is entered here"
+    },
+    "facebook": {
+        "iconType": "facebook", 
+        "details": "The Facebook is entered here"
+    },
+    "instagram": {
+        "iconType": "instagram", 
+        "details": "The Facebook is entered here"
+    },
+    "whatsapp": {
+        "iconType": "whatsapp", 
+        "details": "The WhatsApp is entered here"
+    },
+    "tiktok": {
+        "iconType": "tiktok", 
+        "details": "The Tiktok is entered here"
+    },
+    "linkedin": {
+        "iconType": "linkedin", 
+        "details": "The LinkedIn is entered here"
+    },
+    "twitter": {
+        "iconType": "twitter", 
+        "details": "The Twitter is entered here"
     }
 }

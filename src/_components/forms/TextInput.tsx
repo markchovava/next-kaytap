@@ -9,7 +9,10 @@ interface TextInputInterface {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function TextInput({type="text", label, name, value, placeholder, onChange}: TextInputInterface) {
+export default function TextInput({
+  type="text", label, name, value, placeholder, onChange
+}: TextInputInterface
+) {
 
   return (
     <div className='w-full'>

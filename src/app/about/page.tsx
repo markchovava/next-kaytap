@@ -1,10 +1,10 @@
 import Heading1 from '@/_components/headings/Heading1'
 import React from 'react'
 import AboutPage from './_components/AboutPage'
-import { Metadata } from "next";
-import AppInfoData from "../../_data/sample/AppInfoData.json";
 import BannerPrimary from '@/_components/banners/BannerPrimary';
 import BreadCrumbs from '@/_components/BreadCrumbs';
+import { Metadata } from "next";
+import AppInfoData from "../../_data/sample/AppInfoData.json";
 
 export const metadata: Metadata = {
   title: `${AppInfoData.name} - About Us`,

@@ -2,6 +2,13 @@ import BannerPrimary from '@/_components/banners/BannerPrimary'
 import React from 'react'
 import ContactPage from './_components/ContactPage'
 import BreadCrumbs from '@/_components/BreadCrumbs'
+import { Metadata } from "next";
+import AppInfoData from "../../_data/sample/AppInfoData.json";
+
+export const metadata: Metadata = {
+  title: `${AppInfoData.name} - About Us`,
+  description: AppInfoData.description,
+};
 
 
 const BreadCrumbsData = [
