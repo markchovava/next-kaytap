@@ -4,5 +4,7 @@ export interface ProductInterface{
     status: string,
     quantity: number,
     price: number,
-    img: string,
+    img: File | null | string,
+    sku: string,
+    description: string,
 }

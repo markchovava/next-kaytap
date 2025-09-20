@@ -68,15 +68,12 @@ export default function AppInfoEditModal({
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setIsSubmit(true)
-        
+        setIsSubmit(true) 
         try {
             // Add your form submission logic here
             console.log('Form data:', data);
-            
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 1000));
-            
             toast.success('Profile updated successfully!');
             setIsModal(false);
         } catch (error) {

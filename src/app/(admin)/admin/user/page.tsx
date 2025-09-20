@@ -1,8 +1,8 @@
+import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
+import UserListPage from './_components/UserListPage';
 import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
-import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
-import ProductListPage from './_components/ProductListPage';
 
 
 export const metadata: Metadata = {
@@ -14,15 +14,17 @@ export const metadata: Metadata = {
 const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
     {id: 2, name: "Dashboard", href:"/admin"},
-    {id: 2, name: "Products List", href:"/admin/product"},
+    {id: 2, name: "User List", href:"/admin/user"},
 ]
 
 export default function page() {
   return (
     <>
     <BreadCrumbs dbData={BreadCrumbsData} />
+
     <SpacerPrimary />
-      <ProductListPage />
+    <UserListPage />
+    
     <SpacerPrimary />
     </>
   )
