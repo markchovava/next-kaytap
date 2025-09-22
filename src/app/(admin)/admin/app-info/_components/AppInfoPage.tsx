@@ -31,7 +31,7 @@ export default function ProfilePage() {
     <SpacerTertiary />
     <section>
         <div className="w-[92%] mx-auto bg-white drop-shadow px-6 py-12 rounded-xl">
-            <TitlePrimary title='User Proflie' />
+            <TitlePrimary title='App Information' />
             <SpacerTertiary />
             <div className='flex flex-col items-start justify-center gap-4'>
                 <RecordImagePrimary label="Image:" img={data.logo} />

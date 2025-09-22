@@ -34,7 +34,7 @@ export const AdminData = [
     {
         id: 4, 
         title: "Categories", 
-        href:"/admin/categoyry", 
+        href:"/admin/category", 
         description: "All Categories", 
         icon: <MdOutlineCategory className="text-[2.5rem]" />,
         css: "bg-gradient-to-br from-blue-400 to-blue-800"

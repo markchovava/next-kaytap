@@ -8,9 +8,11 @@ interface ImageInputProps {
   onImageChange: (file: File | null) => void;
   maxSize?: number; // in bytes
   acceptedFormats?: string[];
+  label?: string,
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ 
+  label="Image",
   onImageChange, 
   maxSize = 5 * 1024 * 1024, // 5MB default
   acceptedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
@@ -90,8 +92,8 @@ const ImageInput: React.FC<ImageInputProps> = ({
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        Product Image
+      <label className="block font-light mb-2">
+        {label}
       </label>
       
       {!imagePreview ? (
