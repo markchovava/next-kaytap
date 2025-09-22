@@ -1,5 +1,3 @@
-import { ProductInterface } from "../interface/ProductInterface";
-
 export const ProductsData = [
   {
     id: 1,
@@ -9,7 +7,7 @@ export const ProductsData = [
     description: "A high-performance compound for waterproofing cement surfaces, ideal for foundations and basements.",
     quantity: 0,
     price: 35.50,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 2,
@@ -19,7 +17,7 @@ export const ProductsData = [
     description: "Standard 12mm deformed steel bar, 6 meters in length, used for reinforcing concrete structures.",
     quantity: 264,
     price: 8.79,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 3,
@@ -29,7 +27,7 @@ export const ProductsData = [
     description: "Steel brickforce mesh for strengthening brick and block walls, 230mm wide and 20 meters long.",
     quantity: 985,
     price: 1.93,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 4,
@@ -39,7 +37,7 @@ export const ProductsData = [
     description: "Durable 50mm PVC pipe, 6 meters long, suitable for drainage and water supply systems.",
     quantity: 150,
     price: 12.50,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 5,
@@ -49,7 +47,7 @@ export const ProductsData = [
     description: "A robust round nose shovel with a strong wooden handle, perfect for digging and moving soil or aggregates.",
     quantity: 50,
     price: 9.18,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 6,
@@ -59,7 +57,7 @@ export const ProductsData = [
     description: "Clear, all-purpose silicone sealant for general sealing and bonding applications in construction.",
     quantity: 94,
     price: 5.41,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 7,
@@ -69,7 +67,7 @@ export const ProductsData = [
     description: "3mm thick angle iron, 25x25mm, used for structural support and frame construction.",
     quantity: 13,
     price: 11.09,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 8,
@@ -79,7 +77,7 @@ export const ProductsData = [
     description: "Corrugated IBR roofing sheets, 0.4mm thick, suitable for residential and industrial roofing.",
     quantity: 0,
     price: 25.00,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 9,
@@ -89,7 +87,7 @@ export const ProductsData = [
     description: "Standard 150mm hollow concrete blocks for building walls and structures.",
     quantity: 300,
     price: 1.10,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 10,
@@ -99,7 +97,7 @@ export const ProductsData = [
     description: "A durable steel trowel with an ergonomic handle, essential for bricklaying and plastering.",
     quantity: 25,
     price: 6.46,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 11,
@@ -109,7 +107,7 @@ export const ProductsData = [
     description: "Rigid 20mm electrical conduit, 3 meters long, used to protect electrical wiring.",
     quantity: 80,
     price: 4.80,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 12,
@@ -119,7 +117,7 @@ export const ProductsData = [
     description: "A 25mm brass ball valve for controlling water flow in plumbing systems.",
     quantity: 28,
     price: 7.45,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 13,
@@ -129,7 +127,7 @@ export const ProductsData = [
     description: "A 50mm paint brush with synthetic bristles, suitable for a variety of paint types.",
     quantity: 13,
     price: 1.41,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 14,
@@ -139,7 +137,7 @@ export const ProductsData = [
     description: "Durable 3.0-meter PVC rain gutter for effective rainwater drainage from roofs.",
     quantity: 32,
     price: 6.37,
-    img: "",
+    iimg: "/assets/img/no_photo.jpg",
   },
   {
     id: 15,
@@ -149,7 +147,7 @@ export const ProductsData = [
     description: "Standard 30x30cm ceramic floor tiles, perfect for kitchen and bathroom floors.",
     quantity: 0,
     price: 8.99,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 16,
@@ -159,7 +157,7 @@ export const ProductsData = [
     description: "A double 13A socket outlet, flush-mounted for indoor electrical installations.",
     quantity: 45,
     price: 5.50,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 17,
@@ -169,7 +167,7 @@ export const ProductsData = [
     description: "High-quality 15mm copper tubing, 5.5 meters in length, used for plumbing and heating systems.",
     quantity: 328,
     price: 19.92,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 18,
@@ -179,7 +177,7 @@ export const ProductsData = [
     description: "2.5mm galvanised steel wire for durable and long-lasting fencing applications.",
     quantity: 0,
     price: 15.00,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 19,
@@ -189,7 +187,7 @@ export const ProductsData = [
     description: "A white plastic external air vent for ventilation systems, designed for easy installation.",
     quantity: 192,
     price: 0.25,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
   {
     id: 20,
@@ -199,6 +197,6 @@ export const ProductsData = [
     description: "A 25kg bag of Rhinoset, a quick-setting cement for patching and repair work.",
     quantity: 109,
     price: 19.80,
-    img: "",
+    img: "/assets/img/no_photo.jpg",
   },
 ];

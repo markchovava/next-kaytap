@@ -30,7 +30,7 @@ export default function TitlePrimary({
             }
         </div>
         <div className='h-[0.8rem]' />
-        <hr className='border-b-[1px] lg:w-[10%] w-[20%] border-b-blue-400' />
+        <hr className='border-b-[1px] lg:w-[10%] w-[20%] border-b-2-slate-400' />
     </div>
   )
 }

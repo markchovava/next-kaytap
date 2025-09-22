@@ -1,9 +1,8 @@
-import BreadCrumbs from '@/_components/BreadCrumbs'
-import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 import CategoryListPage from './_components/CategoryListPage';
-
+import BreadCrumbs from '@/_components/BreadCrumbs'
+import { Metadata } from "next";
 
 
 export const metadata: Metadata = {
@@ -17,6 +16,7 @@ const BreadCrumbsData = [
     {id: 2, name: "Dashboard", href:"/admin"},
     {id: 2, name: "Categories List", href:"/admin/category"},
 ]
+
 
 export default function page() {
   return (

@@ -6,15 +6,9 @@ import SpacerTertiary from '@/_components/spacers/SpacerTertiary'
 import TitlePrimary from '@/_components/titles/TitlePrimary'
 import React, { useState } from 'react'
 import ProfileEditModal from './ProfileEditModal'
+import { ProfileData } from '@/_data/sample/ProfileData'
 
-const ProfileData = {
-  name: "Mark Chovava",
-  email: "markchovava@gmail.com",
-  phone: "+253 782 210021",
-  address: "1 First Street, CBD, Harare",
-  code: "12345678",
-  isAdmin: true
-}
+
 
 
 

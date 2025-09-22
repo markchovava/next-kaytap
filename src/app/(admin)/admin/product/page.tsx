@@ -1,12 +1,12 @@
 import BreadCrumbs from '@/_components/BreadCrumbs'
-import { Metadata } from "next";
-import AppInfoData from "../../../../_data/sample/AppInfoData.json"
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 import ProductListPage from './_components/ProductListPage';
 
+import { Metadata } from "next";
+import AppInfoData from "../../../../_data/sample/AppInfoData.json"
 
 export const metadata: Metadata = {
-  title: `${AppInfoData.name} - User List`,
+  title: `${AppInfoData.name} - Product List`,
   description: AppInfoData.description,
 };
 

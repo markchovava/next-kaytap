@@ -19,11 +19,6 @@ export default function ProductViewPage({id}: {id: string | number}) {
   const [data, setData] = useState(dbData)
   const [isModal, setIsModal] = useState<boolean>(false)
 
-  console.log("ProductsData", ProductsData)
-  console.log("Id", id)
-  console.log("numId", numId)
-  console.log("dbData", dbData)
-  console.log("Data", data)
 
   // Handle case where product is not found
   if (!data) {

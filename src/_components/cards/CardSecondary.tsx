@@ -1,18 +1,19 @@
 "use client"
 
-import Image from "next/image"
 import { ButtonPrimary } from "../buttons/ButtonPrimary"
 import Heading4 from "../headings/Heading4"
 import Link from "next/link"
 import ImagePrimary from "../images/ImagePrimary"
 
 
+
 export default function CardSecondary({dbData}: {dbData: any}) {
     const {id, name, price, quantity, status, img} = dbData
+    
   return (
-    <div className="rounded-xl overflow-hidden bg-white drop-shadow">
+    <div className="group rounded-xl overflow-hidden bg-white drop-shadow">
         <div className="aspect-[5/4] bg-gray-500 relative">
-            <div className="border-b border-gray-200 group overflow-hidden">
+            <div className="border-b border-gray-200 overflow-hidden">
                 <ImagePrimary 
                     img={img} 
                     alt={name} />

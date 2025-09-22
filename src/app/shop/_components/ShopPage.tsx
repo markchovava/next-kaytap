@@ -46,7 +46,7 @@ export default function ShopPage() {
                 key={key} 
                 className={`w-full cursor-pointer text-left text-gray-700 hover:bg-gray-200 
                 hover:text-black ease-initial transition-all duration-200 pl-4`}>
-                  <span className=' font-light'>{i.title}</span> ({key*5})
+                  <span className=' font-light'>{i.name}</span> ({key * 5})
               </li>
             ))}
           </ul>
@@ -80,8 +80,8 @@ export default function ShopPage() {
           </div>
         </div>
           <div className='flex items-center justify-between mb-2'>
-            <SelectPrimary dbData={SortData} title="Sort By:" />
-            <SelectPrimary dbData={PageListData} title="Show:" />
+            <SelectPrimary dbData={SortData} label="Sort By:" />
+            <SelectPrimary dbData={PageListData} label="Show:" />
           </div>
           <SpacerQuaternary />
           <GridSecondary dbData={ProductsData} />
