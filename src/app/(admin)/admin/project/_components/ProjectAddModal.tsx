@@ -8,11 +8,12 @@ import Heading2 from '@/_components/headings/Heading2';
 import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary';
 import TextInput from '@/_components/forms/TextInput';
 import { ButtonSubmit } from '@/_components/buttons/ButtonSubmit';
-import { ProductInterface } from '@/_data/interface/ProductInterface';
-import { ProductEntity, ProductStockEntity } from '@/_data/entity/ProductEntity';
 import TextAreaInput from '@/_components/forms/TextAreaInput';
 import SelectPrimary from '@/_components/forms/SelectPrimary';
 import ImageInput from '@/_components/forms/ImageInput';
+import { ProjectEntity } from '@/_data/entity/ProjectEntity';
+import { ProjectInterface } from '@/_data/interface/ProjectInterface';
+import { ProjectCategoryData, ProjectStatusData } from '@/_data/sample/ProjectsData';
 
 
 const variants: Variants = {
@@ -24,19 +25,25 @@ const variants: Variants = {
         }},
 }
 
-interface ProductAddModalInterface{
+interface ProjectAddModalInterface{
     isModal: boolean,
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
-
-export default function ProductAddModal({
+export default function ProjectAddModal({
         isModal, 
         setIsModal
-    }: ProductAddModalInterface
+    }: ProjectAddModalInterface
 ) {
-    const [data, setData] = useState<ProductInterface>(ProductEntity)
+    const [data, setData] = useState<ProjectInterface>({
+        ...ProjectEntity,
+        images: [
+            { id: 0, image: "", imageFile: null, projectId: 0 },
+            { id: 1, image: "", imageFile: null, projectId: 0 },
+            { id: 2, image: "", imageFile: null, projectId: 0 },
+            { id: 3, image: "", imageFile: null, projectId: 0 }
+        ]
+    })
     const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
     const handleInput = (
@@ -46,8 +53,13 @@ export default function ProductAddModal({
         setData({ ...data, [e.target.name]: e.target.value })
     }
 
-    const handleImageChange = (file: File | null): void => {
-        setData({...data, img: file});
+    const handleImageChange = (file: File | null, index: number): void => {
+        const updatedImages = [...(data.images || [])];
+        updatedImages[index] = { 
+            ...updatedImages[index], 
+            imageFile: file 
+        };
+        setData({ ...data, images: updatedImages });
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -61,10 +73,10 @@ export default function ProductAddModal({
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                toast.success('Profile updated successfully!');
+                toast.success('Project added successfully!');
                 setIsModal(false);
             } catch (error) {
-                toast.error('Failed to update profile. Please try again.');
+                toast.error('Failed to add project. Please try again.');
                 console.error('Form submission error:', error);
             } finally {
                 setIsSubmit(false);
@@ -91,72 +103,71 @@ export default function ProductAddModal({
                     </div>
 
                     <form onSubmit={handleSubmit} >
-                        <Heading2 title="Add Product" css='text-center' />
+                        <Heading2 title="Add Project" css='text-center' />
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
                         <SpacerQuaternary />
-                        <ImageInput
-                            onImageChange={handleImageChange}
-                            maxSize={5 * 1024 * 1024} // 5MB
-                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
-                        />
+                        
+                        {/* Image Upload Section */}
+                        <div className="mb-6">
+                            <h3 className="text-lg font-semibold mb-4">Project Images (Up to 4)</h3>
+                            <div className="grid grid-cols-2 gap-4">
+                                {Array.from({ length: 4 }, (_, index) => (
+                                    <div key={index} className="">
+                                        <ImageInput
+                                            onImageChange={(file) => handleImageChange(file, index)}
+                                            maxSize={5 * 1024 * 1024} // 5MB
+                                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         <SpacerQuaternary />
                         <TextInput
                             label='Name:' 
                             name='name' 
                             type="text"
                             value={data.name} 
-                            placeholder='Enter your Name...'
+                            placeholder='Enter project name...'
                             onChange={handleInput} 
                         />
                         <SpacerQuaternary />
-                        <div className='grid grid-cols-2 gap-3'>
-                            <TextInput
-                                label='Price:' 
-                                name='price' 
-                                type="number"
-                                value={data.price} 
-                                placeholder='Enter your Email...'
-                                onChange={handleInput} 
-                            />
-                            <TextInput
-                                label='Quantity:' 
-                                name='quantity' 
-                                type="number"
-                                value={data.quantity} 
-                                placeholder='Enter your Phone Number...'
-                                onChange={handleInput} 
-                            />
-
-                        </div>
+                        <TextInput
+                            label='Location:' 
+                            name='location' 
+                            type="text"
+                            value={data.location} 
+                            placeholder='Enter project location...'
+                            onChange={handleInput} 
+                        />
                         <SpacerQuaternary />
                         <SelectPrimary
                             label="Status" 
                             onChange={handleInput} 
                             name="status" 
-                            dbData={ProductStockEntity}
+                            dbData={ProjectStatusData}
                         />
                         <SpacerQuaternary />
-                        <TextInput
-                            label='SKU:' 
-                            name='sku' 
-                            type="text"
-                            value={data.sku} 
-                            placeholder='Enter SKU here...'
+                        <SelectPrimary
+                            label="Category" 
                             onChange={handleInput} 
+                            name="category" 
+                            dbData={ProjectCategoryData}
                         />
                         <SpacerQuaternary />
                         <TextAreaInput
                             label='Description:' 
                             name='description' 
                             value={data.description} 
-                            placeholder='Enter your Description...'
+                            placeholder='Enter project description...'
                             onChange={handleInput} 
                         />
                         <SpacerQuaternary />
                         <div className='flex items-center justify-center'>
                             <ButtonSubmit 
-                                title='Submit' 
+                                title='Add Project' 
                                 css='px-12 text-white py-4' 
                                 isSubmit={isSubmit} 
                             />
@@ -171,5 +182,4 @@ export default function ProductAddModal({
         </AnimatePresence>
         </>
     )
-
 }

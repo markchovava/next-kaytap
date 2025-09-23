@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import AppInfoData from "../../../../../_data/sample/AppInfoData.json"
 import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
 import ProductViewPage from "./_components/ProductViewPage";
+import { SinglePageInterface } from "@/_data/interface/SingleViewInterface";
 
 
 
@@ -13,15 +14,19 @@ export const metadata: Metadata = {
 };
 
 
-const BreadCrumbsData = [
+
+export default function page(
+  {
+    params: {id}
+  }: SinglePageInterface
+) {
+
+  const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
     {id: 2, name: "Dashboard", href:"/admin"},
-    {id: 2, name: "Products", href:"/admin/user"},
-    {id: 2, name: "View Product", href:"/admin/product/1"},
-]
-
-
-export default function page({params: {id}}: {params: {id: number | string}}) {
+    {id: 3, name: "Products", href:"/admin/user"},
+    {id: 4, name: "View Product", href: `/admin/product/${id}`},
+  ]
 
 
   return (

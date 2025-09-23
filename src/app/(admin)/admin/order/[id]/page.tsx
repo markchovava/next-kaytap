@@ -12,7 +12,11 @@ export const metadata: Metadata = {
 
 
 
-export default function page({params: {id}}: SinglePageInterface) {
+export default function page(
+    {
+    params: {id}
+    }: SinglePageInterface
+) {
     const BreadCrumbsData = [
         {id: 1, name: "Home", href:"/"},
         {id: 2, name: "Dashboard", href:"/admin"},

@@ -17,13 +17,13 @@ export default function SelectPrimary({
 }: SelectPrimaryInterface
 ) {
   return (
-    <div className='flex gap-1 items-center justify-start'>
-        <p>{label}</p>
+    <div className='flex flex-col gap-1 items-start justify-start'>
+        <p className="font-light">{label}</p>
         <select
             name={name}
             onChange={onChange}
             value={value}
-            className='px-2 py-1.5 outline-none border border-gray-300'>
+            className='w-full px-2 py-1.5 outline-none border border-gray-300'>
             <option value="">Default</option>
             {dbData.map((i, key) => (
                 <option key={key} value={i.value}>{i.name}</option>
