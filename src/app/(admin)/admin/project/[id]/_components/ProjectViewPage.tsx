@@ -62,6 +62,8 @@ export default function ProjectViewPage({id}: {id: string | number}) {
                     </div>
                 </div>
             </section>
+
+            
         </>
     )
 }
