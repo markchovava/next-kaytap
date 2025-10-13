@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
     {id: 2, name: "Dashboard", href:"/admin"},
-    {id: 2, name: "Settings", href:"/admin/settings"},
+    {id: 3, name: "Settings", href:"/admin/settings"},
 ]
 
 

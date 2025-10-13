@@ -103,7 +103,7 @@ export default function ProjectEditModal({
                     </div>
 
                     <form onSubmit={handleSubmit} >
-                        <Heading2 title="Add Project" css='text-center' />
+                        <Heading2 title="Edit Project" css='text-center' />
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
                         <SpacerQuaternary />

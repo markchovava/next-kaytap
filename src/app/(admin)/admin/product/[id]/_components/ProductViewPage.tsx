@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import ProductEditModal from './ProductEditModal'
 import { ProductsData } from '@/_data/sample/ProductsData'
 import ImagePrimary from '@/_components/images/ImagePrimary'
+import RecordImagePrimary from '@/_components/records/RecordImagePrimary'
 
 
 
@@ -34,14 +35,13 @@ export default function ProductViewPage({id}: {id: string | number}) {
 
   return (
     <>
-      <section>
-        <div className='mx-auto w-[92%] flex items-center justify-end'>
-          <ButtonQuaternary 
-              onClick={() => setIsModal(!isModal)}
-              title='Edit Product' 
-              css="px-8 py-3 text-white" 
-          />
-        </div>
+    
+      <section className='mx-auto w-[92%] flex items-center justify-end'>
+        <ButtonQuaternary 
+            onClick={() => setIsModal(!isModal)}
+            title='Edit Product' 
+            css="px-8 py-3 text-white" 
+        />
       </section>
        
       <SpacerTertiary />
@@ -50,9 +50,10 @@ export default function ProductViewPage({id}: {id: string | number}) {
               <TitlePrimary title='View Product' />
               <SpacerTertiary />
               <div className='flex flex-col items-start justify-center gap-4'>
-                  {data.img ? (
-                    <ImagePrimary img={data.img} />
-                  ) : ''}
+                  {data.img ? 
+                    <RecordImagePrimary label="Image:" img={data.img ?? ""} />
+                      : ""
+                  }
                   <RecordPrimary label="Name:" value={data.name} />
                   <RecordPrimary label="SKU:" value={data.sku} />
                   <RecordPrimary label="Status:" value={data.status} />
