@@ -73,7 +73,7 @@ export const AboutData = {
             {id: 1, name: 
                 "User A", 
                 position: "Manager", 
-                img: "/assets/img/user.png", 
+                img: "/assets/img/user.jpg", 
                 links: [
                     {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
@@ -83,28 +83,40 @@ export const AboutData = {
             { id: 2, 
                 name: "User B", 
                 position: "Manager", 
-                img: "/assets/img/user.png",
+                img: "/assets/img/user.jpg",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 3, name: "User C", position: "Manager", img: "/assets/img/user.png",
+            {
+                id: 3, 
+                name: "User C", 
+                position: "Manager", 
+                img: "/assets/img/user.jpg",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 4, name: "User D", position: "Manager", img: "/assets/img/user.png",
+            {
+                id: 4, 
+                name: "User D", 
+                position: "Manager", 
+                img: "/assets/img/user.jpg",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 5, name: "User E", position: "Manager", img: "/assets/img/user.png",
+            {
+                id: 5, 
+                name: "User E", 
+                position: "Manager", 
+                img: "/assets/img/user.png",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
