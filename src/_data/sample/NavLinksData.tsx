@@ -1,15 +1,17 @@
 import { FaEnvelope, FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaWhatsapp, FaXTwitter } from "react-icons/fa6"
 import { CategoryData } from "./CategoryData"
+import { NavDataInterface, NavDataItemInterface } from "../entity/NavDataEntity"
 
 
-export const AboutNavData = [
+
+export const AboutNavData: NavDataItemInterface[] = [
     {id: 1, title: "Who we are?", href: "/about" },
     {id: 2, title: "Why Us?", href: "/about" },
     {id: 3, title: "Our Team", href: "/about" },
 ]
 
 
-export const NavLinksData = [
+export const NavLinksData: NavDataInterface[] = [
     {id: 1, title: "Home", href: "/", withDropdown: false, isOpen: false, items: [] },
     {id: 2, title: "About Us", href: "/about", withDropdown: true, isOpen: false, items: AboutNavData },
     {id: 3, title: "Our Services", href: "/service", withDropdown: false, isOpen: false, items: [] },
@@ -17,6 +19,13 @@ export const NavLinksData = [
     {id: 5, title: "Our Shop", href: "/shop", withDropdown: false, isOpen: false, items: [] },
     {id: 6, title: "Contact Us", href: "/contact", withDropdown: false, isOpen: false, items: [] },
 ]
+
+export const OtherNavData = {
+    auth: {title: "Sign in", href: "/login"},
+    cart: {title: "My Cart", href:"/cart"},
+    account: {title: "My Account", href: "/admin"},
+    search: {title: "Search", href: "/search"},
+}
 
 
 export const ShopNavData = {

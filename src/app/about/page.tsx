@@ -5,6 +5,7 @@ import BannerPrimary from '@/_components/banners/BannerPrimary';
 import BreadCrumbs from '@/_components/BreadCrumbs';
 import { Metadata } from "next";
 import AppInfoData from "../../_data/sample/AppInfoData.json";
+import { BannerData } from '@/_data/sample/BannerData';
 
 export const metadata: Metadata = {
   title: `${AppInfoData.name} - About Us`,
@@ -22,9 +23,11 @@ export default function page() {
     <>
 
     <BannerPrimary 
-      title='Who we are?' 
-      subtitle='About Us' 
-      img="/assets/img/banner/03.jpg" />
+        title={BannerData.about.title} 
+        subtitle={BannerData.about.subtitle}  
+        img={BannerData.about.img}  
+    />
+    
     <BreadCrumbs dbData={BreadCrumbsData} />
 
     <AboutPage />

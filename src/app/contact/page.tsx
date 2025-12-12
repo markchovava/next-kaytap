@@ -23,7 +23,7 @@ export default function page() {
     <BannerPrimary 
       title='Talk to us?' 
       subtitle='Contact Us' 
-      img="/assets/img/banner/04.jpg"
+      img="/assets/img/banner/04.png"
     />
     
     <BreadCrumbs dbData={BreadCrumbsData} />

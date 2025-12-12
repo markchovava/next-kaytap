@@ -15,7 +15,7 @@ export const AboutData = {
           complex infrastructure projects with precision, integrity, and a commitment to excellence. The organization was 
           incorporated on 7th of February 2018 in terms of the Companies Act (Chapter 24:03) under registration number 
           1458/2018. The company's registered offices are at 15 Shepperton Road Graniteside, Harare, Zimbabwe.`,
-        img: "/assets/img/4by5/01.jpg",
+        img: "/assets/img/4by5/00.png",
         },
     coreBusiness: {
         title: "Core Business",
@@ -27,7 +27,7 @@ export const AboutData = {
             From roadworks and bridges to buildings and urban infrastructure, we partner with both public and private sector 
             clients to build the region’s future. Our portfolio includes strategic partnerships, such as our subcontracted works 
             under Fossil Contracting at the Trabablas Interchange—a key infrastructure milestone in the region.`,
-        img: "/assets/img/4by5/03.jpg",
+        img: "/assets/img/4by5/09.png",
     },
     vision: {
         title: "Our Vision",
@@ -73,7 +73,7 @@ export const AboutData = {
             {id: 1, name: 
                 "User A", 
                 position: "Manager", 
-                img: "/assets/img/user.jpg", 
+                img: "/assets/img/user.png", 
                 links: [
                     {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
@@ -83,28 +83,28 @@ export const AboutData = {
             { id: 2, 
                 name: "User B", 
                 position: "Manager", 
-                img: "/assets/img/user.jpg",
+                img: "/assets/img/user.png",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 3, name: "User C", position: "Manager", img: "/assets/img/user.jpg",
+            {id: 3, name: "User C", position: "Manager", img: "/assets/img/user.png",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600  ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 4, name: "User D", position: "Manager", img: "/assets/img/user.jpg",
+            {id: 4, name: "User D", position: "Manager", img: "/assets/img/user.png",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},
                     {id:3, href:"#", icon: <FaFacebook className="text-[1.5rem] text-blue-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Facebook"}
                 ]
             },
-            {id: 5, name: "User E", position: "Manager", img: "/assets/img/user.jpg",
+            {id: 5, name: "User E", position: "Manager", img: "/assets/img/user.png",
                 links: [
                      {id:1, href:"#", icon: <FaWhatsapp className="text-[1.5rem] text-green-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "WhatsApp"},
                     {id:2, href:"#", icon: <IoMailOutline className="text-[1.5rem] text-gray-600 ease-initial transition-all duration-200 hover:scale-110" />, title: "Email"},

@@ -10,6 +10,7 @@ import TextAreaInput from "../forms/TextAreaInput"
 import { ButtonPrimary } from "../buttons/ButtonPrimary"
 import { useState } from "react"
 import Image from "next/image"
+import { ContactData } from "@/_data/sample/ContactData"
 
 
 const InputData = {
@@ -72,7 +73,7 @@ export default function SectionContact() {
             <div className="col-span-3 bg-gray-400 relative">
                  <Image 
                     alt='Image' 
-                    src="/assets/img/4by5/10.jpg" 
+                    src={ContactData.img} 
                     height={400} 
                     width={500} 
                     className='w-full h-full object-cover' />

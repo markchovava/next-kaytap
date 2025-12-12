@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 import BreadCrumbs from '@/_components/BreadCrumbs';
 import ProjectPage from './_components/ProjectPage';
 import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
+import { BannerData } from '@/_data/sample/BannerData';
 
 
 export const metadata: Metadata = {
@@ -23,9 +24,9 @@ export default function Page() {
   return (
     <>
     <BannerPrimary
-      title='Our Previous Works' 
-      subtitle='Our Projects' 
-      img="/assets/img/banner/05.jpg"
+        title={BannerData.project.title} 
+        subtitle={BannerData.project.subtitle}  
+        img={BannerData.project.img} 
     />
     
     <BreadCrumbs dbData={BreadCrumbsData} />

@@ -4,26 +4,19 @@ import Heading4 from '../headings/Heading4'
 
 
 interface CardProjectInterface{
-    img?: string,
-    id?: number,
-    address?: string,
-    contractor?: string,
-    client?: string,
-    name?: string,
+    dbData: {
+        img?: string,
+        id?: number,
+        address?: string,
+        contractor?: string,
+        client?: string,
+        name?: string,
+    }
 }
 
 
 export default function CardProject(
-    {dbData= {
-        img: "", 
-        name: "The Name goes here",
-        id: 0,
-        address: "",
-        contractor: "",
-        client: "",
-
-    }
-} : {dbData?: CardProjectInterface}
+    {dbData} : CardProjectInterface
 ) {
     const {img, name, id, address, contractor, client, } = dbData
 

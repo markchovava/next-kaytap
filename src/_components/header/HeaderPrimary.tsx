@@ -35,7 +35,8 @@ export default function HeaderPrimary() {
             i.withDropdown ? 
             <li key={key} className="relative"  onClick={() => setCurrentNavLink(i.id)} >
               <button 
-                className={`${currentNavLink?.id === i.id ? 'text-blue-800' : ''} py-2.5 px-3 cursor-pointer hover:text-blue-800 flex items-center gap-1 transition-all duration-200`}>
+                className={`${currentNavLink?.id === i.id ? 'text-blue-800' : ''} 
+                py-2.5 px-3 cursor-pointer hover:text-blue-800 flex items-center gap-1 transition-all duration-200`}>
                 {i.title}
                 <FaAngleDown className={`transition-transform duration-300 ${i.isOpen ? 'rotate-180' : 'rotate-0'}`} />
               </button>
