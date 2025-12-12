@@ -9,7 +9,6 @@ import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import Heading4 from '../headings/Heading4';
 import CardProject from '../cards/CardProject';
 
 
@@ -61,7 +60,7 @@ export default function CarouselProject({dbData} : {dbData: any[]}) {
         loop={true}
         breakpoints={{
           320: { slidesPerView: 2 },
-          640: { slidesPerView: 4 },
+          640: { slidesPerView: 3 },
           1024: { slidesPerView: 4 },
         }}
         onSlideChange={handleSlideChange}
