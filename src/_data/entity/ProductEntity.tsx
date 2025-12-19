@@ -1,12 +1,28 @@
-export const ProductEntity = {
-    id: 0,
+export interface ProductInterface{
+    id: string | number, 
+    userId: string | number, 
+    name: string,
+    desc: string, 
+    sku: string, 
+    price: number | string, 
+    quantity: number | string, 
+    status: string, 
+    updatedAt: string, 
+    createdAt: string, 
+}
+
+
+export const ProductEntity: ProductInterface = {
+    id: "",
+    userId: "",
     name: "",
     status: "",
-    quantity: 0,
-    price: 0,
-    img: null,
+    quantity: "",
+    price: "",
     sku: "",
-    description: "",
+    desc: "",
+    updatedAt: "", 
+    createdAt: "", 
 }
 
 

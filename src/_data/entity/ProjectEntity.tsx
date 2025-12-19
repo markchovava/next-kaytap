@@ -1,19 +1,23 @@
-export const ProjectImageEntity = {
-    id: 0,
-    image: "",
-    imageFile: null,
-    projectId: 0,
+export interface ProjectInterface{
+    id: string | number,
+    userId: string | number,
+    name: string, 
+    desc: string, 
+    status: string, 
+    priority: string | number, 
+    updatedAt: string, 
+    createdAt: string, 
 }
 
-
-export const ProjectEntity = {
-    id: 0,
+export const ProjectEntity: ProjectInterface = {
+    id: "",
+    userId: "",
     name: "",
-    status: "",
-    location: "",
-    description: "",
-    category: "",
-    images: [ProjectImageEntity]
+    desc: "",
+    status: "", 
+    priority: "", 
+    updatedAt: "",
+    createdAt: "",
 }
 
 
