@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "cookies-next": "^6.1.1",
     "framer-motion": "^12.23.12",
     "html-react-parser": "^5.2.6",
     "lucide-react": "^0.544.0",

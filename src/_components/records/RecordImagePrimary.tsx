@@ -19,7 +19,7 @@ export default function RecordImagePrimary({label, img}: RecordImagePrimaryInter
                     width={300} 
                     height={300} 
                     alt={label} 
-                    className="w-full h-full object-cover" />
+                    className="w-full h-full object-cover rounded-lg overflow-hidden" />
             </div>
         </div>
     )

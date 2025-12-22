@@ -3,6 +3,8 @@ import UserListPage from './_components/UserListPage';
 import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
+import { _userListAction } from '@/_api/actions/UserActions';
+import UserAddModal from './_components/UserAddModal';
 
 
 export const metadata: Metadata = {
@@ -17,15 +19,20 @@ const BreadCrumbsData = [
     {id: 2, name: "User List", href:"/admin/user"},
 ]
 
-export default function page() {
+
+
+export default async function page() {
+  const [ userData ] = await Promise.all([ _userListAction() ]);
+
   return (
     <>
     <BreadCrumbs dbData={BreadCrumbsData} />
 
     <SpacerPrimary />
-    <UserListPage />
+    <UserListPage dbData={userData} />
     
     <SpacerPrimary />
+    <UserAddModal />
     </>
   )
 }

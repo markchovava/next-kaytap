@@ -3,6 +3,8 @@ import SpacerPrimary from '@/_components/spacers/SpacerPrimary';
 import CategoryListPage from './_components/CategoryListPage';
 import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
+import { _categoryListAction } from "@/_api/actions/CategoryActions";
+import CategoryAddModal from "./_components/CategoryAddModal";
 
 
 export const metadata: Metadata = {
@@ -18,13 +20,16 @@ const BreadCrumbsData = [
 ]
 
 
-export default function page() {
+export default async function page() {
+  const [ categoryData ] = await Promise.all([ _categoryListAction() ])
+
   return (
     <>
     <BreadCrumbs dbData={BreadCrumbsData} />
     <SpacerPrimary />
-      <CategoryListPage />
+      <CategoryListPage dbData={categoryData} />
     <SpacerPrimary />
+    <CategoryAddModal />
     </>
   )
 }

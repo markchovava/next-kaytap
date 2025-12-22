@@ -1,16 +1,24 @@
 "use client"
-
-import React, { useState } from 'react'
-import { IoClose } from 'react-icons/io5';
+import React from 'react'
 import { toast } from 'react-toastify';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Heading2 from '@/_components/headings/Heading2';
 import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary';
 import TextInput from '@/_components/forms/TextInput';
 import { ButtonSubmit } from '@/_components/buttons/ButtonSubmit';
-import { CategoryInterface } from '@/_data/interface/CategoryInterface';
 import ImageInput from '@/_components/forms/ImageInput';
-import { CategoryEntity } from '@/_data/entity/CategoryEntity';
+import { useCategoryStore } from '@/_store/useCategoryStore';
+import SelectSecondary from '@/_components/forms/SelectSecondary';
+import { listNumbers } from '@/_utils/formatNumber';
+import TextAreaInput from '@/_components/forms/TextAreaInput';
+import { baseURL } from '@/_api/baseURL';
+import ButtonClose from '@/_components/buttons/ButtonClose';
+import { _categoryUpdateAction } from '@/_api/actions/CategoryActions';
+
+
+
+const title = "Edit Category"
+
 
 const variants: Variants = {
     hidden: { opacity: 0 },
@@ -21,57 +29,78 @@ const variants: Variants = {
         }},
 }
 
-interface CategoryEditModalInterface{
-    isModal: boolean,
-    setIsModal: React.Dispatch<React.SetStateAction<boolean>>
-}
 
+export default function CategoryEditModal({id}: {id: string | number}) {
+    const { 
+        toggleModal, 
+        data, 
+        errors,
+        isSubmitting,
+        clearErrors,
+        setImg, 
+        setIsSubmitting, 
+        setInputValue, 
+        setToggleModal,
+        getData,
+        validateForm,
+    } = useCategoryStore()
 
-
-export default function CategoryEditModal({
-        isModal, 
-        setIsModal
-    }: CategoryEditModalInterface
-) {
-    const [data, setData] = useState<CategoryInterface>(CategoryEntity)
-    const [isSubmit, setIsSubmit] = useState<boolean>(false)
-
-    const handleInput = (
-        e: React.ChangeEvent<HTMLInputElement> 
-        | React.ChangeEvent<HTMLTextAreaElement>
-        | React.ChangeEvent<HTMLSelectElement> ) => {
-        setData({ ...data, [e.target.name]: e.target.value })
+    const handleToggleModal = () => {
+        setToggleModal(!toggleModal)
     }
 
     const handleImageChange = (file: File | null): void => {
-        setData({...data, imgFile: file});
+        setImg(file);
     };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-            e.preventDefault();
-            setIsSubmit(true)
-            
-            try {
-                // Add your form submission logic here
-                console.log('Form data:', data);
-                
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                toast.success('Profile updated successfully!');
-                setIsModal(false);
-            } catch (error) {
-                toast.error('Failed to update profile. Please try again.');
-                console.error('Form submission error:', error);
-            } finally {
-                setIsSubmit(false);
-            }
+        clearErrors();
+        e.preventDefault();
+        setIsSubmitting(true);
+        // Validate form using store
+        const validation = validateForm();
+        if (!validation.isValid) {
+            // Show the first error as toast
+            const firstError =  validation.errors.name
+            toast.warn(firstError);
+            return;
+        }
+    
+        const formData = new FormData()
+        formData.append('name', data.name)
+        formData.append('priority', String(data.priority))
+        formData.append('desc', data.desc)
+        if(data.imgFile) {
+            formData.append('img', data.imgFile)
+        }
+        try {
+            const res = await _categoryUpdateAction(id, formData);
+            const {status, message} = res;
+            switch(status){
+                case 1:
+                    toast.success(message);
+                    await getData(id);
+                    clearErrors();
+                    setIsSubmitting(false);
+                    setToggleModal(false)
+                    return
+                default:
+                    toast.success('Something went wrong, please try again.');
+                    setIsSubmitting(false);
+                    return
+            } 
+        } catch (error) {
+            toast.error('Failed to save data. Please try again.');
+            console.error('Form submission error:', error);
+        }
     }
+
+    console.log('DATA::: ', data)
     
     return (
         <>
         <AnimatePresence>
-            {isModal &&
+            {toggleModal &&
             <motion.section
                 variants={variants}
                 initial='hidden'
@@ -82,18 +111,16 @@ export default function CategoryEditModal({
                 <div className='w-[100%] h-[100%] absolute z-10 overflow-auto scroll__width py-[6rem]'>
                 <section className='mx-auto lg:w-[50%] w-[90%] bg-white text-black p-6 rounded-2xl'>
                     <div className='flex items-center justify-end'>
-                        <button onClick={() => setIsModal(false)} className='hover:text-red-600 transition-all ease-in-out duration-200'>
-                            <IoClose className='text-3xl' />
-                        </button>
+                       <ButtonClose onClick={handleToggleModal} />
                     </div>
 
-                    <form onSubmit={handleSubmit} >
-                        <Heading2 title="Edit Category" css='text-center' />
+                    <form onSubmit={handleSubmit}>
+                        <Heading2 title={title} css='text-center' />
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
                         <SpacerQuaternary />
                         <ImageInput
-                            label="Image:"
+                            src={baseURL + data.img}
                             onImageChange={handleImageChange}
                             maxSize={5 * 1024 * 1024} // 5MB
                             acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
@@ -105,14 +132,31 @@ export default function CategoryEditModal({
                             type="text"
                             value={data.name} 
                             placeholder='Enter your Name...'
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
+                            error={errors.name}
+                        />
+                        <SpacerQuaternary />
+                        <TextAreaInput
+                            label='Description:' 
+                            name='desc' 
+                            value={data.desc} 
+                            placeholder='Enter your Description...'
+                            onChange={setInputValue} 
+                        />
+                        <SpacerQuaternary />
+                        <SelectSecondary
+                            label='Ppriority:' 
+                            name='priority' 
+                            data={listNumbers(7)}
+                            value={data.priority} 
+                            onChange={setInputValue} 
                         />
                         <SpacerQuaternary />
                         <div className='flex items-center justify-center'>
                             <ButtonSubmit 
                                 title='Submit' 
                                 css='px-12 text-white py-4' 
-                                isSubmit={isSubmit} 
+                                isSubmit={isSubmitting} 
                             />
                         </div>
                         <SpacerQuaternary />

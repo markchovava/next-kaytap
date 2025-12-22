@@ -3,11 +3,14 @@ import AppInfoPage from './_components/AppInfoPage'
 import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
+import { _checkAuthAction } from '@/_api/actions/AuthActions';
+import { _appInfoViewAction } from '@/_api/actions/AppInfoActions';
+import AppInfoEditModal from './_components/AppInfoEditModal';
 
 
 export const metadata: Metadata = {
-  title: `${AppInfoData.name} - App Information`,
-  description: AppInfoData.description,
+    title: `${AppInfoData.name} - App Information`,
+    description: AppInfoData.description,
 };
 
 
@@ -20,13 +23,19 @@ const BreadCrumbsData = [
 
 
 
-export default function page() {
-  return (
-    <>
-    <BreadCrumbs dbData={ BreadCrumbsData} />
-        <SpacerPrimary />
-            <AppInfoPage />
-        <SpacerPrimary />
-    </>
-  )
+export default async function page() {
+    await _checkAuthAction()
+    const [ appInfoData ] = await Promise.all([ _appInfoViewAction() ])
+    
+    return (
+      <>
+      <BreadCrumbs dbData={BreadCrumbsData} />
+          <SpacerPrimary />
+              <AppInfoPage dbData={appInfoData} />
+          <SpacerPrimary />
+
+          <AppInfoEditModal />
+      </>
+    )
+
 }

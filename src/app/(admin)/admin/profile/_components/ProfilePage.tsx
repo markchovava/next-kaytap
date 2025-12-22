@@ -1,28 +1,51 @@
 "use client"
-
 import ButtonQuaternary from '@/_components/buttons/ButtonQuaternary'
 import RecordPrimary from '@/_components/records/RecordPrimary'
 import SpacerTertiary from '@/_components/spacers/SpacerTertiary'
 import TitlePrimary from '@/_components/titles/TitlePrimary'
-import React, { useState } from 'react'
-import ProfileEditModal from './ProfileEditModal'
-import { ProfileData } from '@/_data/sample/ProfileData'
+import React, { useEffect, useState } from 'react'
+import { useProfileStore } from '@/_store/useProfileStore'
+import LoaderPrimary from '@/_components/loaders/LoaderPrimary'
 
 
 
+const title = "Edit Profile";
 
+interface PropsInterface{
+  dbData: any
+}
 
-export default function ProfilePage() {
-  const [data, setData] = useState(ProfileData)
-  const [isModal, setIsModal] = useState<boolean>(false)
+export default function ProfilePage({ dbData }: PropsInterface) {
+    const { 
+      preData, 
+      isLoading,
+      setData, 
+      setToggleModal
+    } = useProfileStore()
+
+    
+    useEffect(() => {
+      setData(dbData.data)
+    }, [])
+
+    const handleToggleModal = () => {
+      setToggleModal(true)
+    }
+
+    if(isLoading) {
+      return (
+        <LoaderPrimary />
+      )
+    }
+
 
   return (
     <>
     <section>
       <div className='mx-auto w-[92%] flex items-center justify-end'>
         <ButtonQuaternary 
-            onClick={() => setIsModal(!isModal)}
-            title='Edit Profile' 
+            onClick={handleToggleModal}
+            title={title}
             css="px-8 py-3 text-white" 
         />
       </div>
@@ -34,23 +57,15 @@ export default function ProfilePage() {
             <TitlePrimary title='User Proflie' />
             <SpacerTertiary />
             <div className='flex flex-col items-start justify-center gap-4'>
-                <RecordPrimary label="Name:" value={data.name} />
-                <RecordPrimary label="Email:" value={data.email} />
-                <RecordPrimary label="Phone:" value={data.phone} />
-                <RecordPrimary label="Address:" value={data.address} />
-                <RecordPrimary label="Password:" value={data.code} />
-                { data.isAdmin ? 
-                  <RecordPrimary label="Role:" value={"Admin"} />
-                  :
-                  <RecordPrimary label="Role:" value={"Customer"} />
-                }
-               
+                <RecordPrimary label="Name:" value={preData.name ?? "Not Added Yet"} />
+                <RecordPrimary label="Email:" value={preData.email ?? "Not Added Yet"} />
+                <RecordPrimary label="Phone:" value={preData.phone ?? "Not Added Yet"} />
+                <RecordPrimary label="Password:" value={preData.code ?? "Not Added Yet"} />
+                <RecordPrimary label="Role:" value={preData.isAdmin ? "Admin": "Customer"} />       
             </div>
         </div>
     </section>
 
-
-    <ProfileEditModal isModal={isModal} setIsModal={setIsModal} />
     </>
   )
 }

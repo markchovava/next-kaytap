@@ -39,14 +39,14 @@ export async function registerAction(data: any) {
 export async function _checkAuthAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ redirect('/auth/login'); }
+    if(!authToken?.value){ redirect('/login'); }
     return 
 }
 
 export async function _logoutAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ redirect('/auth/login'); }
+    if(!authToken?.value){ redirect('/login'); }
     const res = await fetch(`${baseURL}api/logout/`, {
       'method': 'GET',
       headers: {
@@ -62,7 +62,7 @@ export async function _logoutAction() {
 export async function _profileViewAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ redirect('/auth/login'); }
+    if(!authToken?.value){ redirect('/login'); }
     const res = await fetch(`${baseURL}api/profile`, {
       'method': 'GET',
       headers: {
@@ -78,7 +78,7 @@ export async function _profileStoreAction(data: any) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
-      redirect('/auth/login'); 
+      redirect('/login'); 
     }
     const res = await fetch(`${baseURL}api/profile`, {
       'method': 'POST',
@@ -98,7 +98,7 @@ export async function _emailUpdateAction(data: any) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
-      redirect('/auth/login'); 
+      redirect('/login'); 
     }
     const res = await fetch(`${baseURL}api/email`, {
       'method': 'POST',
@@ -118,7 +118,7 @@ export async function _passwordUpdateAction(data: any) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
-      redirect('/auth/login'); 
+      redirect('/login'); 
     }
     const res = await fetch(`${baseURL}api/password`, {
       'method': 'POST',

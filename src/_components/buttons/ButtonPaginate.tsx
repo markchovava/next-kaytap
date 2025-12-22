@@ -27,7 +27,7 @@ export default function
         <button 
             onClick={() => onClick()}
             className={`${css} cursor-pointer group flex items-center justify-center gap-1 border border-gray-400 rounded-full`}>
-            <span className="translate-x-1 group-hover:-translate-x-1 ease-initial duration-300 transition-all">
+            <span className="translate-x-2 group-hover:-translate-x-1 ease-initial duration-300 transition-all">
                 {title} 
             </span>
             <FaAngleRight 
@@ -42,7 +42,7 @@ export default function
         className={`${css} cursor-pointer group flex items-center justify-center gap-1 border border-gray-400 rounded-full`}>
         <FaAngleLeft 
             className={`${iconCss} text-transparent ease-initial duration-300 transition-all translate-x-1 group-hover:-translate-x-1`} />
-        <span className="-translate-x-1 group-hover:translate-x-1 ease-initial duration-300 transition-all">
+        <span className="-translate-x-2 group-hover:translate-x-1 ease-initial duration-300 transition-all">
             {title} </span>
     </button>
     : ""

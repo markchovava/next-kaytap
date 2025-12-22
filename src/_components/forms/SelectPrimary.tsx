@@ -1,10 +1,11 @@
 "use client"
 
-interface SelectPrimaryInterface{
+interface PropsInterface{
     name?: string,
     label: string,
     dbData: any[],
     value?: string,
+    error?: string,
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
@@ -13,8 +14,9 @@ export default function SelectPrimary({
   name, 
   value, 
   dbData, 
-  onChange= () => {}
-}: SelectPrimaryInterface
+  error,
+  onChange
+}: PropsInterface
 ) {
   return (
     <div className='flex flex-col gap-1 items-start justify-start'>
@@ -29,6 +31,11 @@ export default function SelectPrimary({
                 <option key={key} value={i.value}>{i.name}</option>
             ))}
         </select>
+        { error &&
+          <p className="text-sm text-red-600 font-light">
+            {error}
+          </p> 
+        }
     </div>
   )
 }

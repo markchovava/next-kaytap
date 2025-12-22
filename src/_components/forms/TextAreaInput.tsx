@@ -6,6 +6,7 @@ interface TextAreaInterface {
     value: string,
     placeholder: string,
     onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+    error?: string,
 }
 
 export default function TextAreaInput(
@@ -14,7 +15,8 @@ export default function TextAreaInput(
         name, 
         value, 
         placeholder, 
-        onChange
+        onChange,
+        error= "",
     }: TextAreaInterface
 ) {
 
@@ -28,6 +30,7 @@ export default function TextAreaInput(
             placeholder={placeholder} 
             className='w-full h-[8rem] px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' 
         ></textarea>
+        {error && <p className="text-sm font-light text-red-500">{error}</p> }
     </div>
   )
 

@@ -9,6 +9,13 @@ import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary';
 import TextInput from '@/_components/forms/TextInput';
 import { ButtonSubmit } from '@/_components/buttons/ButtonSubmit';
 import TextAreaInput from '@/_components/forms/TextAreaInput';
+import { useAppInfoStore } from '@/_store/useAppInfoStore';
+import ButtonClose from '@/_components/buttons/ButtonClose';
+import { _appInfoStoreAction } from '@/_api/actions/AppInfoActions';
+
+
+const title = "Edit App Information"
+
 
 const variants: Variants = {
     hidden: { opacity: 0 },
@@ -21,72 +28,82 @@ const variants: Variants = {
     },
 }
 
-interface ProfileEditModalInterface {
-    isModal: boolean,
-    setIsModal: React.Dispatch<React.SetStateAction<boolean>>
-}
 
-interface InputInterface {
-    name: string,
-    email: string,
-    address: string,
-    phone: string,
-    logo: string,
-    facebook: string,
-    instagram: string,
-    whatsapp: string,
-    tiktok: string,
-    linkedin: string,
-    twitter: string,
-}
+export default function AppInfoEditModal() {
+    const { 
+        data, 
+        errors,
+        toggleModal,
+        isSubmitting,
+        setData, 
+        getData,
+        setInputValue, 
+        setToggleModal, 
+        setError, 
+        clearErrors,
+        setIsSubmitting,
+        validateForm,
+    } = useAppInfoStore()
 
-const InputData: InputInterface = {
-    logo: "",
-    name: "",
-    email: "",
-    address: "",
-    phone: "",
-    facebook: "",
-    instagram: "",
-    whatsapp: "", // Fixed typo: was "whatsap"
-    tiktok: "",
-    linkedin: "",
-    twitter: "",
-}
-
-export default function AppInfoEditModal({
-        isModal, 
-        setIsModal
-    }: ProfileEditModalInterface
-) {
-    const [data, setData] = useState<InputInterface>(InputData)
-    const [isSubmit, setIsSubmit] = useState<boolean>(false)
-
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        setData({ ...data, [e.target.name]: e.target.value })
+    const handleToggleModal = () => {
+        setToggleModal(!toggleModal)
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        clearErrors();
         e.preventDefault();
-        setIsSubmit(true) 
+        // Validate form using store
+        const validation = validateForm();
+        if (!validation.isValid) {
+            // Show the first error as toast
+            const firstError =  validation.errors.name || 
+                validation.errors.phone || 
+                validation.errors.email ||
+                validation.errors.website ||
+                validation.errors.address;
+            toast.warn(firstError);
+            return;
+        }
+        setIsSubmitting(true);
+        const formData = {
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            website: data.website,
+            address: data.address,
+            desc: data.desc,
+            whatsapp: data.whatsapp,
+            facebook: data.facebook,
+            instagram: data.instagram,
+            tiktok: data.tiktok,
+            linkedIn: data.linkedIn,
+            twitter: data.twitter,
+        }
+        
         try {
-            // Add your form submission logic here
-            console.log('Form data:', data);
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            toast.success('Profile updated successfully!');
-            setIsModal(false);
+            const res = await _appInfoStoreAction(formData);
+            // console.log('res:::', res)
+            const {status, message} = res
+            if(status === 1) {
+                toast.success(message);
+                clearErrors();
+                setIsSubmitting(false);
+                await getData();
+                setToggleModal(false)
+                return
+            }
+            toast.warn('Something went wrong, please try again.')
+            setIsSubmitting(false);
+            return;
         } catch (error) {
-            toast.error('Failed to update profile. Please try again.');
+            toast.error('Failed to save data. Please try again.');
             console.error('Form submission error:', error);
-        } finally {
-            setIsSubmit(false);
         }
     }
    
     return (
         <AnimatePresence>
-            {isModal && (
+            {toggleModal && (
                 <motion.section
                     variants={variants}
                     initial='hidden'
@@ -98,17 +115,11 @@ export default function AppInfoEditModal({
                     <div className='w-[100%] h-[100%] absolute z-10 overflow-auto scroll__width py-[6rem]'>
                         <section className='mx-auto lg:w-[60%] w-[90%] bg-white text-black p-6 rounded-2xl'>
                             <div className='flex items-center justify-end'>
-                                <button 
-                                    onClick={() => setIsModal(false)} 
-                                    className='hover:text-red-600 transition-all ease-in-out duration-200'
-                                    type="button"
-                                >
-                                    <IoClose className='text-3xl' />
-                                </button>
+                                <ButtonClose onClick={handleToggleModal} />
                             </div>
 
                             <form onSubmit={handleSubmit}>
-                                <Heading2 title="Edit Profile" css='text-center' />
+                                <Heading2 title={title} css='text-center' />
                                 <SpacerQuaternary />
                                 <hr className="w-[100%] border-b border-gray-100" />
                                 <SpacerQuaternary />
@@ -119,7 +130,8 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.name} 
                                     placeholder='Enter your Name...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
+                                    error={errors.name}
                                 />
                                 <SpacerQuaternary />
                                 
@@ -129,7 +141,8 @@ export default function AppInfoEditModal({
                                     type="email"
                                     value={data.email} 
                                     placeholder='Enter your Email...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
+                                    error={errors.email}
                                 />
                                 <SpacerQuaternary />
                                 
@@ -139,7 +152,19 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.phone} 
                                     placeholder='Enter your Phone Number...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
+                                    error={errors.phone}
+                                />
+                                <SpacerQuaternary />
+
+                                <TextInput
+                                    type="text"
+                                    label='Website:' 
+                                    name='website' 
+                                    value={data.website} 
+                                    placeholder='Enter your Website...'
+                                    onChange={setInputValue} 
+                                    error={errors.website}
                                 />
                                 <SpacerQuaternary />
                                 
@@ -148,7 +173,8 @@ export default function AppInfoEditModal({
                                     name='address' 
                                     value={data.address} 
                                     placeholder='Enter your Address...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
+                                    error={errors.address}
                                 />
                                 <SpacerQuaternary />
                                 
@@ -158,7 +184,7 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.facebook} 
                                     placeholder='Enter Facebook Link...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
                                 />
                                 <SpacerQuaternary />
                                 
@@ -169,7 +195,7 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.instagram} 
                                     placeholder='Enter Instagram Link...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
                                 />
                                 <SpacerQuaternary />
                                 
@@ -179,7 +205,7 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.whatsapp} 
                                     placeholder='Enter WhatsApp Number...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
                                 />
                                 <SpacerQuaternary />
                                 
@@ -189,17 +215,18 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.tiktok} 
                                     placeholder='Enter TikTok Link...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue}
+                                    
                                 />
                                 <SpacerQuaternary />
                                 
                                 <TextInput
                                     label='LinkedIn:' 
-                                    name='linkedin' 
+                                    name='linkedIn' 
                                     type="text"
-                                    value={data.linkedin} 
+                                    value={data.linkedIn} 
                                     placeholder='Enter LinkedIn Link...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
                                 />
                                 <SpacerQuaternary />
                                 
@@ -209,15 +236,16 @@ export default function AppInfoEditModal({
                                     type="text"
                                     value={data.twitter} 
                                     placeholder='Enter Twitter Link...'
-                                    onChange={handleInput} 
+                                    onChange={setInputValue} 
                                 />
+                                <SpacerQuaternary />
                                 <SpacerQuaternary />
                                 
                                 <div className='flex items-center justify-center'>
                                     <ButtonSubmit 
                                         title='Submit' 
                                         css='px-12 text-white py-4' 
-                                        isSubmit={isSubmit} 
+                                        isSubmit={isSubmitting} 
                                     />
                                 </div>
                                 <SpacerQuaternary />

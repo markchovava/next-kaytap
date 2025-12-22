@@ -9,16 +9,18 @@ interface ImageInputProps {
   maxSize?: number; // in bytes
   acceptedFormats?: string[];
   label?: string,
+  src?: string | null,
 }
 
 const ImageInput: React.FC<ImageInputProps> = ({ 
   label="Image",
   onImageChange, 
+  src="",
   maxSize = 5 * 1024 * 1024, // 5MB default
   acceptedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
 }) => {
   const [dragActive, setDragActive] = useState<boolean>(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(src);
   const [fileName, setFileName] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
 

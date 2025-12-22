@@ -1,33 +1,86 @@
 "use client"
 
+import { registerAction } from "@/_api/actions/AuthActions"
 import { ButtonPrimary } from "@/_components/buttons/ButtonPrimary"
 import ButtonSecondary from "@/_components/buttons/ButtonSecondary"
 import TextInput from "@/_components/forms/TextInput"
 import Heading3 from "@/_components/headings/Heading3"
 import Logo from "@/_components/Logo"
 import SpacerQuaternary from "@/_components/spacers/SpacerQuaternary"
+import { useAuthStore } from "@/_store/useAuthStore"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { toast } from "react-toastify"
 
 
-const InputData = {
-    email: "",
-    password: "",
-    passwordConfirm: "",
-}
 
-interface InputDataInterface {
-    email: string,
-    password: string,
-    passwordConfirm: string,
-}
+const title = "Register"
+
 
 export default function RegisterPage() {
-     const [data, setData] = useState<InputDataInterface>(InputData)
-        
-        const handleInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-            setData({ ...data, [e.target.name]: e.target.value })
+    const router = useRouter();
+    const { 
+        data, 
+        errors, 
+        isSubmitting, 
+        clearErrors, 
+        validateRegisterForm, 
+        setIsSubmitting, 
+        setData, 
+        setInputValue,
+        resetData,
+    } = useAuthStore();
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        clearErrors();
+        e.preventDefault();
+        // Clear previous errors
+        clearErrors();
+        // Validate form using store
+        const validation = validateRegisterForm();
+        if (!validation.isValid) {
+            // Show the first error as toast
+            const firstError = validation.errors.email || 
+                validation.errors.password ||
+                validation.errors.passwordConfirm
+            toast.warn(firstError);
+            return;
         }
+        setIsSubmitting(true);
+        const formData = {
+            email: data.email,
+            password: data.password,
+        }
+        try {
+            const res = await registerAction(formData);
+            //console.log('res', res)
+            const {message, status} = res;
+            switch(status){
+                case 1:
+                    toast.success(message);
+                    clearErrors();
+                    resetData();
+                    router.push('/login')
+                    setIsSubmitting(false);
+                    return
+                case 0:
+                    toast.warn(message);
+                    setIsSubmitting(false);
+                    return
+                default:
+                    toast.warn("Something went wrong, please try again.")
+                    setIsSubmitting(false);
+                    return
+            }
+        } catch (error) {
+            toast.error('Failed to save data. Please try again.');
+            console.error('Form submission error:', error);
+        } 
+    }
+        
+        
   return (
     <>
     <section>
@@ -42,39 +95,50 @@ export default function RegisterPage() {
                 <hr className="w-[100%] border-b border-gray-100" />
                 <SpacerQuaternary />
 
-                <Heading3 title="Register" />
+                <Heading3 title={title} />
                 
-                <SpacerQuaternary />
-                <TextInput 
-                    label='Email' 
-                    name='email' 
-                    type="email"
-                    value={data.email} 
-                    placeholder='Enter your Email...'
-                    onChange={handleInput} 
-                />
-                <SpacerQuaternary />
-                <TextInput 
-                    type="password"
-                    label='Password:' 
-                    name='password' 
-                    value={data.email} 
-                    placeholder='Enter your Password...'
-                    onChange={handleInput} 
-                />
-                <SpacerQuaternary />
-                <TextInput 
-                    type="password"
-                    label='Confirm Password:' 
-                    name='passwordConfirm' 
-                    value={data.email} 
-                    placeholder='Enter your Password Confirmation...'
-                    onChange={handleInput} 
-                />
+                <form onSubmit={handleSubmit} className="flex-1 w-[100%]">
+                    <SpacerQuaternary />
+                    <TextInput 
+                        label='Email' 
+                        name='email' 
+                        type="email"
+                        value={data.email} 
+                        placeholder='Enter your Email...'
+                        onChange={setInputValue} 
+                        error={errors.email}
+                    />
+                    <SpacerQuaternary />
+                    <TextInput 
+                        type="password"
+                        label='Password' 
+                        name='password' 
+                        value={data.password} 
+                        placeholder='Enter your Password...'
+                        onChange={setInputValue} 
+                        error={errors.password}
+                    />
+                    <SpacerQuaternary />
+                    <TextInput 
+                        type="password"
+                        label='Confirm Password' 
+                        name='passwordConfirm' 
+                        value={data.passwordConfirm} 
+                        placeholder='Enter your Password Confirmation...'
+                        onChange={setInputValue} 
+                        error={errors.passwordConfirm}
+                    />
+                    <SpacerQuaternary />
+                    <SpacerQuaternary />
+
+                    <div className="flex items-center justify-center w-full">
+                        <ButtonPrimary 
+                            status={isSubmitting}
+                            title="Submit" 
+                            css="text-white px-12 py-3" />
+                    </div>
+                </form>
                
-                <SpacerQuaternary />
-                <SpacerQuaternary />
-                <ButtonPrimary title="Submit" css="text-white px-12 py-3" />
                 <SpacerQuaternary />
                 <hr className="w-[100%] border-b border-gray-100" />
                 <SpacerQuaternary />

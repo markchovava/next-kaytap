@@ -4,7 +4,7 @@ export interface UserInterface{
     name: string,
     phone: string,
     isAdmin: string,
-    roleLevel: string | number, 
+    roleLevel: string, 
     email: string,
     code: string,
     password: string,

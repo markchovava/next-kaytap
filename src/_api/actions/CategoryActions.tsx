@@ -70,6 +70,23 @@ export async function _categoryListAction() {
     return await res.json();
 }
 
+export async function _categoryPaginateAction(url: string) {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(url, {
+      'method': 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    return await res.json();
+}
+
 export async function _categoryAllAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
@@ -129,10 +146,8 @@ export async function _categoryStoreAction(data: any) {
     }
     const res = await fetch(`${baseURL}api/category`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });
@@ -148,10 +163,8 @@ export async function _categoryUpdateAction(id: string | number, data: any) {
     }
     const res = await fetch(`${baseURL}api/category/${id}`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });

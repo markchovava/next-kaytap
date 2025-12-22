@@ -7,6 +7,7 @@ export interface AuthInterface{
     email: string,
     code: string,
     password: string,
+    passwordConfirm: string,
     updatedAt: string,
     createdAt: string,
 }
@@ -21,6 +22,7 @@ export const AuthEntity: AuthInterface = {
     email: "",
     code: "",
     password: "",
+    passwordConfirm: "",
     updatedAt: "",
     createdAt: "",
 }

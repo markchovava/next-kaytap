@@ -1,56 +1,88 @@
 "use client"
-
+import { loginAction } from "@/_api/actions/AuthActions"
 import ButtonSecondary from "@/_components/buttons/ButtonSecondary"
 import { ButtonSubmit } from "@/_components/buttons/ButtonSubmit"
 import TextInput from "@/_components/forms/TextInput"
 import Heading3 from "@/_components/headings/Heading3"
 import Logo from "@/_components/Logo"
 import SpacerQuaternary from "@/_components/spacers/SpacerQuaternary"
+import { AuthTokenCookieName, setTheCookie, UserCookieName } from "@/_cookie/CookiesClient"
+import { useAuthStore } from "@/_store/useAuthStore"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
 
 
-const InputData = {
-    email: "",
-    password: "",
-    passwordConfirm: "",
-}
+const title = "Login"
 
-interface InputDataInterface {
-    email: string,
-    password: string,
-    passwordConfirm: string,
-}
 
 export default function LoginPage() {
-    const [data, setData] = useState<InputDataInterface>(InputData)
-    const [isSubmit, setIsSubmit] = useState<boolean>(false)
-        
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-        setData({ ...data, [e.target.name]: e.target.value })
-    }
-
+    const router = useRouter();
+    const { 
+        data, 
+        errors, 
+        isSubmitting, 
+        clearErrors, 
+        validateLoginForm, 
+        setIsSubmitting, 
+        setInputValue,
+        resetData,
+        setError,
+    } = useAuthStore();
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-            e.preventDefault();
-            setIsSubmit(true)
-            
-            try {
-                // Add your form submission logic here
-                console.log('Form data:', data);
-                
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                toast.success('Profile updated successfully!');
-            } catch (error) {
-                toast.error('Failed to update profile. Please try again.');
-                console.error('Form submission error:', error);
-            } finally {
-                setIsSubmit(false);
-            }
+        e.preventDefault();
+        clearErrors();
+        e.preventDefault();
+        // Clear previous errors
+        clearErrors();
+        // Validate form using store
+        const validation = validateLoginForm();
+        if (!validation.isValid) {
+            // Show the first error as toast
+            const firstError = validation.errors.email || validation.errors.password
+            toast.warn(firstError);
+            return;
+        }
+        setIsSubmitting(true);
+        const formData = {
+            email: data.email,
+            password: data.password,
+        }
+        try {
+            const res = await loginAction(formData);
+            //console.log('res', res)
+            const {status, message, authToken, data} = res
+            switch(status){
+                case 0:
+                    toast.warn(message);
+                    setError('email', message)
+                    setIsSubmitting(false);
+                    return
+                case 1:
+                    await setTheCookie(AuthTokenCookieName, authToken)
+                    await setTheCookie(UserCookieName, data)
+                    router.push('/admin')
+                    toast.success(message);
+                    clearErrors();
+                    resetData();
+                    setIsSubmitting(false);
+                    return
+                case 2:
+                    toast.warn(message);
+                    setError('password', message)
+                    setIsSubmitting(false);
+                    return
+                default:
+                    toast.success('Something went wrong, please try again.');
+                    setIsSubmitting(false);
+                    return
+            } 
+        } catch (error) {
+            toast.error('Failed to save data. Please try again.');
+            console.error('Form submission error:', error);
         }
 
+    }
 
   return (
     <>
@@ -67,7 +99,7 @@ export default function LoginPage() {
                 <SpacerQuaternary />
 
                 <form onSubmit={handleSubmit} className="w-full">
-                    <Heading3 title="Login" css="text-center" />
+                    <Heading3 title={title} css="text-center" />
                     <SpacerQuaternary />
                     <TextInput 
                         label='Email' 
@@ -75,16 +107,18 @@ export default function LoginPage() {
                         type="email"
                         value={data.email} 
                         placeholder='Enter your Email...'
-                        onChange={handleInput} 
+                        onChange={setInputValue}
+                        error={errors.email}
                     />
                     <SpacerQuaternary />
                     <TextInput 
                         type="password"
                         label='Password' 
                         name='password' 
-                        value={data.email} 
+                        value={data.password} 
                         placeholder='Enter your Password...'
-                        onChange={handleInput} 
+                        onChange={setInputValue} 
+                        error={errors.password}
                     />
                     <Link href="#" className="w-full">
                         <p className=" w-[100%] font-light text-start font-sm hover:underline text-blue-800">
@@ -92,8 +126,11 @@ export default function LoginPage() {
                         </p>
                     </Link>
                     <SpacerQuaternary />
-                    <div className="flex items-center justify-center">
-                        <ButtonSubmit title="Submit" isSubmit={isSubmit} css="text-white px-12 py-3" />
+                    <div className="w-full flex items-center justify-center">
+                        <ButtonSubmit 
+                            title="Submit" 
+                            isSubmit={isSubmitting} 
+                            css="text-white px-12 py-3" />
                     </div>
                     <SpacerQuaternary />
                 </form>

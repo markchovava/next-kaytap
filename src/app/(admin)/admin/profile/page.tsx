@@ -3,6 +3,8 @@ import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
 import BreadCrumbs from "@/_components/BreadCrumbs";
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
+import { _checkAuthAction, _profileViewAction } from "@/_api/actions/AuthActions";
+import ProfileEditModal from "./_components/ProfileEditModal";
 
 
 export const metadata: Metadata = {
@@ -14,18 +16,24 @@ export const metadata: Metadata = {
 const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
     {id: 2, name: "Dashboard", href:"/admin"},
-    {id: 2, name: "Settings", href:"/admin/settings"},
-    {id: 2, name: "User Profile", href:"/admin/profile"},
+    {id: 3, name: "Settings", href:"/admin/settings"},
+    {id: 4, name: "User Profile", href:"/admin/profile"},
 ]
 
 
 
-export default function page() {
+export default async function page() {
+  await _checkAuthAction();
+  const [ authData ] = await Promise.all([ _profileViewAction() ]);
+
   return (
     <>
-    <BreadCrumbs dbData={ BreadCrumbsData} />
+    <BreadCrumbs dbData={BreadCrumbsData} />
     <SpacerPrimary />
-        <ProfilePage />
+        <ProfilePage dbData={authData} />
+    <SpacerPrimary />
+
+    <ProfileEditModal/>
     <SpacerPrimary />
     </>
   )

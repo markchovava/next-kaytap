@@ -13,9 +13,9 @@ const nextConfig: NextConfig = {
     // Or if using Next.js 12.3+, you can use remotePatterns:
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        port: '',
+        protocol: 'http',
+        hostname: '127.0.0.1',
+        port: '8000',
         pathname: '/**',
       },
     ],
@@ -23,3 +23,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

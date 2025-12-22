@@ -27,6 +27,23 @@ export async function _userListAction() {
     return await res.json();
 }
 
+export async function _userPaginateAction(url: string) {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(url, {
+      'method': 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    return await res.json();
+}
+
 export async function _userSearchAction(search: string) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');

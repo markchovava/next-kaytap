@@ -3,6 +3,7 @@ import SettingsPage from "./_components/SettingsPage";
 import BreadCrumbs from "@/_components/BreadCrumbs";
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
+import { _checkAuthAction } from "@/_api/actions/AuthActions";
 
 
 export const metadata: Metadata = {
@@ -18,7 +19,8 @@ const BreadCrumbsData = [
 ]
 
 
-export default function page() {
+export default async function page() {
+  await _checkAuthAction();
   return (
     <>
     <BreadCrumbs dbData={BreadCrumbsData} />

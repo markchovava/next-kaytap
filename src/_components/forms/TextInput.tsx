@@ -1,5 +1,4 @@
 "use client"
-
 interface TextInputInterface {
     type?: string,
     label?: string
@@ -7,10 +6,17 @@ interface TextInputInterface {
     value: string | number,
     placeholder: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    error?: string
 }
 
 export default function TextInput({
-  type="text", label, name, value, placeholder, onChange
+  type="text", 
+  label, 
+  name, 
+  value, 
+  placeholder, 
+  onChange, 
+  error=""
 }: TextInputInterface
 ) {
 
@@ -24,6 +30,11 @@ export default function TextInput({
             onChange={onChange}
             placeholder={placeholder} 
             className='w-full px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' />
+        {error &&
+          <p className="text-sm text-red-500 font-light">
+            {error}
+          </p>
+        }
     </div>
   )
 }

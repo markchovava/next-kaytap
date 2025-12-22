@@ -1,21 +1,31 @@
+import { UserEntity, UserInterface } from "./UserEntity";
+
+
 export interface ServiceInterface{
-    id: string | number,
-    userId: string | number,
-    name: string,
-    img: string | File,
-    desc: string,
-    priority: string | number,
-    updatedAt: string,
-    createdAt: string,
+    id: string | number, 
+    userId: string | number,   
+    name: string,  
+    desc: string,   
+    img: string, 
+    imgFile: null | File, 
+    priority: number | string,    
+    createdAt: string, 
+    updatedAt: string, 
+    user: UserInterface,
 }
 
-export const ServiceEntity = {
+
+export const ServiceEntity: ServiceInterface = {
     id: "",
-    userId: "",
-    name: "",
-    img: "",
-    desc: "",
-    priority: "",
+    userId: "",  
+    name: "", 
+    desc: "",  
+    img: "",  
+    imgFile: null,  
+    priority: "",  
+    createdAt: "",  
     updatedAt: "",
-    createdAt: "",
+    user: UserEntity,
 }
+
+

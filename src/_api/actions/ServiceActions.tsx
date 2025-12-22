@@ -1,4 +1,5 @@
 "use server";
+
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -69,6 +70,23 @@ export async function _serviceListAction() {
     return await res.json();
 }
 
+export async function _servicePaginateAction(url: string) {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(url, {
+      'method': 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    return await res.json();
+}
+
 export async function _serviceAllAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
@@ -128,10 +146,8 @@ export async function _serviceStoreAction(data: any) {
     }
     const res = await fetch(`${baseURL}api/service`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });
@@ -147,10 +163,8 @@ export async function _serviceUpdateAction(id: string | number, data: any) {
     }
     const res = await fetch(`${baseURL}api/service/${id}`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });

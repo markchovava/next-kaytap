@@ -4,7 +4,7 @@ import { BsFileEarmarkBarGraph } from "react-icons/bs";
 import { MdOutlineCategory } from "react-icons/md";
 import { PiProjectorScreenChartBold } from "react-icons/pi";
 import { RxBorderSplit } from "react-icons/rx";
-
+import { MdHomeRepairService } from "react-icons/md";
 
 export const AdminData = [
     {
@@ -54,5 +54,13 @@ export const AdminData = [
         description: "All Projects", 
         icon: <PiProjectorScreenChartBold className="text-[2.5rem]" />,
         css: "bg-gradient-to-br from-indigo-400 to-indigo-800"
+    },
+    {
+        id: 7, 
+        title: "Services", 
+        href:"/admin/service", 
+        description: "All Services", 
+        icon: <MdHomeRepairService className="text-[2.5rem]" />,
+        css: "bg-gradient-to-br from-green-400 to-green-800"
     },
 ]
