@@ -1,3 +1,7 @@
+import { ProductDetailInterface } from "./ProductDetailEntity"
+import { ProductImageEntity, ProductImageInterface } from "./ProductImageEntity"
+import { UserEntity, UserInterface } from "./UserEntity"
+
 export interface ProductInterface{
     id: string | number, 
     userId: string | number, 
@@ -9,6 +13,9 @@ export interface ProductInterface{
     status: string, 
     updatedAt: string, 
     createdAt: string, 
+    user: UserInterface,
+    productImages: ProductImageInterface[]
+    productDetails: ProductDetailInterface[]
 }
 
 
@@ -23,6 +30,9 @@ export const ProductEntity: ProductInterface = {
     desc: "",
     updatedAt: "", 
     createdAt: "", 
+    user: UserEntity,
+    productImages: [],
+    productDetails: [],
 }
 
 

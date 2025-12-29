@@ -7,8 +7,8 @@ import { FaEye } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Link from "next/link";
 import LoaderPrimary from "@/_components/loaders/LoaderPrimary";
-import { useCategoryStore } from "@/_store/useCategoryStore";
-import { _categoryDeleteAction } from "@/_api/actions/CategoryActions";
+import { useProjectCategoryStore } from "@/_store/useProjectCategoryStore";
+import { _projectCategoryDeleteAction } from "@/_api/actions/ProjectCategoryActions";
 import { toast } from "react-toastify";
 import { ItemResponsive } from "@/_components/items/ItemResponsive";
 import NoDataPrimary from "@/_components/no-datas/NoDataPrimary";
@@ -18,7 +18,7 @@ import { GoDotFill } from "react-icons/go";
  
 
 
-export default function CategoryListPage({ dbData }: {dbData: any}) {
+export default function ProjectCategoryListPage({ dbData }: {dbData: any}) {
       const { 
           isLoading, 
           search, 
@@ -34,7 +34,7 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
           getSearchDatalist,
           getPaginatedDatalist,
           setIsLoading,
-      } = useCategoryStore()
+      } = useProjectCategoryStore()
   
       useEffect(() => {
           setDataList(dbData)
@@ -47,7 +47,7 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
       async function handleDelete(id: string | number){
         setIsLoading(true)
         try{
-            const res = await _categoryDeleteAction(id) 
+            const res = await _projectCategoryDeleteAction(id) 
             const {data, status, message} = res
             if(status === 1) {
               toast.success(message)
@@ -70,10 +70,6 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
   
       const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          if(!search){
-            toast.warn('Search input is required.')
-            return
-          }
           try {
             await getSearchDatalist(search)
           } catch (error) {
@@ -136,13 +132,13 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
                             </p>
                           </div>
                           <div className="flex-2 border-r border-gray-400 px-2 py-3">
-                            { i.user.name ? i.user.name : i.user.email }
+                            { i?.user?.name ? i?.user?.name : i?.user?.email }
                           </div>
                         
                           <div className="flex-1 px-2 py-3 relative z-50 flex items-center justify-end gap-2 text-gray-800">
                           
                             <button className="cursor-pointer group">
-                                <Link href={`/admin/category/${i.id}`}>
+                                <Link href={`/admin/project-category/${i.id}`}>
                                   <FaEye className={`hover:scale-110 ease-initial transition-all duration-200 
                                     text-lg group-hover:text-green-600`} />
                                 </Link>
@@ -213,12 +209,14 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
                         </p>
                       <div className=" flex items-center justify-end gap-3">
                         <button className="cursor-pointer group">
-                          <Link href={`/admin/category/${i.id}`}>
+                          <Link href={`/admin/project-category/${i.id}`}>
                             <FaEye className={`hover:scale-110 ease-initial transition-all duration-200 
                               text-lg group-hover:text-green-600`} />
                           </Link>
                         </button>
-                        <button onClick={() => handleDelete(i.id)} className="cursor-pointer group">
+                        <button 
+                          onClick={() => handleDelete(i.id)} 
+                          className="cursor-pointer group">
                           <FaDeleteLeft className={`hover:scale-110 ease-initial transition-all duration-200 
                             text-lg group-hover:text-red-600`} />
                         </button>

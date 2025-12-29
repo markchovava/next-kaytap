@@ -3,18 +3,17 @@ import BreadCrumbs from "@/_components/BreadCrumbs";
 import { Metadata } from "next";
 import AppInfoData from "../../../../../_data/sample/AppInfoData.json"
 import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
-import ProductViewPage from "./_components/ProductViewPage";
+import CategoryViewPage from "./_components/ProjectCategoryViewPage";
 import { _checkAuthAction } from "@/_api/actions/AuthActions";
-import { _productViewAction } from "@/_api/actions/ProductActions";
-import ProductEditModal from "./_components/ProductEditModal";
-
+import { _categoryViewAction } from "@/_api/actions/CategoryActions";
+import CategoryEditModal from "./_components/ProjectCategoryEditModal";
+import { _projectCategoryViewAction } from "@/_api/actions/ProjectCategoryActions";
 
 
 export const metadata: Metadata = {
-  title: `${AppInfoData.name} - View Product`,
+  title: `${AppInfoData.name} - View Project Category`,
   description: AppInfoData.description,
 };
-
 
 interface PropsInterface {
     params: Promise<{ 
@@ -24,14 +23,15 @@ interface PropsInterface {
 
 export default async function page({ params }: PropsInterface) {
   const { id } = await params;
+  
   await _checkAuthAction()
-  const [ productData ] = await Promise.all([  _productViewAction(id) ])
-
+  const [ categoryData ] = await Promise.all([  _projectCategoryViewAction(id) ])
+  
   const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
     {id: 2, name: "Dashboard", href:"/admin"},
-    {id: 3, name: "Products", href:"/admin/product"},
-    {id: 4, name: "View Product", href: `/admin/product/${id}`},
+    {id: 3, name: "Project Category List", href:"/admin/project-category"},
+    {id: 4, name: "View Project Category", href:`/admin/project-category/${id}`},
   ]
 
 
@@ -39,10 +39,9 @@ export default async function page({ params }: PropsInterface) {
     <>
       <BreadCrumbs dbData={BreadCrumbsData} />
       <SpacerPrimary />
-      <ProductViewPage id={id} dbData={productData} />
+      <CategoryViewPage dbData={categoryData} id={id} />
       <SpacerPrimary />
-
-      <ProductEditModal id={id} />
+      <CategoryEditModal id={id} />
     </>
   )
 }

@@ -2,12 +2,16 @@
 import ButtonPaginate from "@/_components/buttons/ButtonPaginate";
 import ButtonQuaternary from "@/_components/buttons/ButtonQuaternary"
 import SpacerTertiary from "@/_components/spacers/SpacerTertiary"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { IoSearch } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Link from "next/link";
 import ProjectAddModal from "./ProjectAddModal";
+import LoaderPrimary from "@/_components/loaders/LoaderPrimary";
+import { _projectDeleteAction } from "@/_api/actions/ProjectActions";
+import { useProjectStore } from "@/_store/useProjectStore";
+import { toast } from "react-toastify";
 
 
 const users = [
@@ -17,8 +21,74 @@ const users = [
   ];
 
 
-export default function ProjectListPage() {
-  const [isModal, setIsModal] = useState<boolean>(false);
+export default function ProjectListPage({ dbData }: { dbData: any}) {
+    const { 
+        isLoading, 
+        search, 
+        isSearching, 
+        setSearch, 
+        setToggleModal,
+        toggleModal,
+        setDataList,
+        meta,
+        links,
+        dataList,
+        getDataList,
+        getSearchDatalist,
+        getPaginatedDatalist,
+        setIsLoading,
+    } = useProjectStore()
+
+    useEffect(() => {
+        setDataList(dbData)
+    }, [])
+
+    const handleToggleModal = () => {
+        setToggleModal(!toggleModal)
+    }
+      
+    async function handleDelete(id: string | number){
+      setIsLoading(true)
+      try{
+          const res = await _projectDeleteAction(id) 
+          const {data, status, message} = res
+          if(status === 1) {
+            toast.success(message)
+            await getDataList()
+            setIsLoading(false)
+            return
+          }
+          toast.warn('Something went wrong, please try again.')
+          setIsLoading(false)
+          return
+      }catch(error){
+        console.error('Delete error: ', error);
+      } 
+
+    }
+  
+    async function handlePaginate(url: string) {
+        await getPaginatedDatalist(url)
+    }
+  
+    const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if(!search){
+          toast.warn('Search input is required.')
+          return
+        }
+        try {
+          await getSearchDatalist(search)
+        } catch (error) {
+            console.error('Form submission error:', error);
+        }
+    }
+
+    if(isLoading){
+        return (
+          <LoaderPrimary />
+        )
+    }
 
 
   return (
@@ -38,7 +108,7 @@ export default function ProjectListPage() {
               </button>
             </form>
             <ButtonQuaternary 
-              onClick={() => setIsModal(!isModal)}
+              onClick={handleToggleModal}
               title='Add Project' 
               css="px-8 py-3 text-white" 
             />
@@ -95,7 +165,7 @@ export default function ProjectListPage() {
             />
           </section>
         </section>
-        <ProjectAddModal isModal={isModal} setIsModal={setIsModal} />
+        
       </div>
     </>
   )

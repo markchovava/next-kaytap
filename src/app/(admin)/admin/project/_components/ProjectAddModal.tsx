@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
@@ -14,6 +14,11 @@ import ImageInput from '@/_components/forms/ImageInput';
 import { ProjectEntity } from '@/_data/entity/ProjectEntity';
 import { ProjectInterface } from '@/_data/interface/ProjectInterface';
 import { ProjectCategoryData, ProjectStatusData } from '@/_data/sample/ProjectsData';
+import { _projectStoreAction } from '@/_api/actions/ProjectActions';
+import { useProjectImageStore } from '@/_store/useProjectImageStore';
+import { useProjectStore } from '@/_store/useProjectStore';
+import ButtonClose from '@/_components/buttons/ButtonClose';
+import { ProjectImageAdd } from './ProjectImageAdd';
 
 
 const variants: Variants = {
@@ -30,63 +35,122 @@ interface ProjectAddModalInterface{
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ProjectAddModal({
-        isModal, 
-        setIsModal
-    }: ProjectAddModalInterface
-) {
-    const [data, setData] = useState<ProjectInterface>({
-        ...ProjectEntity,
-        images: [
-            { id: 0, image: "", imageFile: null, projectId: 0 },
-            { id: 1, image: "", imageFile: null, projectId: 0 },
-            { id: 2, image: "", imageFile: null, projectId: 0 },
-            { id: 3, image: "", imageFile: null, projectId: 0 }
-        ]
-    })
-    const [isSubmit, setIsSubmit] = useState<boolean>(false)
+export default function ProjectAddModal() {
+    const { 
+            data, 
+            isSubmitting, 
+            toggleModal,
+            setInputValue,
+            setData,
+            validateForm,
+            setIsSubmitting,
+            setToggleModal,
+            clearErrors,
+            getDataList,
+            resetData,
+        } = useProjectStore()
+    
+        const { 
+            imagesList, 
+            initializeImages,
+            resetImages, 
+        } = useProjectImageStore();
+        
 
-    const handleInput = (
-        e: React.ChangeEvent<HTMLInputElement> 
-        | React.ChangeEvent<HTMLTextAreaElement>
-        | React.ChangeEvent<HTMLSelectElement> ) => {
-        setData({ ...data, [e.target.name]: e.target.value })
-    }
-
-    const handleImageChange = (file: File | null, index: number): void => {
-        const updatedImages = [...(data.images || [])];
-        updatedImages[index] = { 
-            ...updatedImages[index], 
-            imageFile: file 
-        };
-        setData({ ...data, images: updatedImages });
-    };
-
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    
+        // Initialize images array when modal opens
+        useEffect(() => {
+            if (toggleModal && imagesList.length === 0) {
+                initializeImages();
+            }
+        }, [toggleModal, imagesList.length, initializeImages]);
+    
+        const handleToggleModal = () => {
+            setToggleModal(!toggleModal)
+        }
+    
+        async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
             e.preventDefault();
-            setIsSubmit(true)
+            setIsSubmitting(true);
+            clearErrors();
+            
+            // Validate form using store
+            const validation = validateForm();
+            if (!validation.isValid) {
+                // Show the first error as toast
+                const firstError = validation.errors.name || 
+                    validation.errors.status || 
+                    validation.errors.address ||
+                    validation.errors.projectCategoryId;
+                toast.warn(firstError);
+                setIsSubmitting(false);
+                return;
+            }
             
             try {
-                // Add your form submission logic here
-                console.log('Form data:', data);
+                // Prepare form data with images
+                const formData = new FormData();
                 
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                // Append product data
+                formData.append('name', data.name);
+                formData.append('desc', data.desc);
+                formData.append('sku', data.status);
+                formData.append('price', data.address);
+                formData.append('quantity', data.projectCategoryId.toString());
+                formData.append('status', data.status);
                 
-                toast.success('Project added successfully!');
-                setIsModal(false);
+                // Append images with proper indexing
+                let imageIndex = 0;
+                imagesList.forEach((img) => {
+                    if (img.imgFile) {
+                        formData.append(`images[${imageIndex}]`, img.imgFile);
+                        formData.append(`priorities[${imageIndex}]`, img.priority.toString());
+                        imageIndex++;
+                    }
+                });
+                
+                
+                /*  console.log('Form data prepared');
+                console.log("DETAIL LIST:", detailList);
+                console.log('Images to upload:', imagesList.filter(img => img.imgFile)); */
+                
+                // Debug: Log FormData contents
+                for (let pair of formData.entries()) {
+                    console.log(pair[0], pair[1]);
+                }
+                
+                // API call
+                const res = await _projectStoreAction(formData);
+                console.log("RES:", res);
+                
+                const { status, message } = res;
+                
+                switch(status) {
+                    case 1:
+                        toast.success(message);
+                        await getDataList();
+                        clearErrors();
+                        resetData();
+                        resetImages();
+                        setIsSubmitting(false);
+                        setToggleModal(false);
+                        break;
+                    default:
+                        toast.error(message || 'Something went wrong, please try again.');
+                        setIsSubmitting(false);
+                        break;
+                } 
             } catch (error) {
-                toast.error('Failed to add project. Please try again.');
+                toast.error('Failed to save data. Please try again.');
                 console.error('Form submission error:', error);
-            } finally {
-                setIsSubmit(false);
+                setIsSubmitting(false);
             }
-    }
+        }
     
     return (
         <>
         <AnimatePresence>
-            {isModal &&
+            {toggleModal &&
             <motion.section
                 variants={variants}
                 initial='hidden'
@@ -97,9 +161,7 @@ export default function ProjectAddModal({
                 <div className='w-[100%] h-[100%] absolute z-10 overflow-auto scroll__width py-[6rem]'>
                 <section className='mx-auto lg:w-[50%] w-[90%] bg-white text-black p-6 rounded-2xl'>
                     <div className='flex items-center justify-end'>
-                        <button onClick={() => setIsModal(false)} className='hover:text-red-600 transition-all ease-in-out duration-200'>
-                            <IoClose className='text-3xl' />
-                        </button>
+                       <ButtonClose onClick={handleToggleModal} />
                     </div>
 
                     <form onSubmit={handleSubmit} >
@@ -108,21 +170,7 @@ export default function ProjectAddModal({
                         <hr className="w-[100%] border-b border-gray-100" />
                         <SpacerQuaternary />
                         
-                        {/* Image Upload Section */}
-                        <div className="mb-6">
-                            <h3 className="text-lg font-semibold mb-4">Project Images (Up to 4)</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                {Array.from({ length: 4 }, (_, index) => (
-                                    <div key={index} className="">
-                                        <ImageInput
-                                            onImageChange={(file) => handleImageChange(file, index)}
-                                            maxSize={5 * 1024 * 1024} // 5MB
-                                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <ProjectImageAdd />
 
                         <SpacerQuaternary />
                         <TextInput
@@ -131,45 +179,45 @@ export default function ProjectAddModal({
                             type="text"
                             value={data.name} 
                             placeholder='Enter project name...'
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
                         />
                         <SpacerQuaternary />
                         <TextInput
                             label='Location:' 
-                            name='location' 
+                            name='address' 
                             type="text"
-                            value={data.location} 
-                            placeholder='Enter project location...'
-                            onChange={handleInput} 
+                            value={data.address} 
+                            placeholder='Enter Project address...'
+                            onChange={setInputValue} 
                         />
                         <SpacerQuaternary />
                         <SelectPrimary
                             label="Status" 
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
                             name="status" 
                             dbData={ProjectStatusData}
                         />
                         <SpacerQuaternary />
                         <SelectPrimary
                             label="Category" 
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
                             name="category" 
                             dbData={ProjectCategoryData}
                         />
                         <SpacerQuaternary />
                         <TextAreaInput
                             label='Description:' 
-                            name='description' 
-                            value={data.description} 
-                            placeholder='Enter project description...'
-                            onChange={handleInput} 
+                            name='desc' 
+                            value={data.desc} 
+                            placeholder='Enter project Description...'
+                            onChange={setInputValue} 
                         />
                         <SpacerQuaternary />
                         <div className='flex items-center justify-center'>
                             <ButtonSubmit 
                                 title='Add Project' 
                                 css='px-12 text-white py-4' 
-                                isSubmit={isSubmit} 
+                                isSubmit={isSubmitting} 
                             />
                         </div>
                         <SpacerQuaternary />

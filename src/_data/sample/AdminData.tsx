@@ -35,9 +35,17 @@ export const AdminData = [
         id: 4, 
         title: "Categories", 
         href:"/admin/category", 
-        description: "All Categories", 
+        description: "All Product Categories", 
         icon: <MdOutlineCategory className="text-[2.5rem]" />,
-        css: "bg-gradient-to-br from-blue-400 to-blue-800"
+        css: "bg-gradient-to-br from-green-400 to-green-800"
+    },
+    {
+        id: 8, 
+        title: "Categories", 
+        href:"/admin/project-category", 
+        description: "All Project Categories", 
+        icon: <MdOutlineCategory className="text-[2.5rem]" />,
+        css: "bg-gradient-to-br from-fuchsia-400 to-fuchsia-800"
     },
     {
         id: 5, 

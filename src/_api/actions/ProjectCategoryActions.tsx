@@ -5,8 +5,9 @@ import { redirect } from "next/navigation";
 import { baseURL } from "../baseURL";
 
 
-export async function projectListAction() {
-    const res = await fetch(`${baseURL}project`, {
+
+export async function projectCategoryListAction() {
+    const res = await fetch(`${baseURL}project-category`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -16,8 +17,8 @@ export async function projectListAction() {
     return await res.json();
 }
 
-export async function projectAllAction() {
-    const res = await fetch(`${baseURL}project-all`, {
+export async function projectCategoryViewAction(id: number | string) {
+    const res = await fetch(`${baseURL}project-category/${id}`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -27,8 +28,8 @@ export async function projectAllAction() {
     return await res.json();
 }
 
-export async function projectViewAction(id: number | string) {
-    const res = await fetch(`${baseURL}project/${id}`, {
+export async function projectCategorySearchAction(search: string) {
+    const res = await fetch(`${baseURL}project-category-search?search=${search}`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -38,27 +39,17 @@ export async function projectViewAction(id: number | string) {
     return await res.json();
 }
 
-export async function projectSearchAction(search: string) {
-    const res = await fetch(`${baseURL}project-search?search=${search}`, {
-      'method': 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    });
-    return await res.json();
-}
 
 /*********************************
 *  AUTHENICATED
 *********************************/
-export async function _projectListAction() {
+export async function _projectCategoryListAction() {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
       redirect('/login'); 
     }
-    const res = await fetch(`${baseURL}api/project`, {
+    const res = await fetch(`${baseURL}api/project-category`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -69,13 +60,13 @@ export async function _projectListAction() {
     return await res.json();
 }
 
-export async function _projectPaginateAction(url: string) {
+export async function _projectCategoryPaginateAction(url: string) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
       redirect('/login'); 
     }
-    const res = await fetch(url, {
+    const res = await fetch( url, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -86,13 +77,13 @@ export async function _projectPaginateAction(url: string) {
     return await res.json();
 }
 
-export async function _projectAllAction() {
+export async function _projectCategorySearchAction(search: string) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
       redirect('/login'); 
     }
-    const res = await fetch(`${baseURL}api/project-all`, {
+    const res = await fetch(`${baseURL}api/project-category-search?search=${search}`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -103,13 +94,13 @@ export async function _projectAllAction() {
     return await res.json();
 }
 
-export async function _projectSearchAction(search: string) {
+export async function _projectCategoryViewAction(id: string | number) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
       redirect('/login'); 
     }
-    const res = await fetch(`${baseURL}api/project-search?search=${search}`, {
+    const res = await fetch(`${baseURL}api/project-category/${id}`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',
@@ -120,64 +111,13 @@ export async function _projectSearchAction(search: string) {
     return await res.json();
 }
 
-export async function _projectViewAction(id: number | string) {
+export async function _projectCategoryDeleteAction(id: string | number) {
     const cookieStore = await cookies();
     const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
     if(!authToken?.value){ 
       redirect('/login'); 
     }
-    const res = await fetch(`${baseURL}api/project/${id}`, {
-      'method': 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authToken?.value}`,
-      }
-    });
-    return await res.json();
-}
-
-export async function _projectStoreAction(data: any) {
-    const cookieStore = await cookies();
-    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ 
-      redirect('/login'); 
-    }
-    const res = await fetch(`${baseURL}api/project`, {
-      'method': 'POST',
-      'body': data,
-      headers: {
-        'Authorization': `Bearer ${authToken?.value}`,
-      }
-    });
-    revalidatePath('/admin/project')
-    return await res.json();
-}
-
-export async function _projectUpdateAction(id: string | number, data: any) {
-    const cookieStore = await cookies();
-    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ 
-      redirect('/login'); 
-    }
-    const res = await fetch(`${baseURL}api/project/${id}`, {
-      'method': 'POST',
-      'body': data,
-      headers: {
-        'Authorization': `Bearer ${authToken?.value}`,
-      }
-    });
-    revalidatePath(`/admin/project/${id}`)
-    return await res.json();
-}
-
-export async function _projectDeleteAction(id: number | string) {
-    const cookieStore = await cookies();
-    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
-    if(!authToken?.value){ 
-      redirect('/login'); 
-    }
-    const res = await fetch(`${baseURL}api/project/${id}`, {
+    const res = await fetch(`${baseURL}api/project-category/${id}`, {
       'method': 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -185,7 +125,44 @@ export async function _projectDeleteAction(id: number | string) {
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });
-    revalidatePath(`/admin/project`)
+    revalidatePath('/admin/project-category')
     return await res.json();
 }
 
+export async function _projectCategoryStoreAction(data: any) {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(`${baseURL}api/project-category`, {
+      'method': 'POST',
+      'body': await JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    revalidatePath('/admin/project-category')
+    return await res.json();
+}
+
+export async function _projectCategoryUpdateAction(id: string | number, data: any) {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(`${baseURL}api/project-category/${id}`, {
+      'method': 'POST',
+      'body': await JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    revalidatePath(`/admin/project-category/${id}`)
+    return await res.json();
+}

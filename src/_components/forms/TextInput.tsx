@@ -22,19 +22,21 @@ export default function TextInput({
 
   return (
     <div className='w-full'>
+      { label &&
         <p className='mb-1 font-light'>{label}:</p>
-        <input 
-            type={type}
-            value={value} 
-            name={name}
-            onChange={onChange}
-            placeholder={placeholder} 
-            className='w-full px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' />
-        {error &&
-          <p className="text-sm text-red-500 font-light">
-            {error}
-          </p>
-        }
+      }
+      <input 
+          type={type}
+          value={value} 
+          name={name}
+          onChange={onChange}
+          placeholder={placeholder} 
+          className='w-full px-3 py-2 rounded-lg outline-none border border-gray-300 focus:border-gray-500 ease-initial duration-200 transition-all' />
+      { error &&
+        <p className="text-sm text-red-500 font-light">
+          {error}
+        </p>
+      }
     </div>
   )
 }

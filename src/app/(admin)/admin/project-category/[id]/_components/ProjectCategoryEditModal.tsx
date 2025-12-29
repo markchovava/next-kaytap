@@ -13,11 +13,12 @@ import { listNumbers } from '@/_utils/formatNumber';
 import TextAreaInput from '@/_components/forms/TextAreaInput';
 import { baseURL } from '@/_api/baseURL';
 import ButtonClose from '@/_components/buttons/ButtonClose';
-import { _categoryUpdateAction } from '@/_api/actions/CategoryActions';
+import { _projectCategoryUpdateAction } from '@/_api/actions/ProjectCategoryActions';
+import { useProjectCategoryStore } from '@/_store/useProjectCategoryStore';
 
 
 
-const title = "Edit Category"
+const title = "Edit Project Category"
 
 
 const variants: Variants = {
@@ -30,28 +31,23 @@ const variants: Variants = {
 }
 
 
-export default function CategoryEditModal({id}: {id: string | number}) {
+export default function ProjectCategoryEditModal({id}: {id: string | number}) {
     const { 
         toggleModal, 
         data, 
         errors,
         isSubmitting,
-        clearErrors,
-        setImg, 
+        clearErrors, 
         setIsSubmitting, 
         setInputValue, 
         setToggleModal,
         getData,
         validateForm,
-    } = useCategoryStore()
+    } = useProjectCategoryStore()
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
     }
-
-    const handleImageChange = (file: File | null): void => {
-        setImg(file);
-    };
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         clearErrors();
@@ -65,16 +61,15 @@ export default function CategoryEditModal({id}: {id: string | number}) {
             toast.warn(firstError);
             return;
         }
-    
-        const formData = new FormData()
-        formData.append('name', data.name)
-        formData.append('priority', String(data.priority))
-        formData.append('desc', data.desc)
-        if(data.imgFile) {
-            formData.append('img', data.imgFile)
+
+        const formData = {
+            name: data.name,
+            priority: data.priority,
+            desc: data.desc,
         }
+
         try {
-            const res = await _categoryUpdateAction(id, formData);
+            const res = await _projectCategoryUpdateAction(id, formData);
             const {status, message} = res;
             switch(status){
                 case 1:
@@ -95,7 +90,6 @@ export default function CategoryEditModal({id}: {id: string | number}) {
         }
     }
 
-    console.log('DATA::: ', data)
     
     return (
         <>
@@ -119,13 +113,6 @@ export default function CategoryEditModal({id}: {id: string | number}) {
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
                         <SpacerQuaternary />
-                        <ImageInput
-                            src={baseURL + data.img}
-                            onImageChange={handleImageChange}
-                            maxSize={5 * 1024 * 1024} // 5MB
-                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
-                        />
-                        <SpacerQuaternary />
                         <TextInput
                             label='Name:' 
                             name='name' 
@@ -145,7 +132,7 @@ export default function CategoryEditModal({id}: {id: string | number}) {
                         />
                         <SpacerQuaternary />
                         <SelectSecondary
-                            label='Priority:' 
+                            label='Ppriority:' 
                             name='priority' 
                             data={listNumbers(7)}
                             value={data.priority} 

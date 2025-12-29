@@ -1,8 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Upload, X, ImageIcon } from 'lucide-react';
-
-
-
 
 interface ImageInputProps {
   onImageChange: (file: File | null) => void;
@@ -15,7 +12,7 @@ interface ImageInputProps {
 const ImageInput: React.FC<ImageInputProps> = ({ 
   label="Image",
   onImageChange, 
-  src="",
+  src=null,
   maxSize = 5 * 1024 * 1024, // 5MB default
   acceptedFormats = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
 }) => {
@@ -23,6 +20,18 @@ const ImageInput: React.FC<ImageInputProps> = ({
   const [imagePreview, setImagePreview] = useState<string | null>(src);
   const [fileName, setFileName] = useState<string>('');
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Update imagePreview when src prop changes
+  useEffect(() => {
+    setImagePreview(src);
+    // If src is provided, extract filename from path
+    if (src) {
+      const pathParts = src.split('/');
+      setFileName(pathParts[pathParts.length - 1]);
+    } else {
+      setFileName('');
+    }
+  }, [src]);
 
   const handleDrag = (e: React.DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
@@ -94,9 +103,9 @@ const ImageInput: React.FC<ImageInputProps> = ({
 
   return (
     <div className="w-full">
-      <label className="block font-light mb-2">
+      <p className="block font-light mb-1 px-2">
         {label}
-      </label>
+      </p>
       
       {!imagePreview ? (
         <div
@@ -140,15 +149,15 @@ const ImageInput: React.FC<ImageInputProps> = ({
             <img
               src={imagePreview}
               alt="Preview"
-              className="w-full h-48 object-cover"
+              className="w-full h-40 object-cover"
             />
             
             {/* Overlay with actions */}
-            <div className="absolute inset-0 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
+            <div className="absolute inset-0 bg-black/50 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-3">
               <button
                 type="button"
                 onClick={onButtonClick}
-                className="bg-white text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center space-x-2"
+                className="cursor-pointer bg-white text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition-colors flex items-center space-x-2"
               >
                 <ImageIcon className="w-4 h-4" />
                 <span>Change</span>
@@ -157,7 +166,7 @@ const ImageInput: React.FC<ImageInputProps> = ({
               <button
                 type="button"
                 onClick={removeImage}
-                className="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
+                className="cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-red-600 transition-colors flex items-center space-x-2"
               >
                 <X className="w-4 h-4" />
                 <span>Remove</span>
@@ -166,9 +175,11 @@ const ImageInput: React.FC<ImageInputProps> = ({
           </div>
           
           {/* File name */}
-          <p className="text-sm text-gray-600 mt-2 truncate">
-            {fileName}
-          </p>
+          {fileName && (
+            <p className="text-sm text-gray-600 mt-2 truncate px-2 pb-1">
+              {fileName}
+            </p>
+          )}
           
           {/* Hidden input for changing image */}
           <input
@@ -185,6 +196,3 @@ const ImageInput: React.FC<ImageInputProps> = ({
 };
 
 export default ImageInput;
-
-
-

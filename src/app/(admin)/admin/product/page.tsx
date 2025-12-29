@@ -4,6 +4,8 @@ import ProductListPage from './_components/ProductListPage';
 
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
+import { _productListAction } from '@/_api/actions/ProductActions';
+import ProductAddModal from './_components/ProductAddModal';
 
 export const metadata: Metadata = {
   title: `${AppInfoData.name} - Product List`,
@@ -17,13 +19,18 @@ const BreadCrumbsData = [
     {id: 2, name: "Products List", href:"/admin/product"},
 ]
 
-export default function page() {
+export default async function page() {
+  const [ productData ] = await Promise.all([ _productListAction() ]);
+
   return (
     <>
     <BreadCrumbs dbData={BreadCrumbsData} />
+    
     <SpacerPrimary />
-      <ProductListPage />
+        <ProductListPage dbData={productData} />
     <SpacerPrimary />
+
+    <ProductAddModal />
     </>
   )
 }

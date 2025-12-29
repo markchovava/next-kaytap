@@ -1,11 +1,12 @@
 export interface ProjectImageInterface{
-    id: "",
-    userId: "",
-    projectId: "", 
-    img: string | File, 
-    priority: "", 
-    updatedAt: "", 
-    createdAt: "", 
+    id: string | number,
+    userId: string | number,
+    projectId: string | number,
+    img: string, 
+    imgFile: File | null,
+    priority: string | number,
+    updatedAt: string, 
+    createdAt: string, 
 }
 
 export const ProjectImageEntity: ProjectImageInterface = {
@@ -13,6 +14,7 @@ export const ProjectImageEntity: ProjectImageInterface = {
     userId: "",
     projectId: "", 
     img: "", 
+    imgFile: null,
     priority: "", 
     updatedAt: "", 
     createdAt: "",

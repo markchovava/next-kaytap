@@ -1,19 +1,19 @@
 "use client"
-import { _productListAction, _productPaginateAction, _productSearchAction, _productViewAction } from "@/_api/actions/ProductActions";
-import { MetaEntity, MetaInterface, MetaLinksEntity, MetaLinksInterface, ResponseInterface } from "@/_data/entity/ResponseEntity";
-import { ProductEntity, ProductInterface } from "@/_data/entity/ProductEntity";
+
+import { _projectListAction, _projectSearchAction, _projectViewAction } from "@/_api/actions/ProjectActions";
+import { _projectPaginateAction } from "@/_api/actions/ProjectImageActions";
+import { ProjectEntity, ProjectInterface } from "@/_data/entity/ProjectEntity"
+import { MetaEntity, MetaInterface, MetaLinksEntity, MetaLinksInterface, ResponseInterface } from "@/_data/entity/ResponseEntity"
 import { create } from "zustand";
-import { ProductImageEntity, ProductImageInterface } from "@/_data/entity/ProductImageEntity";
-import { ProductDetailEntity, ProductDetailInterface } from "@/_data/entity/ProductDetailEntity";
 
 
 interface PropsInterface{
-    data: ProductInterface,
-    dataList: ProductInterface[],
+    data: ProjectInterface,
+    dataList: ProjectInterface[],
     meta: MetaInterface,
     links: MetaLinksInterface,
-    preData: ProductInterface,
-    errors: ProductInterface,
+    preData: ProjectInterface,
+    errors: ProjectInterface,
     search: string,
     isSearching: boolean,
     message: string,
@@ -32,48 +32,35 @@ interface PropsInterface{
     ) => void,
     setError: (name: string, value: string) => void,
     setValue: (name: string, value: string | number) => void,
-    setData: (i: ProductInterface) => void,
+    setData: (i: ProjectInterface) => void,
     resetData: () => void,
     setIsSubmitting: (i: boolean) => void,
     setMessage: (i: string) => void,
     clearErrors: () => void,
     validateField: (name: string, value: string) => string,
-    validateForm: () => { isValid: boolean; errors: ProductInterface },
+    validateForm: () => { isValid: boolean; errors: ProjectInterface },
     getData: (i: number | string) => Promise<void>,
     getDataList: () => Promise<void>,
     getSearchDatalist: (search: string) => Promise<void>
     getPaginatedDatalist: (url: string) => Promise<void>
 }
- 
 
-export const useProductStore = create<PropsInterface>((set, get) => ({ 
-    data: ProductEntity,
-    images: [],
+
+export const useProjectStore = create<PropsInterface>((set, get) => ({ 
+    data: ProjectEntity,
     dataList: [],
     meta: MetaEntity,
     links: MetaLinksEntity,
-    preData: ProductEntity,
-    errors: ProductEntity,
-    search: '',
+    preData: ProjectEntity,
+    errors: ProjectEntity,
+    search: "",
     isSearching: false,
-    message: '',
-    isLoading:true,
+    message: "",
+    isLoading: true,
     isSubmitting: false,
     toggleModal: false,
-    setValue: (name, value) => {
-        const currentData = get().data;
-        const currentErrors = get().errors;
-        set({ 
-            data: {...currentData, [name]: value},
-            errors: currentErrors[name as keyof typeof currentErrors]
-                ? { ...currentErrors, [name]: "" }
-                : currentErrors
-        })
-    },
     setIsLoading: (i) => {
-        set({
-            isLoading: i
-        })
+        set({ isLoading: i })
     },
     setDataList: (i) => {
         const {data, links, meta} = i
@@ -83,7 +70,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
             links: links,
             isLoading: false,
         })
-    },   
+    },
     setSearch: (e) => {
         const { value } = e.target;
         set({
@@ -91,15 +78,11 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
         })
     },   
     setIsSearching: (i) => {
-        set({
-            isSearching: i
-        })
+        set({ isSearching: i})
     },
     setToggleModal: (i) => {
-        set({
-            toggleModal: i
-        })
-    }, 
+        set({ toggleModal: i })
+    },
     setInputValue: (e) => {
         const { name, value } = e.target;
         const currentData = get().data;
@@ -120,6 +103,16 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
             errors: { ...currentErrors, [name]: value }
         })
     },
+    setValue: (name, value) => {
+        const currentData = get().data;
+        const currentErrors = get().errors;
+        set({ 
+            data: {...currentData, [name]: value},
+            errors: currentErrors[name as keyof typeof currentErrors]
+                ? { ...currentErrors, [name]: "" }
+                : currentErrors
+        })
+    },
     setData: (i) => {
         set({
             data: i,
@@ -129,45 +122,39 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     },
     resetData: () => {
         set({
-            data: ProductEntity,
+            data: ProjectEntity,
         })
     },
     setIsSubmitting: (i) => {
-        set({
-            isSubmitting: i,
-        })
+        set({ isSubmitting: i })
     },
     setMessage: (i) => {
-        set({
-            message: i
-        })
-    }, 
+        set({ message: i })
+    },
     clearErrors: () => {
-        set({
-            errors: ProductEntity
-        })
-    }, 
+        set({ errors: ProjectEntity })
+    },
     validateField: (name, value) => {
         let error = ""
         switch(name){
             case "name":
                 if(!value.trim()){
-                    error = "Product name is required.";
+                    error = "Project name is required.";
                 } 
                 break;
-            case "price":
-                if(!value || parseFloat(value as string) <= 0){
-                    error = "Valid price is required.";
-                }
-                break;
-            case "quantity":
-                if(!value || parseInt(value as string) < 0){
-                    error = "Valid quantity is required.";
-                }
-                break;
             case "status":
-                if(!value) {
+                if(!value.trim()){
                     error = "Status is required.";
+                }
+                break;
+            case "address":
+                if(!value.trim()){
+                    error = "Address is required.";
+                }
+                break;
+            case "projectCategoryId":
+                if(!value.trim()){
+                    error = "Category is required.";
                 }
                 break;
             default:
@@ -177,7 +164,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     },
     validateForm: () => { 
         const { data } = get();
-        let errors = { ...ProductEntity };
+        let errors = { ...ProjectEntity };
         let hasError = false;
         // Validate NAME
         const nameError = get().validateField("name", data.name);
@@ -185,24 +172,25 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
             errors.name = nameError;
             hasError = true;
         } 
-        // Validate PRICE
-        const priceError = get().validateField("price", data.price.toString());
-        if (priceError) {
-            errors.price = priceError;
-            hasError = true;
-        }
-        // Validate QUANTITY
-        const quantityError = get().validateField("quantity", data.quantity.toString());
-        if (quantityError) {
-            errors.quantity = quantityError;
-            hasError = true;
-        }
         // Validate STATUS
         const statusError = get().validateField("status", data.status);
         if (statusError) {
             errors.status = statusError;
             hasError = true;
         }
+        // Validate NAME
+        const addressError = get().validateField("address", data.address);
+        if (addressError) {
+            errors.address = addressError;
+            hasError = true;
+        } 
+        // Validate PROJECT CATEGORY
+        const projectCategoryIdError = get().validateField("projectCatergoryId", data.projectCategoryId.toString());
+        if (projectCategoryIdError) {
+            errors.projectCategoryId = projectCategoryIdError;
+            hasError = true;
+        }
+        
         set({ errors });
         return {
             isValid: !hasError,
@@ -211,7 +199,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     },
     getData: async (i) => {
         try {
-            const res = await _productViewAction(i);
+            const res = await _projectViewAction(i);
             if (res && res.data ) {
                 set({
                     data: res.data,
@@ -220,16 +208,16 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
                 });
             } else {
                 set({
-                    data: ProductEntity,
-                    preData: ProductEntity,
+                    data: ProjectEntity,
+                    preData: ProjectEntity,
                     isLoading: false,
                 });
             }
         } catch (error) {
             console.error(`Error: ${error}`);
             set({
-                data: ProductEntity,
-                preData: ProductEntity,
+                data: ProjectEntity,
+                preData: ProjectEntity,
                 isLoading: false,
             });
         }
@@ -237,7 +225,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     getDataList: async() => {
         set({ isLoading: true });
         try {
-            const res = await _productListAction();
+            const res = await _projectListAction();
             if (res && res.data && res.meta && res.links) {
                 set({
                     dataList: res.data,
@@ -266,7 +254,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     getSearchDatalist: async (search) => {
         set({ isSearching: true });
         try {
-            const res = await _productSearchAction(search);
+            const res = await _projectSearchAction(search);
             if (res && res.data && res.meta && res.links) {
                 set({
                     dataList: res.data,
@@ -295,7 +283,7 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     getPaginatedDatalist: async (url: string) => {
         set({ isLoading: true });
         try {
-            const res = await _productPaginateAction(url);
+            const res = await _projectPaginateAction(url);
             if (res && res.data && res.meta && res.links) {
                 set({
                     dataList: res.data,

@@ -3,6 +3,9 @@ import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
 import AppInfoData from "../../../../_data/sample/AppInfoData.json"
 import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
+import { _checkAuthAction } from "@/_api/actions/AuthActions";
+import { _projectListAction } from "@/_api/actions/ProjectActions";
+import ProjectAddModal from "./_components/ProjectAddModal";
 
 
 export const metadata: Metadata = {
@@ -18,14 +21,19 @@ const BreadCrumbsData = [
 ];
 
 
-export default function page() {
+export default async function page() {
+  await _checkAuthAction()
+  const [ projectData ] = await Promise.all([ _projectListAction() ])
+
   return (
     <>
       <BreadCrumbs dbData={BreadCrumbsData} />
       <SpacerPrimary />
 
-      <ProjectListPage />
+      <ProjectListPage dbData={projectData} />
       <SpacerPrimary />
+
+      <ProjectAddModal />
     </>
   )
 }

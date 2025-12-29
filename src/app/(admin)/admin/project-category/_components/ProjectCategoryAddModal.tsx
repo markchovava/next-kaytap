@@ -1,23 +1,22 @@
 "use client"
-import React from 'react'
+
+import React, { useEffect, useState } from 'react'
+import { IoClose } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Heading2 from '@/_components/headings/Heading2';
 import SpacerQuaternary from '@/_components/spacers/SpacerQuaternary';
 import TextInput from '@/_components/forms/TextInput';
 import { ButtonSubmit } from '@/_components/buttons/ButtonSubmit';
-import ImageInput from '@/_components/forms/ImageInput';
-import { useCategoryStore } from '@/_store/useCategoryStore';
+import { useProjectCategoryStore } from '@/_store/useProjectCategoryStore';
+import TextAreaInput from '@/_components/forms/TextAreaInput';
 import SelectSecondary from '@/_components/forms/SelectSecondary';
 import { listNumbers } from '@/_utils/formatNumber';
-import TextAreaInput from '@/_components/forms/TextAreaInput';
-import { baseURL } from '@/_api/baseURL';
-import ButtonClose from '@/_components/buttons/ButtonClose';
-import { _categoryUpdateAction } from '@/_api/actions/CategoryActions';
+import { _projectCategoryStoreAction } from '@/_api/actions/ProjectCategoryActions';
 
 
 
-const title = "Edit Category"
+const title = "Add Project Category"
 
 
 const variants: Variants = {
@@ -30,33 +29,36 @@ const variants: Variants = {
 }
 
 
-export default function CategoryEditModal({id}: {id: string | number}) {
-    const { 
-        toggleModal, 
+export default function ProjectCategoryAddModal() {
+    const {
         data, 
-        errors,
+        toggleModal, 
         isSubmitting,
+        errors,
+        resetData,
         clearErrors,
-        setImg, 
-        setIsSubmitting, 
         setInputValue, 
-        setToggleModal,
-        getData,
+        setToggleModal, 
+        setData,
+        setIsSubmitting,
+        setValue,
         validateForm,
-    } = useCategoryStore()
+        getDataList,
+    } = useProjectCategoryStore()
+
+    useEffect(() => { 
+        resetData() 
+    }, [])
+
+   
 
     const handleToggleModal = () => {
         setToggleModal(!toggleModal)
     }
 
-    const handleImageChange = (file: File | null): void => {
-        setImg(file);
-    };
-
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         clearErrors();
         e.preventDefault();
-        setIsSubmitting(true);
         // Validate form using store
         const validation = validateForm();
         if (!validation.isValid) {
@@ -65,27 +67,29 @@ export default function CategoryEditModal({id}: {id: string | number}) {
             toast.warn(firstError);
             return;
         }
-    
-        const formData = new FormData()
-        formData.append('name', data.name)
-        formData.append('priority', String(data.priority))
-        formData.append('desc', data.desc)
-        if(data.imgFile) {
-            formData.append('img', data.imgFile)
+
+        const formData = {
+            name: data.name,
+            priority: data.priority,
+            desc: data.desc,
         }
+
+        setIsSubmitting(true);
         try {
-            const res = await _categoryUpdateAction(id, formData);
+            const res = await _projectCategoryStoreAction(formData);
+            console.log("RES::: ", res)
             const {status, message} = res;
             switch(status){
                 case 1:
                     toast.success(message);
-                    await getData(id);
+                    await getDataList();
                     clearErrors();
+                    resetData();
                     setIsSubmitting(false);
                     setToggleModal(false)
                     return
                 default:
-                    toast.success('Something went wrong, please try again.');
+                    toast.warn('Something went wrong, please try again.');
                     setIsSubmitting(false);
                     return
             } 
@@ -94,8 +98,6 @@ export default function CategoryEditModal({id}: {id: string | number}) {
             console.error('Form submission error:', error);
         }
     }
-
-    console.log('DATA::: ', data)
     
     return (
         <>
@@ -111,20 +113,16 @@ export default function CategoryEditModal({id}: {id: string | number}) {
                 <div className='w-[100%] h-[100%] absolute z-10 overflow-auto scroll__width py-[6rem]'>
                 <section className='mx-auto lg:w-[50%] w-[90%] bg-white text-black p-6 rounded-2xl'>
                     <div className='flex items-center justify-end'>
-                       <ButtonClose onClick={handleToggleModal} />
+                        <button onClick={handleToggleModal} className='hover:text-red-600 transition-all ease-in-out duration-200'>
+                            <IoClose className='text-3xl' />
+                        </button>
                     </div>
 
                     <form onSubmit={handleSubmit}>
                         <Heading2 title={title} css='text-center' />
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
-                        <SpacerQuaternary />
-                        <ImageInput
-                            src={baseURL + data.img}
-                            onImageChange={handleImageChange}
-                            maxSize={5 * 1024 * 1024} // 5MB
-                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
-                        />
+                    
                         <SpacerQuaternary />
                         <TextInput
                             label='Name:' 
