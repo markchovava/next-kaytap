@@ -79,7 +79,7 @@ export default function ProjectCategoryViewPage({id, dbData}: PropsInterface) {
                   value={preData?.priority ? preData?.priority.toString() : 'Not Yet Added.'} />
                 <RecordPrimary 
                     label="User:" 
-                    value={preData?.user.name ? preData?.user.name : preData?.user.email} />
+                    value={preData?.user?.name ? preData?.user?.name : preData?.user?.email} />
               </div>
           </div>
       </section>

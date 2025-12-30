@@ -1,5 +1,6 @@
 export interface ProductImageInterface{
     id: string | number,
+    uid: string | number,
     userId: string | number,
     productId: string | number,  
     img: string,  
@@ -11,6 +12,7 @@ export interface ProductImageInterface{
 
 export const ProductImageEntity: ProductImageInterface = {
     id: "",  
+    uid: "",  
     userId: "",  
     productId: "",  
     img: "",  

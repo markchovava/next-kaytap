@@ -42,30 +42,29 @@ export default function ProductViewPage({id, dbData}: PropsInterface) {
     }, [])
 
 
-  // Handle case where product is not found
-  if (!preData) {
-    return (
-      <section>
-        <div className="w-[92%] mx-auto bg-white drop-shadow px-6 py-12 rounded-xl">
-          <TitlePrimary title='Product Not Found' />
-          <p className="text-gray-600 mt-4">The product with ID {id} could not be found.</p>
-        </div>
-      </section>
-    )
-  }
+    // Handle case where product is not found
+    if (!preData) {
+      return (
+        <section>
+          <div className="w-[92%] mx-auto bg-white drop-shadow px-6 py-12 rounded-xl">
+            <TitlePrimary title='Product Not Found' />
+            <p className="text-gray-600 mt-4">The product with ID {id} could not be found.</p>
+          </div>
+        </section>
+      )
+    }
 
 
-  if(isLoading) {
-    return (
-      <LoaderPrimary />
-    )
-  }
+    if(isLoading) {
+      return (
+        <LoaderPrimary />
+      )
+    }
 
-  console.log('preData::: ', preData)
+  /* console.log('preData::: ', preData) */
 
   return (
     <>
-    
       <section className='mx-auto w-[92%] flex items-center justify-end'>
         <ButtonQuaternary 
             onClick={() => setToggleModal(!toggleModal)}
@@ -92,7 +91,6 @@ export default function ProductViewPage({id, dbData}: PropsInterface) {
               </div>
           </div>
       </section>
-
     </>
   )
 }

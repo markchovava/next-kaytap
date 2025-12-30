@@ -18,8 +18,10 @@ interface PropsInterface{
     isLoading: boolean,
     isSubmitting: boolean,
     toggleModal: boolean,
+    projectCategoryList:  ProjectCategoryInterface[],
     setIsLoading: (i: boolean) => void,
     setDataList: (i: ResponseInterface) => void
+    setProjectCategoryList: (i: ProjectCategoryInterface[]) => void
     setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
     setIsSearching: (i: boolean) => void,
     setToggleModal: (i: boolean) => void,
@@ -57,6 +59,12 @@ export const useProjectCategoryStore = create<PropsInterface>((set, get) => ({
     isLoading:true,
     isSubmitting: false,
     toggleModal: false,
+    projectCategoryList: [],
+    setProjectCategoryList: (i) => {
+        set({
+            projectCategoryList: i
+        })
+    },
     setValue: (name, value) => {
         const currentData = get().data;
         const currentErrors = get().errors;

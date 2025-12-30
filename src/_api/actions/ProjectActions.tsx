@@ -120,10 +120,8 @@ export async function _projectStoreAction(data: any) {
     }
     const res = await fetch(`${baseURL}api/project`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });
@@ -139,10 +137,8 @@ export async function _projectUpdateAction(id: string | number, data: any) {
     }
     const res = await fetch(`${baseURL}api/project/${id}`, {
       'method': 'POST',
-      'body': await JSON.stringify(data),
+      'body': data,
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${authToken?.value}`,
       }
     });

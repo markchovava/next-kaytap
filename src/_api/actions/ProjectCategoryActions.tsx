@@ -17,6 +17,17 @@ export async function projectCategoryListAction() {
     return await res.json();
 }
 
+export async function projectCategoryAllAction() {
+    const res = await fetch(`${baseURL}project-category-all`, {
+      'method': 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    });
+    return await res.json();
+}
+
 export async function projectCategoryViewAction(id: number | string) {
     const res = await fetch(`${baseURL}project-category/${id}`, {
       'method': 'GET',
@@ -50,6 +61,23 @@ export async function _projectCategoryListAction() {
       redirect('/login'); 
     }
     const res = await fetch(`${baseURL}api/project-category`, {
+      'method': 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken?.value}`,
+      }
+    });
+    return await res.json();
+}
+
+export async function _projectCategoryAllAction() {
+    const cookieStore = await cookies();
+    const authToken = await cookieStore.get('KAYTAP_AUTH_TOKEN_COOKIE');
+    if(!authToken?.value){ 
+      redirect('/login'); 
+    }
+    const res = await fetch(`${baseURL}api/project-category-all`, {
       'method': 'GET',
       headers: {
         'Accept': 'application/json',

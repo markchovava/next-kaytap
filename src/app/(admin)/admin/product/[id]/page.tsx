@@ -21,7 +21,7 @@ interface PropsInterface {
       id: string
     }>
 }
-
+ 
 export default async function page({ params }: PropsInterface) {
   const { id } = await params;
   await _checkAuthAction()

@@ -13,7 +13,7 @@ export interface ProjectInterface{
     priority: string | number
     updatedAt: string
     createdAt: string
-    images: ProjectImageInterface[]
+    projectImages: ProjectImageInterface[]
     user: UserInterface
     projectCategory: ProjectCategoryInterface
 }
@@ -29,7 +29,7 @@ export const ProjectEntity: ProjectInterface = {
     priority: "", 
     updatedAt: "",
     createdAt: "",
-    images: [],
+    projectImages: [],
     user: UserEntity,
     projectCategory: ProjectCategoryEntity,
 }

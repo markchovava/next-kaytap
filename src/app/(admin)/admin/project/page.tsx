@@ -6,6 +6,7 @@ import SpacerPrimary from "@/_components/spacers/SpacerPrimary";
 import { _checkAuthAction } from "@/_api/actions/AuthActions";
 import { _projectListAction } from "@/_api/actions/ProjectActions";
 import ProjectAddModal from "./_components/ProjectAddModal";
+import { _projectCategoryAllAction } from "@/_api/actions/ProjectCategoryActions";
 
 
 export const metadata: Metadata = {
@@ -23,14 +24,17 @@ const BreadCrumbsData = [
 
 export default async function page() {
   await _checkAuthAction()
-  const [ projectData ] = await Promise.all([ _projectListAction() ])
+  const [ projectData, projectCategoryData ] = await Promise.all([ 
+                                                _projectListAction(), 
+                                                _projectCategoryAllAction() 
+                                            ]);
 
   return (
     <>
       <BreadCrumbs dbData={BreadCrumbsData} />
       <SpacerPrimary />
 
-      <ProjectListPage dbData={projectData} />
+      <ProjectListPage dbData={projectData} projectCategoryData={projectCategoryData} />
       <SpacerPrimary />
 
       <ProjectAddModal />

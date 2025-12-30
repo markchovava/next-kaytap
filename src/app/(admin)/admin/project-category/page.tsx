@@ -5,7 +5,7 @@ import BreadCrumbs from '@/_components/BreadCrumbs'
 import { Metadata } from "next";
 import { _categoryListAction } from "@/_api/actions/CategoryActions";
 import CategoryAddModal from "./_components/ProjectCategoryAddModal";
-import { _projectCategoryListAction } from "@/_api/actions/ProjectCategoryActions";
+import { _projectCategoryAllAction, _projectCategoryListAction } from "@/_api/actions/ProjectCategoryActions";
 
 
 export const metadata: Metadata = {

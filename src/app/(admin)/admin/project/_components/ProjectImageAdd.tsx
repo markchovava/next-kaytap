@@ -6,17 +6,18 @@ import { useProjectImageStore } from "@/_store/useProjectImageStore";
 import { useEffect } from "react";
 
 
+
 export function ProjectImageAdd() {
     const {  
         imagesList,
         setImage,
-        resetImages,
+        resetImageFiles,
     } = useProjectImageStore()
 
     useEffect(() => {
-        resetImages()
+        resetImageFiles();
     }, [])
-
+            
     const handleChange = (file: File | null, id: string | number) => {
         setImage(id, file)
     }
@@ -27,7 +28,7 @@ export function ProjectImageAdd() {
                 <div key={key}>
                     <ImageInputPrimary
                         label="Image"
-                        onChange={(file) => handleChange(file, i.id)} 
+                        onChange={(file) => handleChange(file, i.uid)} 
                         src={i.img ? baseURL + i.img : "" }
                     />
                 </div>

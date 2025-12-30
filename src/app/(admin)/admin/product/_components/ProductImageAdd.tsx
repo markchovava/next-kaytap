@@ -6,17 +6,18 @@ import { useProductImageStore } from "@/_store/useProductImageStore";
 import { useEffect } from "react";
 
 
+
 export function ProductImageAdd() {
     const {  
         imagesList,
         setImage,
-        resetImages,
+        resetImageFiles,
     } = useProductImageStore()
 
     useEffect(() => {
-        resetImages()
+        resetImageFiles();
     }, [])
-
+            
     const handleChange = (file: File | null, id: string | number) => {
         setImage(id, file)
     }
@@ -27,7 +28,7 @@ export function ProductImageAdd() {
                 <div key={key}>
                     <ImageInputPrimary
                         label="Image"
-                        onChange={(file) => handleChange(file, i.id)} 
+                        onChange={(file) => handleChange(file, i.uid)} 
                         src={i.img ? baseURL + i.img : "" }
                     />
                 </div>

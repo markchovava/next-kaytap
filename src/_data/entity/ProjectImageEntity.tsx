@@ -1,5 +1,6 @@
 export interface ProjectImageInterface{
     id: string | number,
+    uid: string | number,
     userId: string | number,
     projectId: string | number,
     img: string, 
@@ -11,6 +12,7 @@ export interface ProjectImageInterface{
 
 export const ProjectImageEntity: ProjectImageInterface = {
     id: "",
+    uid: "",
     userId: "",
     projectId: "", 
     img: "", 

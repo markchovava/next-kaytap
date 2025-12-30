@@ -12,6 +12,12 @@ import LoaderPrimary from "@/_components/loaders/LoaderPrimary";
 import { _projectDeleteAction } from "@/_api/actions/ProjectActions";
 import { useProjectStore } from "@/_store/useProjectStore";
 import { toast } from "react-toastify";
+import ButtonSearch from "@/_components/buttons/ButtonSearch";
+import PaginationPrimary from "@/_components/paginations/PaginationPrimary";
+import NoDataPrimary from "@/_components/no-datas/NoDataPrimary";
+import { ItemResponsive } from "@/_components/items/ItemResponsive";
+import { useProjectCategoryStore } from "@/_store/useProjectCategoryStore";
+import StickerPrimary from "@/_components/stickers/StickerPrimary";
 
 
 const users = [
@@ -20,8 +26,17 @@ const users = [
     { id: 3, name: "Mike Johnson", email: "mike@example.com", role: "Editor" },
   ];
 
+interface PropsInterface{
+  projectCategoryData: any
+  dbData: any
+}
 
-export default function ProjectListPage({ dbData }: { dbData: any}) {
+
+export default function ProjectListPage({ 
+    dbData, 
+    projectCategoryData 
+}: PropsInterface
+) {
     const { 
         isLoading, 
         search, 
@@ -39,7 +54,10 @@ export default function ProjectListPage({ dbData }: { dbData: any}) {
         setIsLoading,
     } = useProjectStore()
 
+    const { setProjectCategoryList } = useProjectCategoryStore()
+
     useEffect(() => {
+        setProjectCategoryList(projectCategoryData.data)
         setDataList(dbData)
     }, [])
 
@@ -91,82 +109,166 @@ export default function ProjectListPage({ dbData }: { dbData: any}) {
     }
 
 
+    /* console.log('dataList: ', dataList) */
+
+
   return (
     <>
-      <div>
-        <SpacerTertiary />
-        <section className="w-[92%] mx-auto bg-white drop-shadow px-6 py-6 rounded-xl">
-          <section className="flex lg:flex-row flex-col items-center justify-between gap-4 mb-4">
-            <form className="lg:w-[60%] w-full flex items-center justify-start rounded-full border border-gray-300">
-              <input 
-                type="text" 
-                placeholder="Enter Name" 
-                className="flex-1 py-3 px-4 outline-none rounded-l-full" 
+          {/* DESKTOP */}
+          <section className="hidden md:block w-[92%] mx-auto bg-white drop-shadow px-4 py-3 rounded-xl">
+            <section className="flex md:flex-row flex-col items-center justify-between gap-4 mb-4">
+              <form onSubmit={handleSearch} className="lg:w-[60%] w-full flex items-center justify-start rounded-full border border-gray-300">
+                <input 
+                  type="text" 
+                  value={search}
+                  onChange={setSearch}
+                  placeholder="Enter Name" 
+                  className="flex-1 py-3 px-4 outline-none rounded-l-full" 
+                />
+                <ButtonSearch status={isSearching} />
+              </form>
+              <ButtonQuaternary 
+                onClick={handleToggleModal}
+                title='Add' 
+                css="px-8 py-3 text-white" 
               />
-              <button type="button" className="group px-4 border-l border-gray-300 rounded-r-full">
-                <IoSearch className="cursor-pointer text-xl text-gray-500 transition-all ease-initial duration-200 group-hover:text-gray-900 group-hover:scale-110" />
-              </button>
+            </section>
+    
+            { dataList && dataList.length > 0 ?
+              <>
+                  <section className="w-full lg:overflow-hidden overflow-scroll">
+                    <div className='lg:w-[100%] w-[70rem]'>
+                      {/* Header */}
+                      <section className="w-full bg-gray-300 font-bold text-lg border border-gray-400 flex items-center justify-start">
+                        <div className="flex-4 border-r border-gray-400 px-2 py-1">NAME</div>
+                        <div className="flex-3 border-r border-gray-400 px-2 py-1">STATUS</div>
+                        <div className="flex-4 border-r border-gray-400 px-2 py-1">PROJECT CATEGORY</div>
+                        <div className="flex-2 px-2 border-gray-400 py-1 text-end">ACTION</div>
+                      </section>
+                      {/* Data rows */}
+                      {dataList.map((i, key) => (
+                        <section key={key} className="w-full border-l border-r border-b border-gray-400 flex items-center justify-start">
+                          <div className="flex-4 border-r border-gray-400 px-2 py-3">
+                            {i.name}
+                            <p className="text-sm font-medium text-gray-600">Priority: {i.priority}</p>
+                          </div>
+                          <div className="flex-3 border-r border-gray-400 px-2 py-3">
+                              {i.status ? <StickerPrimary title={i.status} /> : "Not Added Yet." }
+                          </div>
+                          <div className="flex-4 border-r border-gray-400 px-2 py-3">
+                              {i?.projectCategory?.name ? i?.projectCategory?.name : "Not Added Yet."}
+                          </div>
+                        
+                          <div className="flex-2 px-2 py-3 relative z-50 flex items-center justify-end gap-2 text-gray-800">
+                            <button className="cursor-pointer group">
+                                <Link href={`/admin/project/${i.id}`}>
+                                  <FaEye className={`hover:scale-110 ease-initial transition-all duration-200 
+                                    text-lg group-hover:text-green-600`} />
+                                </Link>
+                            </button>
+    
+                            <button onClick={() => handleDelete(i.id)} className="cursor-pointer group">
+                              <FaDeleteLeft className={`hover:scale-110 ease-initial transition-all duration-200 
+                                text-lg group-hover:text-red-600`} />
+                            </button>
+    
+                          </div>
+                        </section>
+                      ))}
+                    </div>
+                  </section>
+                  <SpacerTertiary />
+                  <PaginationPrimary
+                    meta={meta} 
+                    links={links} 
+                    handlePaginate={handlePaginate} />
+              </>   
+            :
+              <NoDataPrimary />
+            }
+    
+    
+          </section>
+    
+          {/* MOBILE */}
+          <section className="md:hidden block w-[92%] mx-auto ">
+            {/* SEARCH */}
+            <form className="bg-white drop-shadow-md rounded-full mb-4 p-3">
+              <div className="rounded-full border border-gray-300 p-2 flex items-center justify-start">
+                <input 
+                  type="text" 
+                  value={search}
+                  onChange={setSearch}
+                  placeholder="Enter Name here..."
+                  className="outline-none flex-2 pr-2" />
+                  <ButtonSearch status={isSearching} />
+              </div>
             </form>
-            <ButtonQuaternary 
-              onClick={handleToggleModal}
-              title='Add Project' 
-              css="px-8 py-3 text-white" 
-            />
-          </section>
-
-          <section className="w-full lg:overflow-hidden overflow-scroll">
-            <div className='lg:w-[100%] w-[70rem]'>
-              {/* Header */}
-              <section className="w-full bg-gray-300 font-bold text-lg border border-gray-400 flex items-center justify-start">
-                <div className="flex-5 border-r border-gray-400 px-2 py-1">NAME</div>
-                <div className="flex-3 border-r border-gray-400 px-2 py-1">CREATED</div>
-                <div className="flex-4 border-r border-gray-400 px-2 py-1">AUTHOR</div>
-                <div className="flex-2 px-2 border-gray-400 py-1 text-end">ACTION</div>
-              </section>
-
-              {/* Data rows */}
-              {users.map((user) => (
-                <section key={user.id} className="w-full border-l border-r border-b border-gray-400 flex items-center justify-start">
-                    <div className="flex-5 border-r border-gray-400 px-2 py-3">{user.name}</div>
-                    <div className="flex-3 border-r border-gray-400 px-2 py-3">{user.email}</div>
-                    <div className="flex-4 border-r border-gray-400 px-2 py-3">{user.role}</div>
-                    <div className="flex-2 px-2 py-3 relative z-50 flex items-center justify-end gap-2 text-gray-800">
-                  
-                    <button className="cursor-pointer group">
-                        <Link href={`/admin/project/${user.id}`}>
+            {/* ADD */}
+            <section className="w-[92%] mx-auto flex items-center justify-center mb-4">
+              <ButtonQuaternary 
+                onClick={handleToggleModal}
+                title='Add' 
+                css="px-8 py-3 text-white" 
+              />
+            </section>
+    
+            { dataList && dataList.length > 0 ?
+              <>
+                { dataList.map((i, key) => (
+                  <section key={key} className=" bg-white drop-shadow-md rounded-lg px-4 pt-6">
+                    <div className="w-full flex items-start justify-between gap-4 border-b border-gray-300 py-3">
+                      <ItemResponsive
+                        label="Name" 
+                        name={i.name} />
+                      <div className=" flex items-center justify-end gap-3">
+                        <button className="cursor-pointer group">
+                          <Link href={`/admin/project/${i.id}`}>
                             <FaEye className={`hover:scale-110 ease-initial transition-all duration-200 
-                            text-lg group-hover:text-green-600`} />
-                        </Link>
-                    </button>
-
-                    <button className="cursor-pointer group">
-                      <FaDeleteLeft className={`hover:scale-110 ease-initial transition-all duration-200 
-                        text-lg group-hover:text-red-600`} />
-                    </button>
-                  </div>
-                </section>
-              ))}
-            </div>
+                              text-lg group-hover:text-green-600`} />
+                          </Link>
+                        </button>
+                        <button onClick={() => handleDelete(i.id)} className="cursor-pointer group">
+                          <FaDeleteLeft className={`hover:scale-110 ease-initial transition-all duration-200 
+                            text-lg group-hover:text-red-600`} />
+                        </button>
+                      </div>
+                    </div>
+                    {/*  */}
+                    <div className="pt-3 pb-6 border-b border-gray-300">
+                        <ItemResponsive 
+                            label="Status" 
+                            name={i.status ? <StickerPrimary title={i.status} /> : "Not Added."}
+                      />
+                    </div>
+                    {/*  */}
+                    <div className="pt-3 pb-6 border-b border-gray-300">
+                        <ItemResponsive 
+                            label="Project Category" 
+                            name={ i?.projectCategory?.name ? i?.projectCategory?.name : "Not Added."}
+                      />
+                    </div>
+                    {/*  */}
+                    <div className="pt-3 pb-6">
+                        <ItemResponsive 
+                            label="Priority" 
+                            name={ i?.priority ? i?.priority.toString() : "Not Added Yet." }
+                      />
+                    </div>
+                  </section>
+                ))}
+    
+                <SpacerTertiary />
+                <PaginationPrimary
+                    meta={meta} 
+                    links={links} 
+                    handlePaginate={handlePaginate} 
+                />
+              </>
+              : <NoDataPrimary />
+            }
+    
           </section>
-
-          <SpacerTertiary />
-          <section className="flex items-center justify-end gap-3">
-            <ButtonPaginate 
-              title="Previous" 
-              direction="left" 
-              onClick={() => {}} 
-              css="pr-8 pl-5 py-2" 
-            />
-            <ButtonPaginate 
-              title="Next" 
-              direction="right" 
-              onClick={() => {}} 
-              css="pr-5 pl-8 py-2" 
-            />
-          </section>
-        </section>
-        
-      </div>
-    </>
+        </>
   )
 }

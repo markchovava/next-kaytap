@@ -6,6 +6,7 @@ import { create } from "zustand";
 
 interface PropsInterface{
     imagesList: ProjectImageInterface[]
+    initList: ProjectImageInterface[]
     deletedImagesList: any[]
     initializeImages: () => void,
     setDeletedImage: (id: number | string) => void,
@@ -13,9 +14,9 @@ interface PropsInterface{
       id: number | string, 
       imgFile: File | null
     ) => void,
-    setImages: (data: any) => void,
+    setImages: (data: ProjectImageInterface[]) => void,
     removeImage: (id: number | string) => void,
-    resetImages: () => void,
+    resetImageFiles: () => void,
 
  
 }
@@ -23,15 +24,16 @@ interface PropsInterface{
 
 export const useProjectImageStore = create<PropsInterface>((set, get) => ({
     imagesList: [],
+    initList: [
+        { ...ProjectImageEntity, uid: 1, priority: 1, imgFile: null },
+        { ...ProjectImageEntity, uid: 2, priority: 2, imgFile: null },
+        { ...ProjectImageEntity, uid: 3, priority: 3, imgFile: null },
+        { ...ProjectImageEntity, uid: 4, priority: 4, imgFile: null },
+    ],
     deletedImagesList: [],
     initializeImages: () => {
         set({
-        imagesList: [
-            { ...ProjectImageEntity, id: 1, priority: 1, imgFile: null },
-            { ...ProjectImageEntity, id: 2, priority: 2, imgFile: null },
-            { ...ProjectImageEntity, id: 3, priority: 3, imgFile: null },
-            { ...ProjectImageEntity, id: 4, priority: 4, imgFile: null },
-        ]
+        imagesList: get().initList
         });
     }, 
     setDeletedImage: (id) => {
@@ -41,26 +43,49 @@ export const useProjectImageStore = create<PropsInterface>((set, get) => ({
         })
     },  
     setImages: (data) => {
+        const list = get().initList;
+        
+        // Merge incoming data with initList, preserving structure
+        const editedList = list.map((initItem) => {
+            // Find matching item from data by uid or priority
+            const matchingData = data.find(
+                (d) => d.priority === initItem.priority
+            );
+            
+            // If we found matching data with an image, use it
+            if (matchingData && matchingData.img) {
+                return {
+                    ...initItem,
+                    id: matchingData.id,
+                    img: matchingData.img,
+                    priority: matchingData.priority
+                };
+            }
+            
+            // Otherwise keep the init item as is
+            return initItem;
+        });
+        
         set({
-            imagesList: data
-        })
-    }, 
-    setImage: (id, imgFile) => {
+            imagesList: editedList
+        });
+    },
+    setImage: (uid, imgFile) => {
         const current = get().imagesList;
-        const existingIndex = current.findIndex((img) => img.id === id); 
+        const existingIndex = current.findIndex((img) => img.uid === uid); 
         if (existingIndex !== -1) {
             // Update existing image slot
             set({
                 imagesList: current.map((img) => 
-                    img.id === id ? { ...img, imgFile } : img
+                    img.uid === uid ? { ...img, imgFile } : img
                 )
             });
         } else {
             // Add new image slot (shouldn't happen if initialized properly)
             const newImage: ProjectImageInterface = {
                 ...ProjectImageEntity,
-                id,
-                priority: id,
+                uid,
+                priority: uid,
                 imgFile
             };
             set({
@@ -76,9 +101,10 @@ export const useProjectImageStore = create<PropsInterface>((set, get) => ({
             )
         });
     },
-    resetImages: () => {
+    resetImageFiles: () => {
+        const list = get().initList
         set({
-            imagesList: []
+            imagesList: list
         });
     },
  })) 

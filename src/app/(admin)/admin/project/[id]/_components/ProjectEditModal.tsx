@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
-import { IoClose } from 'react-icons/io5';
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 import Heading2 from '@/_components/headings/Heading2';
@@ -10,10 +9,19 @@ import TextInput from '@/_components/forms/TextInput';
 import { ButtonSubmit } from '@/_components/buttons/ButtonSubmit';
 import TextAreaInput from '@/_components/forms/TextAreaInput';
 import SelectPrimary from '@/_components/forms/SelectPrimary';
-import ImageInput from '@/_components/forms/ImageInput';
-import { ProjectEntity } from '@/_data/entity/ProjectEntity';
-import { ProjectInterface } from '@/_data/interface/ProjectInterface';
-import { ProjectCategoryData, ProjectStatusData } from '@/_data/sample/ProjectsData';
+import { ProjectStatusData } from '@/_data/sample/ProjectsData';
+import { useProjectStore } from '@/_store/useProjectStore';
+import { useProjectImageStore } from '@/_store/useProjectImageStore';
+import { _projectUpdateAction, _projectViewAction } from '@/_api/actions/ProjectActions';
+import ButtonClose from '@/_components/buttons/ButtonClose';
+import { ProjectImageEdit } from './ProjectImageEdit';
+import SelectSecondary from '@/_components/forms/SelectSecondary';
+import { listNumbers } from '@/_utils/formatNumber';
+import SelectDefault from '@/_components/forms/SelectDefault';
+import { useProjectCategoryStore } from '@/_store/useProjectCategoryStore';
+
+
+const title = "Edit Project"
 
 
 const variants: Variants = {
@@ -25,68 +33,138 @@ const variants: Variants = {
         }},
 }
 
-interface ProjectEditModalInterface{
-    isModal: boolean,
-    setIsModal: React.Dispatch<React.SetStateAction<boolean>>
+
+interface PropsInterface{
+    id: string | number, 
+    projectCategoryData: any
 }
 
-export default function ProjectEditModal({
-        isModal, 
-        setIsModal
-    }: ProjectEditModalInterface
-) {
-    const [data, setData] = useState<ProjectInterface>({
-        ...ProjectEntity,
-        images: [
-            { id: 0, image: "", imageFile: null, projectId: 0 },
-            { id: 1, image: "", imageFile: null, projectId: 0 },
-            { id: 2, image: "", imageFile: null, projectId: 0 },
-            { id: 3, image: "", imageFile: null, projectId: 0 }
-        ]
-    })
-    const [isSubmit, setIsSubmit] = useState<boolean>(false)
 
-    const handleInput = (
-        e: React.ChangeEvent<HTMLInputElement> 
-        | React.ChangeEvent<HTMLTextAreaElement>
-        | React.ChangeEvent<HTMLSelectElement> ) => {
-        setData({ ...data, [e.target.name]: e.target.value })
+
+export default function ProjectEditModal({ id, projectCategoryData}: PropsInterface ) {
+    const { 
+        data, 
+        isSubmitting, 
+        toggleModal,
+        errors,
+        setData,
+        setInputValue,
+        validateForm,
+        setIsSubmitting,
+        setToggleModal,
+        clearErrors,
+    } = useProjectStore()
+        
+    const { 
+        imagesList, 
+        initializeImages,
+        setImages,
+        deletedImagesList,
+    } = useProjectImageStore()
+
+    const { 
+        projectCategoryList, 
+        setProjectCategoryList 
+    } = useProjectCategoryStore()
+
+    useEffect(() => {
+        setProjectCategoryList(projectCategoryData.data)
+    }, [])
+    
+    // Initialize images array when modal opens
+    useEffect(() => {
+        if (toggleModal && imagesList.length === 0) {
+            initializeImages();
+        }
+    }, [toggleModal, imagesList.length, initializeImages]);
+
+    const handleToggleModal = () => {
+        setToggleModal(!toggleModal)
     }
 
-    const handleImageChange = (file: File | null, index: number): void => {
-        const updatedImages = [...(data.images || [])];
-        updatedImages[index] = { 
-            ...updatedImages[index], 
-            imageFile: file 
-        };
-        setData({ ...data, images: updatedImages });
-    };
-
-    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-            e.preventDefault();
-            setIsSubmit(true)
-            
-            try {
-                // Add your form submission logic here
-                console.log('Form data:', data);
-                
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                toast.success('Project added successfully!');
-                setIsModal(false);
-            } catch (error) {
-                toast.error('Failed to add project. Please try again.');
-                console.error('Form submission error:', error);
-            } finally {
-                setIsSubmit(false);
+    async function getProjectData(id: string | number) {
+        try {
+            const res = await _projectViewAction(id);
+            if(res?.data) {
+                setData(res?.data)
+                setImages(res?.data.projectImages)     
             }
+        } catch(error){
+            toast.error('Failed to fetch data. Please try again.');
+            console.error('Error:', error);
+        }
+    }
+    
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        clearErrors();
+        // Validate form using store
+        const validation = validateForm();
+        if (!validation.isValid) {
+            // Show the first error as toast
+            const firstError = validation.errors.name || 
+                validation.errors.status || 
+                validation.errors.address ||
+                validation.errors.projectCategoryId;
+            toast.warn(firstError);
+            setIsSubmitting(false);
+            return;
+        }
+
+        /* console.log("DATA:: ", data)
+        console.log("imagesList:: ", imagesList)
+        console.log("deletedImagesList:: ", deletedImagesList) */
+        
+        try {
+            // Prepare form data with images
+            const formData = new FormData();
+            // Append project data
+            formData.append('name', data.name);
+            formData.append('desc', data.desc);
+            formData.append('status', data.status);
+            formData.append('address', data.address);
+            formData.append('projectCategoryId', data.projectCategoryId.toString());
+            formData.append('priority', data.priority.toString());
+            // Append images with proper indexing
+            let imageIndex = 0;
+            imagesList.forEach((img) => {
+                if (img.imgFile) {
+                    formData.append(`images[${imageIndex}]`, img.imgFile);
+                    formData.append(`priorities[${imageIndex}]`, img.priority.toString());
+                    imageIndex++;
+                }
+            });
+            deletedImagesList.map((id) => {
+                formData.append('deletedImageIds[]', id)
+            })
+                
+            // API call
+            const res = await _projectUpdateAction(id, formData);
+            const { status, message } = res;
+            switch(status) {
+                case 1:
+                    toast.success(message);
+                    await getProjectData(id);
+                    clearErrors();
+                    setIsSubmitting(false);
+                    setToggleModal(false);
+                    break;
+                default:
+                    toast.error(message || 'Something went wrong, please try again.');
+                    setIsSubmitting(false);
+                    break;
+            } 
+        } catch (error) {
+            toast.error('Failed to save data. Please try again.');
+            console.error('Form submission error:', error);
+            setIsSubmitting(false);
+        }
     }
     
     return (
         <>
         <AnimatePresence>
-            {isModal &&
+            {toggleModal &&
             <motion.section
                 variants={variants}
                 initial='hidden'
@@ -96,33 +174,19 @@ export default function ProjectEditModal({
                 <div className='absolute z-0 top-0 left-0 w-[100%] h-[100%] bg-black opacity-40'></div>
                 <div className='w-[100%] h-[100%] absolute z-10 overflow-auto scroll__width py-[6rem]'>
                 <section className='mx-auto lg:w-[50%] w-[90%] bg-white text-black p-6 rounded-2xl'>
+                    
                     <div className='flex items-center justify-end'>
-                        <button onClick={() => setIsModal(false)} className='hover:text-red-600 transition-all ease-in-out duration-200'>
-                            <IoClose className='text-3xl' />
-                        </button>
+                       <ButtonClose onClick={handleToggleModal} />
                     </div>
 
                     <form onSubmit={handleSubmit} >
-                        <Heading2 title="Edit Project" css='text-center' />
+                        <Heading2 title={title} css='text-center' />
+                        
                         <SpacerQuaternary />
                         <hr className="w-[100%] border-b border-gray-100" />
-                        <SpacerQuaternary />
                         
-                        {/* Image Upload Section */}
-                        <div className="mb-6">
-                            <h3 className="text-lg font-semibold mb-4">Project Images (Up to 4)</h3>
-                            <div className="grid grid-cols-2 gap-4">
-                                {Array.from({ length: 4 }, (_, index) => (
-                                    <div key={index} className="">
-                                        <ImageInput
-                                            onImageChange={(file) => handleImageChange(file, index)}
-                                            maxSize={5 * 1024 * 1024} // 5MB
-                                            acceptedFormats={['image/jpeg', 'image/jpg', 'image/png', 'image/gif']}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <SpacerQuaternary />
+                        <ProjectImageEdit />
 
                         <SpacerQuaternary />
                         <TextInput
@@ -131,45 +195,66 @@ export default function ProjectEditModal({
                             type="text"
                             value={data.name} 
                             placeholder='Enter project name...'
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
+                            error={errors.name}
                         />
+
                         <SpacerQuaternary />
                         <TextInput
-                            label='Location:' 
-                            name='location' 
+                            label='Address:' 
+                            name='address' 
                             type="text"
-                            value={data.location} 
-                            placeholder='Enter project location...'
-                            onChange={handleInput} 
+                            value={data.address} 
+                            placeholder='Enter Project Address...'
+                            onChange={setInputValue} 
+                            error={errors.address}
                         />
+
+                        <SpacerQuaternary />
+                        <SelectSecondary
+                            label='Priority:' 
+                            name='priority' 
+                            data={listNumbers(7)}
+                            value={data.priority} 
+                            onChange={setInputValue} 
+                        />
+
                         <SpacerQuaternary />
                         <SelectPrimary
                             label="Status" 
-                            onChange={handleInput} 
+                            onChange={setInputValue} 
                             name="status" 
+                            value={data.status}
                             dbData={ProjectStatusData}
+                            error={errors.status}
                         />
+
                         <SpacerQuaternary />
-                        <SelectPrimary
-                            label="Category" 
-                            onChange={handleInput} 
-                            name="category" 
-                            dbData={ProjectCategoryData}
+                        <SelectDefault
+                            name="projectCategoryId"
+                            onChange={setInputValue} 
+                            label="Category"
+                            data={projectCategoryList}
+                            value={data.projectCategoryId.toString()}
+                            error={errors.projectCategoryId.toString()}
                         />
+
                         <SpacerQuaternary />
                         <TextAreaInput
                             label='Description:' 
-                            name='description' 
-                            value={data.description} 
-                            placeholder='Enter project description...'
-                            onChange={handleInput} 
+                            name='desc' 
+                            value={data.desc} 
+                            placeholder='Enter Project Description...'
+                            onChange={setInputValue} 
+                            error={errors.desc}
                         />
+
                         <SpacerQuaternary />
                         <div className='flex items-center justify-center'>
                             <ButtonSubmit 
-                                title='Add Project' 
+                                title='Submit' 
                                 css='px-12 text-white py-4' 
-                                isSubmit={isSubmit} 
+                                isSubmit={isSubmitting} 
                             />
                         </div>
                         <SpacerQuaternary />

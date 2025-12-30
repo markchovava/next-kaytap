@@ -92,29 +92,30 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
     <>
           {/* DESKTOP */}
           <section className="hidden md:block w-[92%] mx-auto bg-white drop-shadow px-4 py-3 rounded-xl">
-            <section className="flex md:flex-row flex-col items-center justify-between gap-4 mb-4">
-              <form onSubmit={handleSearch} className="lg:w-[60%] w-full flex items-center justify-start rounded-full border border-gray-300">
-                <input 
-                  type="text" 
-                  value={search}
-                  onChange={setSearch}
-                  placeholder="Enter Name" 
-                  className="flex-1 py-3 px-4 outline-none rounded-l-full" 
+              
+              <section className="flex md:flex-row flex-col items-center justify-between gap-4 mb-4">
+                <form onSubmit={handleSearch} className="lg:w-[60%] w-full flex items-center justify-start rounded-full border border-gray-300">
+                  <input 
+                    type="text" 
+                    value={search}
+                    onChange={setSearch}
+                    placeholder="Enter Name" 
+                    className="flex-1 py-3 px-4 outline-none rounded-l-full" 
+                  />
+                  <button type="button" className="group px-4 border-l border-gray-300 rounded-r-full">
+                    { isSearching ? 
+                      <GoDotFill className="cursor-pointer text-xl sm:text-2xl animate-pulse text-gray-900" />
+                    :
+                      <IoSearch className="cursor-pointer text-lg sm:text-xl text-gray-500 transition-all ease-initial duration-200 group-hover:text-gray-900 group-hover:scale-110" />
+                    }
+                  </button>
+                </form>
+                <ButtonQuaternary 
+                  onClick={handleToggleModal}
+                  title='Add' 
+                  css="px-8 py-3 text-white" 
                 />
-                <button type="button" className="group px-4 border-l border-gray-300 rounded-r-full">
-                  { isSearching ? 
-                    <GoDotFill className="cursor-pointer text-xl sm:text-2xl animate-pulse text-gray-900" />
-                  :
-                    <IoSearch className="cursor-pointer text-lg sm:text-xl text-gray-500 transition-all ease-initial duration-200 group-hover:text-gray-900 group-hover:scale-110" />
-                  }
-                </button>
-              </form>
-              <ButtonQuaternary 
-                onClick={handleToggleModal}
-                title='Add' 
-                css="px-8 py-3 text-white" 
-              />
-            </section>
+              </section>
     
             { dataList && dataList.length > 0 ?
               <>
@@ -245,6 +246,6 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
             }
     
           </section>
-        </>
+    </>
   )
 }
