@@ -6,18 +6,21 @@ import { create } from "zustand";
 
 
 interface PropsInterface{
-    data: CategoryInterface,
-    dataList: CategoryInterface[],
-    meta: MetaInterface,
-    links: MetaLinksInterface,
-    preData: CategoryInterface,
-    errors: CategoryInterface,
+    data: CategoryInterface
+    dataList: CategoryInterface[]
+    categoryAll: CategoryInterface[]
+    meta: MetaInterface
+    links: MetaLinksInterface
+    preData: CategoryInterface
+    errors: CategoryInterface
     search: string,
     isSearching: boolean,
     message: string,
     isLoading: boolean,
     isSubmitting: boolean,
     toggleModal: boolean,
+    setCategoryByProduct: (i: CategoryInterface[]) => void
+    setCategoryAll: (i: CategoryInterface[]) => void
     setIsLoading: (i: boolean) => void,
     setDataList: (i: ResponseInterface) => void
     setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -48,6 +51,7 @@ interface PropsInterface{
 export const useCategoryStore = create<PropsInterface>((set, get) => ({ 
     data: CategoryEntity,
     dataList: [],
+    categoryAll: [],
     meta: MetaEntity,
     links: MetaLinksEntity,
     preData: CategoryEntity,
@@ -58,6 +62,16 @@ export const useCategoryStore = create<PropsInterface>((set, get) => ({
     isLoading:true,
     isSubmitting: false,
     toggleModal: false,
+    setCategoryByProduct: (i) => {
+        set({
+            dataList: i
+        })
+    },
+    setCategoryAll: (i) => {
+        set({
+            categoryAll: i
+        })
+    },
     setValue: (name, value) => {
         const currentData = get().data;
         const currentErrors = get().errors;

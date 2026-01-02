@@ -16,6 +16,8 @@ import { ProductStockData } from '@/_data/sample/ProductStockData';
 import { ProductDetailEdit } from './ProductDetailEdit';
 import { ProductImageEdit } from './ProductImageEdit';
 import { useProductImageStore } from '@/_store/useProductImageStore';
+import { useCategoryStore } from '@/_store/useCategoryStore';
+import { useProductCategoryStore } from '@/_store/useProductCategoryStore';
 
 
 
@@ -46,6 +48,12 @@ export default function ProductEditModal({id}: {id: string | number}) {
         setToggleModal,
         clearErrors,
     } = useProductStore()
+    const {
+        setDbProductCategoryList, 
+    } = useProductCategoryStore();
+    const { 
+        setCategoryByProduct 
+    } = useCategoryStore();
     
     const { 
         detailList,
@@ -73,10 +81,12 @@ export default function ProductEditModal({id}: {id: string | number}) {
     async function getProductData(id: string | number) {
         try {
             const res = await _productViewAction(id);
-            if(res?.data) {
-              setData(res?.data)
-              setImages(res?.data.productImages)   
-              setDetailList(res?.data.productDetails)   
+            if(res?.data) {  
+                res?.productCategory ? setDbProductCategoryList(res?.productCategory) : null
+                res?.category ? setCategoryByProduct(res?.category) : null
+                setData(res?.data)
+                setImages(res?.data.productImages)   
+                setDetailList(res?.data.productDetails)
             }
         } catch(error){
             toast.error('Failed to fetch data. Please try again.');
@@ -86,10 +96,7 @@ export default function ProductEditModal({id}: {id: string | number}) {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        setIsSubmitting(true)
         clearErrors();
-        e.preventDefault();
-        setIsSubmitting(true);
         // Validate form using store
         const validation = validateForm();
         if (!validation.isValid) {
@@ -101,6 +108,7 @@ export default function ProductEditModal({id}: {id: string | number}) {
             toast.warn(firstError);
             return;
         }
+        setIsSubmitting(true)
         try {
             // Prepare form data with images
             const formData = new FormData();

@@ -147,7 +147,7 @@ export default function CategoryEditModal({id}: {id: string | number}) {
                         <SelectSecondary
                             label='Priority:' 
                             name='priority' 
-                            data={listNumbers(7)}
+                            data={listNumbers(12)}
                             value={data.priority} 
                             onChange={setInputValue} 
                         />

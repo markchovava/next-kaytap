@@ -154,7 +154,7 @@ export default function CategoryAddModal() {
                         <SelectSecondary
                             label='Ppriority:' 
                             name='priority' 
-                            data={listNumbers(7)}
+                            data={listNumbers(12)}
                             value={data.priority} 
                             onChange={setInputValue} 
                         />

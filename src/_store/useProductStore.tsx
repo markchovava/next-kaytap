@@ -20,6 +20,8 @@ interface PropsInterface{
     isLoading: boolean,
     isSubmitting: boolean,
     toggleModal: boolean,
+    toggleModal2: boolean,
+    setToggleModal2: (i: boolean) => void,
     setIsLoading: (i: boolean) => void,
     setDataList: (i: ResponseInterface) => void
     setSearch: (e: React.ChangeEvent<HTMLInputElement>) => void,
@@ -60,6 +62,12 @@ export const useProductStore = create<PropsInterface>((set, get) => ({
     isLoading:true,
     isSubmitting: false,
     toggleModal: false,
+    toggleModal2: false,
+    setToggleModal2: (i) => {
+        set({
+            toggleModal2: i
+        })
+    },
     setValue: (name, value) => {
         const currentData = get().data;
         const currentErrors = get().errors;

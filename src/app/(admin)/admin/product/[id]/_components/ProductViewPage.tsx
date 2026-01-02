@@ -12,34 +12,58 @@ import { baseURL } from '@/_api/baseURL'
 import StickerSecondary from '@/_components/stickers/StickerSecondary'
 import { useProductImageStore } from '@/_store/useProductImageStore'
 import { useProductDetailStore } from '@/_store/useProductDetailStore'
+import { ButtonPrimary } from '@/_components/buttons/ButtonPrimary'
+import { useCategoryStore } from '@/_store/useCategoryStore'
+import { useProductCategoryStore } from '@/_store/useProductCategoryStore'
 
 
 interface PropsInterface{
     id: string | number, 
     dbData: any
+    categoryData: any
 }
 
 
-export default function ProductViewPage({id, dbData}: PropsInterface) {
+export default function ProductViewPage({id, dbData, categoryData}: PropsInterface) {
     const { 
       preData,
       data, 
       toggleModal,
       isLoading, 
+      toggleModal2,
+      setToggleModal2,
       setData, 
       setToggleModal 
     } = useProductStore()
     const { setImages } = useProductImageStore()
     const { setDetailList } = useProductDetailStore()
+    const {  setCategoryAll, setCategoryByProduct, dataList } = useCategoryStore();
+    const { setDbProductCategoryList, dbProductCategoryList} = useProductCategoryStore()
 
     useEffect(() => {
+        dbData?.productCategory ? setDbProductCategoryList(dbData?.productCategory) : null
+        dbData?.category ? setCategoryByProduct(dbData?.category) : null
+        categoryData.data ? setCategoryAll(categoryData.data) : null
         if(dbData?.data) {
-          setData(dbData?.data)
-          setImages(dbData?.data.productImages)   
-          setDetailList(dbData?.data.productDetails)   
+            setData(dbData?.data)
+            setImages(dbData?.data.productImages)   
+            setDetailList(dbData?.data.productDetails)   
         }
       
     }, [])
+
+    /* console.log('ProductViewPage dbData', dbData)
+    console.log('dbProductCategoryList', dbProductCategoryList) */
+
+
+    const handleToggleModal = () => {
+        setToggleModal(!toggleModal)
+    }
+
+    const handleToggleModal2 = () => {
+      console.log('setToggleModal2(!toggleModal2)')
+        setToggleModal2(!toggleModal2)
+    }
 
 
     // Handle case where product is not found
@@ -55,6 +79,7 @@ export default function ProductViewPage({id, dbData}: PropsInterface) {
     }
 
 
+
     if(isLoading) {
       return (
         <LoaderPrimary />
@@ -65,12 +90,17 @@ export default function ProductViewPage({id, dbData}: PropsInterface) {
 
   return (
     <>
-      <section className='mx-auto w-[92%] flex items-center justify-end'>
-        <ButtonQuaternary 
-            onClick={() => setToggleModal(!toggleModal)}
-            title='Edit Product' 
-            css="px-8 py-3 text-white" 
-        />
+      <section className='mx-auto w-[92%] flex items-center justify-end gap-2'>
+          <ButtonQuaternary 
+              onClick={handleToggleModal}
+              title='Edit Product' 
+              css="px-8 py-3 text-white" 
+          />
+          <ButtonPrimary  
+              onClick={handleToggleModal2}
+              title='Edit Category' 
+              css="px-8 py-3 text-white" 
+          />
       </section>
        
       <SpacerTertiary />
@@ -86,6 +116,15 @@ export default function ProductViewPage({id, dbData}: PropsInterface) {
                   <RecordPrimary label="Description:" value={data.desc} />
                   <RecordPrimary label="Quantity:" value={data.quantity.toString()} />
                   <RecordPrimary label="Price:" value={`$${data.price}`} />
+                  {dataList.length > 0 &&
+                  <div className='w-[100%] flex lg:flex-row flex-col text-lg lg:gap-2'>
+                      <div className='md:w-[16%] w-full font-light'>Categories</div>
+                      <div className='flex-1 flex items-center justify-start gap-2'>
+                        {dataList.map((i, key) => (
+                          <span key={key} className='italic font-medium'>{i.name},</span>))}
+                      </div>
+                  </div>
+                  }
                   <ProductDetailView />
                   
               </div>

@@ -7,20 +7,23 @@ interface ButtonPrimaryInterface{
     iconCss?: string, 
     css?: string
     status?: boolean
+    onClick?: () => void,
 }
 
-
+ 
 export function ButtonPrimary({
     title="Button", 
     css="text-white px-6 py-3", 
     iconCss="",
     status= false,
+    onClick= () => {},
   }: ButtonPrimaryInterface
 ) {
   
   return (
     <>
     <button 
+      onClick={onClick}
       type="submit"
       className={`${css} group bg-gradient-to-br from-blue-700 to-blue-950 hover:drop-shadow cursor-pointer 
       flex items-center justify-center gap-1 rounded-full`}>

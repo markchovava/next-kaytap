@@ -70,10 +70,10 @@ export default function CategoryListPage({ dbData }: {dbData: any}) {
   
       const handleSearch = async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          if(!search){
+          /* if(!search){
             toast.warn('Search input is required.')
             return
-          }
+          } */
           try {
             await getSearchDatalist(search)
           } catch (error) {

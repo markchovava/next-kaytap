@@ -1,10 +1,10 @@
 "use client"
 
 interface PropsInterface{
-    name?: string,
-    label: string,
+    name: string,
+    label?: string,
     data: any[],
-    value?: string,
+    value?: string | number,
     error?: string,
     onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void,
 }
@@ -21,7 +21,7 @@ export default function SelectDefault({
   
     return (
         <div className='flex flex-col gap-1 items-start justify-start'>
-            <p className="font-light">{label}:</p>
+            {label && <p className="font-light">{label}:</p> }
             <select
                 name={name}
                 onChange={onChange} 

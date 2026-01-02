@@ -7,6 +7,8 @@ import ProductViewPage from "./_components/ProductViewPage";
 import { _checkAuthAction } from "@/_api/actions/AuthActions";
 import { _productViewAction } from "@/_api/actions/ProductActions";
 import ProductEditModal from "./_components/ProductEditModal";
+import ProductCategoryEditModal from "./_components/ProductCategoryEditModal";
+import { _categoryAllAction } from "@/_api/actions/CategoryActions";
 
 
 
@@ -25,7 +27,10 @@ interface PropsInterface {
 export default async function page({ params }: PropsInterface) {
   const { id } = await params;
   await _checkAuthAction()
-  const [ productData ] = await Promise.all([  _productViewAction(id) ])
+  const [ productData, categoryData] = await Promise.all([ 
+                                          _productViewAction(id), 
+                                          _categoryAllAction()  
+                                      ])
 
   const BreadCrumbsData = [
     {id: 1, name: "Home", href:"/"},
@@ -39,10 +44,12 @@ export default async function page({ params }: PropsInterface) {
     <>
       <BreadCrumbs dbData={BreadCrumbsData} />
       <SpacerPrimary />
-      <ProductViewPage id={id} dbData={productData} />
+      <ProductViewPage id={id} dbData={productData} categoryData={categoryData} />
       <SpacerPrimary />
 
       <ProductEditModal id={id} />
+
+      <ProductCategoryEditModal dbData={categoryData} />
     </>
   )
 }

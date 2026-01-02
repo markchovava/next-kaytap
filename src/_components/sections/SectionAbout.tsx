@@ -1,3 +1,4 @@
+"use client"
 import { AboutData } from '@/_data/sample/AboutData'
 import Image from 'next/image'
 import React from 'react'
